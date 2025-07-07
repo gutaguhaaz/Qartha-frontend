@@ -23,7 +23,10 @@
       "TEXT": "Advance Table"
     },
     "DOCUMENTS": {
-      "TEXT": "Documents"
+      "TEXT": "Documents",
+      "LIST": {
+        "DASHBOARD": "Documents Dashboard"
+      }
     },
     "APPS": {
       "TEXT": "Apps"

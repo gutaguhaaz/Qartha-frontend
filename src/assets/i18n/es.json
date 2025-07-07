@@ -23,7 +23,10 @@
       "TEXT": "Tabla de avance"
     },
     "DOCUMENTS": {
-      "TEXT": "Documentos"
+      "TEXT": "Documentos",
+      "LIST": {
+        "DASHBOARD": "Dashboard de Documentos"
+      }
     },
     "APPS": {
       "TEXT": "Aplicaciones"

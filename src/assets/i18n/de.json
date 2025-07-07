@@ -23,7 +23,10 @@
       "TEXT": "Vorab-Tabelle"
     },
     "DOCUMENTS": {
-      "TEXT": "Dokumente"
+      "TEXT": "Dokumente",
+      "LIST": {
+        "DASHBOARD": "Dokumente Dashboard"
+      }
     },
     "APPS": {
       "TEXT": "Apps"
