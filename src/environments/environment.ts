@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  apiUrl: 'http://localhost:4200',
+  production: false,
+  apiBaseUrl: 'https://ia-legal-backend-ferhaaz.replit.app',
 };
