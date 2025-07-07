@@ -1,0 +1,72 @@
+./src/app/modules/documents/documents.module.ts:10:50-62 - Error: export 'SharedModule' (imported as 'SharedModule') was not found in '@shared' (possible exports: SubSink, TableExportUtil, UnsubscribeOnDestroyAdapter)
+
+Error: src/app/modules/documents/document-list/document-list.component.html:5:43 - error NG8004: No pipe found with name 'translate'.
+
+5       <h2>{{ 'MENUITEMS.DOCUMENTS.TEXT' | translate }}</h2>
+                                            ~~~~~~~~~
+
+  src/app/modules/documents/document-list/document-list.component.ts:6:16
+    6   templateUrl: './document-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component DocumentListComponent.
+
+
+Error: src/app/modules/documents/document-list/document-list.component.html:6:7 - error NG8001: 'app-breadcrumb' is not a known element:
+1. If 'app-breadcrumb' is an Angular component, then verify that it is part of this module.
+2. If 'app-breadcrumb' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+
+6       <app-breadcrumb [title]="'MENUITEMS.DOCUMENTS.TEXT'" [items]="['MENUITEMS.MAIN.TEXT']" [active_item]="'MENUITEMS.DOCUMENTS.TEXT'"></app-breadcrumb>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/modules/documents/document-list/document-list.component.ts:6:16
+    6   templateUrl: './document-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component DocumentListComponent.
+
+
+Error: src/app/modules/documents/document-list/document-list.component.html:6:60 - error NG8002: Can't bind to 'items' since it isn't a known property of 'app-breadcrumb'.
+1. If 'app-breadcrumb' is an Angular component and it has 'items' input, then verify that it is part of this module.
+2. If 'app-breadcrumb' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.
+
+6       <app-breadcrumb [title]="'MENUITEMS.DOCUMENTS.TEXT'" [items]="['MENUITEMS.MAIN.TEXT']" [active_item]="'MENUITEMS.DOCUMENTS.TEXT'"></app-breadcrumb>
+                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/modules/documents/document-list/document-list.component.ts:6:16
+    6   templateUrl: './document-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component DocumentListComponent.
+
+
+Error: src/app/modules/documents/document-list/document-list.component.html:6:94 - error NG8002: Can't bind to 'active_item' since it isn't a known property of 'app-breadcrumb'.
+1. If 'app-breadcrumb' is an Angular component and it has 'active_item' input, then verify that it is part of this module.
+2. If 'app-breadcrumb' is a Web Component then add 'CUSTOM_ELEMENTS_SCHEMA' to the '@NgModule.schemas' of this component to suppress this message.
+3. To allow any property add 'NO_ERRORS_SCHEMA' to the '@NgModule.schemas' of this component.
+
+6       <app-breadcrumb [title]="'MENUITEMS.DOCUMENTS.TEXT'" [items]="['MENUITEMS.MAIN.TEXT']" [active_item]="'MENUITEMS.DOCUMENTS.TEXT'"></app-breadcrumb>
+                                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/modules/documents/document-list/document-list.component.ts:6:16
+    6   templateUrl: './document-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component DocumentListComponent.
+
+
+Error: src/app/modules/documents/document-list/document-list.component.html:13:47 - error NG8004: No pipe found with name 'translate'.
+
+13               {{ 'MENUITEMS.DOCUMENTS.TEXT' | translate }}
+                                                 ~~~~~~~~~
+
+  src/app/modules/documents/document-list/document-list.component.ts:6:16
+    6   templateUrl: './document-list.component.html',
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component DocumentListComponent.
+
+
+Error: src/app/modules/documents/documents.module.ts:6:10 - error TS2305: Module '"@shared"' has no exported member 'SharedModule'.
+
+6 import { SharedModule } from '@shared';
+           ~~~~~~~~~~~~
+
+
+Error: src/app/modules/documents/documents.module.ts:12:12 - error NG1010: Value
