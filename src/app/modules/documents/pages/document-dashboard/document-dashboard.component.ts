@@ -79,7 +79,15 @@ export class DocumentDashboardComponent implements OnInit {
   }
 
   getTotalClauses(): number {
-    return this.documents.reduce((total, doc) => total + doc.clauses.length, 0);
+    if (!this.documents || !Array.isArray(this.documents)) {
+      return 0;
+    }
+    return this.documents.reduce((total, doc) => {
+      if (!doc || !doc.clauses || !Array.isArray(doc.clauses)) {
+        return total;
+      }
+      return total + doc.clauses.length;
+    }, 0);
   }
 
   getTotalClausesForRow(row: any): number {
