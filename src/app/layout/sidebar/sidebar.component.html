@@ -1,17 +1,66 @@
 <div>
   <!-- Left Sidebar -->
-  <aside id="leftsidebar" class="sidebar" (mouseenter)="mouseHover()" (mouseleave)="mouseOut()">
+  <aside
+    id="leftsidebar"
+    class="sidebar"
+    (mouseenter)="mouseHover()"
+    (mouseleave)="mouseOut()"
+  >
     <div class="navbar-header">
       <ul class="nav navbar-nav flex-row">
         <li class="nav-item logo">
           <a class="navbar-brand" routerLink="dashboard/dashboard1">
             <img src="assets/images/logo.png" alt="" />
-            <span class="logo-name">Lexia</span>
+            <span class="logo-name">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="lexialogo"
+                viewBox="0 0 427.4 140.5"
+              >
+                <title>Lexia</title>
+                <path
+                  d="M873.9,391c1-10.1-3.5-17.8-12.4-19.4-10.6-1.9-21.1-1.5-26,11.8H816.1c.3-8.8,4.2-15.9,11.1-21.4,14.2-11.5,40.6-11.9,55.3-1,9.3,6.8,13.2,16.4,13.6,27.6.2,7.1,0,14.3,0,21.5.1,13.6,0,27.3,0,41.4H874.4V439.1c-6.4,7.4-13.4,11.9-21.9,13.4-11.1,2-21.5.5-30.5-7-14.4-12.2-13.1-32.7,2.7-42.8,8.7-5.6,18.6-7.9,28.6-9.5C860,392.1,866.9,391.8,873.9,391Zm-.1,14.4c-9.9,1.9-19.6,3.3-28.9,5.9-3.6,1-7.1,4.2-9.3,7.4s-1.6,8.4,1.3,12,8.9,5.8,14.4,5.1C868.3,433.7,875.7,424,873.8,405.4Z"
+                  transform="translate(-468.8 -313.1)"
+                  fill="#132148"
+                />
+                <path
+                  d="M582.4,409.9c1.2,10.8,4.7,19.4,15.1,23.3,14.1,5.3,27,3.1,39.1-8.1,2.9,3.2,5.8,6.5,8.8,9.7s.3,3.9-1.2,5.4c-10.4,10.2-23.1,13.8-37.3,13.3-27.6-.9-45.4-18.5-46.7-46.1-1-20,5-37,22.6-47.9,14.6-9,30.1-8.8,45.1-1s21.6,21.2,22.3,37.5c.6,13.9.4,13.9-13.3,13.9Zm46.7-16.6c-2.3-15.8-11.8-23.7-26-22.2-10.6,1.1-20.2,12.2-19.2,22.2Z"
+                  transform="translate(-468.8 -313.1)"
+                  fill="#132148"
+                />
+                <path
+                  d="M468.8,450.8V317.4h24.1V428.9h58.9v21.9Z"
+                  transform="translate(-468.8 -313.1)"
+                  fill="#132148"
+                />
+                <path
+                  d="M692.4,403.1c-11.7-15.8-23.2-31.5-35.3-48,9,0,17.2-.1,25.4.1,1,0,2.3,1.6,3.1,2.7,6.5,9,12.9,18.1,19.7,27.6,6.4-9.1,12.8-17.9,18.8-27A7,7,0,0,1,731,355c7.2.2,14.3.1,22.5.1l-34.9,47.6,35.8,49c-9.1,0-17.4.2-25.8-.1-1.1,0-2.3-1.6-3.1-2.7l-21-29.2c-7,9.6-13.9,18.9-20.4,28.5-2,2.8-4,3.8-7.4,3.6-6.1-.2-12.2,0-19.2,0Z"
+                  transform="translate(-468.8 -313.1)"
+                  fill="#132148"
+                />
+                <path
+                  d="M791.6,451.7H770.4V355.3h21.2Z"
+                  transform="translate(-468.8 -313.1)"
+                  fill="#132148"
+                />
+                <path
+                  d="M781.8,313.1c7.8,0,14.3,6.2,14.3,13.5s-6.6,13.5-14,13.5-14.1-6.3-14-13.8A13.1,13.1,0,0,1,781.8,313.1Z"
+                  transform="translate(-468.8 -313.1)"
+                  fill="#132148"
+                />
+              </svg>
+            </span>
           </a>
         </li>
         <li class="nav-item nav-toggle">
-          <button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse">
-            <mat-icon [ngStyle]="{'color':'#8F8C91'}" class="menuIcon">{{menuIcon}}</mat-icon>
+          <button
+            mat-icon-button
+            (click)="callSidemenuCollapse()"
+            class="sidemenu-collapse"
+          >
+            <mat-icon [ngStyle]="{ color: '#8F8C91' }" class="menuIcon">{{
+              menuIcon
+            }}</mat-icon>
           </button>
         </li>
       </ul>
@@ -23,53 +72,120 @@
           <!-- Top Most level menu -->
           @for (sidebarItem of sidebarItems; track sidebarItem) {
             <li
-              [routerLinkActive]="sidebarItem.submenu.length !== 0 ? 'active' : 'active-top'">
+              [routerLinkActive]="
+                sidebarItem.submenu.length !== 0 ? 'active' : 'active-top'
+              "
+            >
               @if (sidebarItem.groupTitle === true) {
-                <div class="header">{{sidebarItem.title | translate}}</div>
+                <div class="header">{{ sidebarItem.title | translate }}</div>
               }
-              @if (!sidebarItem.groupTitle;) {
-                <a [routerLink]="sidebarItem.class === '' ? [sidebarItem.path] : null"
-                  [ngClass]="[sidebarItem.class]" (click)="callToggleMenu($event, sidebarItem.submenu.length)"
-                  class="menu-top">
-                  <i-feather [name]="sidebarItem.icon" class="sidebarIcon"></i-feather>
-                  <span class="hide-menu">{{sidebarItem.title | translate}}
+              @if (!sidebarItem.groupTitle) {
+                <a
+                  [routerLink]="
+                    sidebarItem.class === '' ? [sidebarItem.path] : null
+                  "
+                  [ngClass]="[sidebarItem.class]"
+                  (click)="callToggleMenu($event, sidebarItem.submenu.length)"
+                  class="menu-top"
+                >
+                  <i-feather
+                    [name]="sidebarItem.icon"
+                    class="sidebarIcon"
+                  ></i-feather>
+                  <span class="hide-menu"
+                    >{{ sidebarItem.title | translate }}
                   </span>
-                  @if (sidebarItem.badge !== '' ) {
-                    <span [ngClass]="[sidebarItem.badgeClass]">{{sidebarItem.badge}}</span>
+                  @if (sidebarItem.badge !== "") {
+                    <span [ngClass]="[sidebarItem.badgeClass]">{{
+                      sidebarItem.badge
+                    }}</span>
                   }
                 </a>
               }
               <!-- First level menu -->
               @if (sidebarItem.submenu.length > 0) {
                 <ul class="ml-menu">
-                  @for (sidebarSubItem1 of sidebarItem.submenu; track sidebarSubItem1) {
+                  @for (
+                    sidebarSubItem1 of sidebarItem.submenu;
+                    track sidebarSubItem1
+                  ) {
                     <li
-                      [routerLinkActive]="sidebarSubItem1.submenu.length > 0 ? '' : 'active'">
-                      <a [routerLink]="sidebarSubItem1.submenu.length > 0 ? null : [sidebarSubItem1.path]"
-                        (click)="callToggleMenu($event,sidebarSubItem1.submenu.length)" [ngClass]="[sidebarSubItem1.class]">
-                        {{sidebarSubItem1.title | translate}}
+                      [routerLinkActive]="
+                        sidebarSubItem1.submenu.length > 0 ? '' : 'active'
+                      "
+                    >
+                      <a
+                        [routerLink]="
+                          sidebarSubItem1.submenu.length > 0
+                            ? null
+                            : [sidebarSubItem1.path]
+                        "
+                        (click)="
+                          callToggleMenu($event, sidebarSubItem1.submenu.length)
+                        "
+                        [ngClass]="[sidebarSubItem1.class]"
+                      >
+                        {{ sidebarSubItem1.title | translate }}
                       </a>
                       <!-- Second level menu -->
                       @if (sidebarSubItem1.submenu.length > 0) {
                         <ul class="ml-menu-2">
-                          @for (sidebarSubItem2 of sidebarSubItem1.submenu; track sidebarSubItem2) {
+                          @for (
+                            sidebarSubItem2 of sidebarSubItem1.submenu;
+                            track sidebarSubItem2
+                          ) {
                             <li
-                              [routerLinkActive]="sidebarSubItem2.submenu.length > 0 ? '' : 'active'">
-                              <a [routerLink]="sidebarSubItem2.submenu.length > 0 ? null : [sidebarSubItem2.path]"
-                                (click)="callToggleMenu($event,sidebarSubItem2.submenu.length)"
-                                [ngClass]="[sidebarSubItem2.class]">
-                                {{sidebarSubItem2.title | translate}}
+                              [routerLinkActive]="
+                                sidebarSubItem2.submenu.length > 0
+                                  ? ''
+                                  : 'active'
+                              "
+                            >
+                              <a
+                                [routerLink]="
+                                  sidebarSubItem2.submenu.length > 0
+                                    ? null
+                                    : [sidebarSubItem2.path]
+                                "
+                                (click)="
+                                  callToggleMenu(
+                                    $event,
+                                    sidebarSubItem2.submenu.length
+                                  )
+                                "
+                                [ngClass]="[sidebarSubItem2.class]"
+                              >
+                                {{ sidebarSubItem2.title | translate }}
                               </a>
                               <!-- Third level menu -->
                               @if (sidebarSubItem2.submenu.length > 0) {
                                 <ul class="ml-menu-3">
-                                  @for (sidebarSubItem3 of sidebarSubItem2.submenu; track sidebarSubItem3) {
+                                  @for (
+                                    sidebarSubItem3 of sidebarSubItem2.submenu;
+                                    track sidebarSubItem3
+                                  ) {
                                     <li
-                                      [routerLinkActive]="sidebarSubItem3.submenu.length > 0 ? '' : 'active'">
-                                      <a [routerLink]="sidebarSubItem3.submenu.length > 0 ? null : [sidebarSubItem3.path]"
-                                        (click)="callToggleMenu($event,sidebarSubItem3.submenu.length)"
-                                        [ngClass]="[sidebarSubItem3.class]">
-                                        {{sidebarSubItem3.title | translate}}
+                                      [routerLinkActive]="
+                                        sidebarSubItem3.submenu.length > 0
+                                          ? ''
+                                          : 'active'
+                                      "
+                                    >
+                                      <a
+                                        [routerLink]="
+                                          sidebarSubItem3.submenu.length > 0
+                                            ? null
+                                            : [sidebarSubItem3.path]
+                                        "
+                                        (click)="
+                                          callToggleMenu(
+                                            $event,
+                                            sidebarSubItem3.submenu.length
+                                          )
+                                        "
+                                        [ngClass]="[sidebarSubItem3.class]"
+                                      >
+                                        {{ sidebarSubItem3.title | translate }}
                                       </a>
                                     </li>
                                   }

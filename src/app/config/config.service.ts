@@ -16,8 +16,8 @@ export class ConfigService {
       layout: {
         rtl: false, // options:  true & false
         variant: 'light', // options:  light & dark
-        theme_color: 'cyan', // options:  white, black, purple, blue, cyan, green, orange
-        logo_bg_color: 'cyan', // options:  white, black, purple, blue, cyan, green, orange
+        theme_color: 'blue', // options:  white, black, purple, blue, cyan, green, orange
+        logo_bg_color: 'white', // options:  white, black, purple, blue, cyan, green, orange
         sidebar: {
           collapsed: false, // options:  true & false
           backgroundColor: 'light', // options:  light & dark
