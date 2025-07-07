@@ -1,24 +1,34 @@
 modules = ["web", "nodejs-20"]
-run = "ng serve --host 0.0.0.0 --disable-host-check"
+
+run = "npm start"
 
 [nix]
 channel = "stable-24_05"
+packages = ["killall"]
 
 [deployment]
-run = ["sh", "-c", "npm run start"]
+run = ["sh", "-c", "npx kill-port 4200 && npm start"]
 
 [[ports]]
 localPort = 4200
 externalPort = 80
 
+[[ports]]
+localPort = 35077
+externalPort = 3000
+
 [workflows]
-runButton = "Run"
+runButton = "Start Angular"
 
 [[workflows.workflow]]
-name = "Run"
+name = "Start Angular"
 author = 43274881
 mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "NODE_ENV=development ng serve --host 0.0.0.0 --disable-host-check"
+args = "npx kill-port 4200"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm start"
