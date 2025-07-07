@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./document-list.component.scss']
 })
 export class DocumentListComponent implements OnInit {
-  breadcrumbItems: string[] = ['MENUITEMS.MAIN.TEXT'];
 
   constructor() { }
 
