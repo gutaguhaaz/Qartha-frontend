@@ -57,6 +57,17 @@ export const ROUTES: RouteInfo[] = [
     submenu: [],
   },
   {
+    path: 'documents',
+    title: 'MENUITEMS.DOCUMENTS.TEXT',
+    iconType: 'feather',
+    icon: 'file-text',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [],
+  },
+  {
     path: 'calendar',
     title: 'MENUITEMS.CALENDAR.TEXT',
     iconType: 'feather',

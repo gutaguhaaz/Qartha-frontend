@@ -101,6 +101,13 @@ export const APP_ROUTE: Route[] = [
                         (m) => m.MULTILEVEL_ROUTE
                     ),
             },
+            {
+                path: 'documents',
+                loadChildren: () =>
+                    import('./modules/documents/documents.module').then(
+                        (m) => m.DocumentsModule
+                    ),
+            },
         ],
     },
     {
