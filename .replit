@@ -9,14 +9,6 @@ packages = ["killall"]
 [deployment]
 run = ["sh", "-c", "npx kill-port 4200 && npm start"]
 
-[[ports]]
-localPort = 4200
-externalPort = 80
-
-[[ports]]
-localPort = 35077
-externalPort = 3000
-
 [workflows]
 runButton = "Start Angular"
 
@@ -32,3 +24,7 @@ args = "npx kill-port 4200"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm start"
+
+[[ports]]
+localPort = 4200
+externalPort = 80
