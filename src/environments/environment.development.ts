@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://localhost:8000',
+  apiBaseUrl: 'https://ia-legal-backend-ferhaaz.replit.app/api/v1',
 };
 
 /*
