@@ -82,6 +82,25 @@ export class DocumentDashboardComponent implements OnInit {
     return this.documents.reduce((total, doc) => total + doc.clauses.length, 0);
   }
 
+  getTotalClausesForRow(row: any): number {
+    // Versión segura con validaciones
+    if (!row || !row.clauses || !Array.isArray(row.clauses)) {
+      return 0;
+    }
+    
+    return row.clauses.reduce((acc: number, c: any) => {
+      if (!c || typeof c.clause !== 'string') {
+        return acc;
+      }
+      return acc + c.clause.length;
+    }, 0);
+  }
+
+  // Versión más compacta usando optional chaining y nullish coalescing
+  getTotalClausesCompact(row: any): number {
+    return row?.clauses?.reduce((acc: number, c: any) => acc + (c?.clause?.length ?? 0), 0) ?? 0;
+  }
+
   getDocumentsByType(type: string): Document[] {
     return this.documents.filter(doc => doc.type === type);
   }
