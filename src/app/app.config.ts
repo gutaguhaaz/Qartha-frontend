@@ -3,7 +3,9 @@ import {
   HttpClient,
   provideHttpClient,
 } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
 import { APP_ROUTE } from './app.routes';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -27,6 +29,9 @@ export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+// Register Spanish locale
+registerLocaleData(localeEs, 'es');
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
@@ -47,6 +52,7 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
+    { provide: LOCALE_ID, useValue: 'es' },
     { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
     { provide: DateAdapter, useClass: MomentDateAdapter },
     {
