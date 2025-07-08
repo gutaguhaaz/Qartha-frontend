@@ -1,0 +1,152 @@
+
+.upload-card {
+  margin-top: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+
+  .mat-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    margin: -24px -24px 24px -24px;
+    padding: 24px;
+    border-radius: 4px 4px 0 0;
+
+    .mat-card-title {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .mat-card-subtitle {
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 0;
+    }
+  }
+}
+
+.upload-form {
+  .mat-form-field {
+    .mat-icon {
+      color: #666;
+    }
+  }
+}
+
+.file-upload-area {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #007bff;
+    background-color: #f8f9fa;
+  }
+
+  .file-select-btn {
+    min-width: 200px;
+  }
+
+  .selected-file {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background-color: #e3f2fd;
+    border-radius: 4px;
+    margin-top: 10px;
+
+    .file-icon {
+      color: #1976d2;
+    }
+
+    .file-name {
+      font-weight: 500;
+      color: #1976d2;
+    }
+
+    .file-size {
+      color: #666;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.file-info {
+  .info-icon {
+    font-size: 16px;
+    vertical-align: middle;
+    margin-right: 4px;
+    color: #666;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+
+  .submit-btn {
+    min-width: 180px;
+    position: relative;
+
+    .loading-spinner {
+      margin-right: 8px;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .upload-card {
+    margin: 10px;
+
+    .mat-card-header {
+      margin: -16px -16px 16px -16px;
+      padding: 16px;
+
+      .mat-card-title {
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .file-upload-area {
+    padding: 15px;
+
+    .file-select-btn {
+      min-width: 150px;
+    }
+  }
+
+  .form-actions {
+    flex-direction: column;
+    gap: 10px;
+
+    .submit-btn {
+      width: 100%;
+    }
+
+    button:not(.submit-btn) {
+      width: 100%;
+      margin-left: 0 !important;
+    }
+  }
+}
+
+// Global snackbar styles
+::ng-deep {
+  .success-snackbar {
+    background-color: #4caf50 !important;
+    color: white !important;
+  }
+
+  .error-snackbar {
+    background-color: #f44336 !important;
+    color: white !important;
+  }
+}

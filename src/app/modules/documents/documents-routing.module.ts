@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DocumentDashboardComponent
+  },
+  {
+    path: 'upload',
+    loadComponent: () => import('./pages/upload-document/upload-document.component').then(m => m.UploadDocumentComponent)
   }
 ];
 

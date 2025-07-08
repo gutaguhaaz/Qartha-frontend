@@ -1,0 +1,145 @@
+
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Subir Documento'"
+        [items]="['Inicio', 'Documentos']"
+        [active_item]="'Subir Documento'"
+      >
+      </app-breadcrumb>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-8 col-lg-10 col-md-12 mx-auto">
+        <mat-card class="upload-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon class="me-2">cloud_upload</mat-icon>
+              Subir Nuevo Documento
+            </mat-card-title>
+            <mat-card-subtitle>
+              Sube un documento para análisis de cláusulas trampa
+            </mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()" class="upload-form">
+              <div class="row">
+                <!-- Título del documento -->
+                <div class="col-12 mb-3">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Título del documento</mat-label>
+                    <input 
+                      matInput 
+                      formControlName="title" 
+                      placeholder="Ingrese el título del documento"
+                      required>
+                    <mat-icon matSuffix>title</mat-icon>
+                    <mat-error *ngIf="uploadForm.get('title')?.invalid && uploadForm.get('title')?.touched">
+                      {{ getErrorMessage('title') }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Tipo de documento -->
+                <div class="col-12 mb-3">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Tipo de documento</mat-label>
+                    <mat-select formControlName="type" required>
+                      <mat-option *ngFor="let type of documentTypes" [value]="type.value">
+                        {{ type.label }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-icon matSuffix>category</mat-icon>
+                    <mat-error *ngIf="uploadForm.get('type')?.invalid && uploadForm.get('type')?.touched">
+                      {{ getErrorMessage('type') }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <!-- Archivo -->
+                <div class="col-12 mb-3">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Archivo del documento</mat-label>
+                    <input 
+                      matInput 
+                      formControlName="file" 
+                      readonly 
+                      placeholder="Seleccione un archivo"
+                      required>
+                    <mat-icon matSuffix>attach_file</mat-icon>
+                    <mat-error *ngIf="uploadForm.get('file')?.invalid && uploadForm.get('file')?.touched">
+                      {{ getErrorMessage('file') }}
+                    </mat-error>
+                  </mat-form-field>
+                  
+                  <div class="file-upload-area mt-2">
+                    <input 
+                      type="file" 
+                      id="file-input"
+                      accept=".pdf,.doc,.docx"
+                      (change)="onFileSelected($event)"
+                      class="file-input"
+                      hidden>
+                    
+                    <button 
+                      type="button" 
+                      mat-stroked-button 
+                      color="primary"
+                      (click)="document.getElementById('file-input')?.click()"
+                      class="file-select-btn">
+                      <mat-icon>folder_open</mat-icon>
+                      Seleccionar Archivo
+                    </button>
+                    
+                    <div *ngIf="selectedFile" class="selected-file mt-2">
+                      <mat-icon class="file-icon">description</mat-icon>
+                      <span class="file-name">{{ selectedFile.name }}</span>
+                      <span class="file-size">({{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB)</span>
+                    </div>
+                  </div>
+                  
+                  <div class="file-info mt-2">
+                    <small class="text-muted">
+                      <mat-icon class="info-icon">info</mat-icon>
+                      Formatos permitidos: PDF, DOC, DOCX. Tamaño máximo: 10MB
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones de acción -->
+              <div class="form-actions mt-4">
+                <button 
+                  type="submit" 
+                  mat-raised-button 
+                  color="primary"
+                  [disabled]="!uploadForm.valid || isLoading"
+                  class="submit-btn">
+                  <mat-spinner 
+                    *ngIf="isLoading" 
+                    diameter="20" 
+                    class="loading-spinner">
+                  </mat-spinner>
+                  <mat-icon *ngIf="!isLoading">cloud_upload</mat-icon>
+                  {{ isLoading ? 'Subiendo...' : 'Subir Documento' }}
+                </button>
+
+                <button 
+                  type="button" 
+                  mat-button 
+                  (click)="resetForm()"
+                  [disabled]="isLoading"
+                  class="ms-2">
+                  <mat-icon>clear</mat-icon>
+                  Limpiar
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

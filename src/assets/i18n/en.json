@@ -25,7 +25,8 @@
     "DOCUMENTS": {
       "TEXT": "Documents",
       "LIST": {
-        "DASHBOARD": "Documents Dashboard"
+        "DASHBOARD": "Documents Dashboard",
+        "UPLOAD": "Upload Document"
       }
     },
     "APPS": {

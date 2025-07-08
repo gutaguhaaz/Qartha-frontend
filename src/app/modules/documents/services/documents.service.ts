@@ -27,4 +27,12 @@ export class DocumentsService {
   getDocument(id: string): Observable<Document> {
     return this.http.get<Document>(`${this.apiUrl}/${id}`);
   }
+
+  uploadDocument(file: File, title: string, type: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('type', type);
+    return this.http.post(`${this.apiUrl.replace('/documents', '')}/upload-document`, formData);
+  }
 }
