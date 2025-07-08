@@ -103,7 +103,10 @@ export class UploadDocumentComponent implements OnInit {
             duration: 3000,
             panelClass: ['success-snackbar']
           });
-          this.resetForm();
+          // Delay before reload to allow snackbar to show
+          setTimeout(() => {
+            this.resetForm();
+          }, 500);
         },
         error: (error) => {
           this.isLoading = false;
