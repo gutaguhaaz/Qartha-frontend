@@ -194,3 +194,20 @@ button.header-dropdown.white-icon {
   top: 20px !important;
   right: 15px !important;
 }
+
+.clause-cell {
+  max-width: 300px;
+}
+
+.delete-btn {
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(244, 67, 54, 0.1);
+    transform: scale(1.1);
+  }
+
+  mat-icon {
+    color: #f44336;
+  }
+}

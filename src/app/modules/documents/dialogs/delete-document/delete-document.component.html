@@ -1,0 +1,27 @@
+
+<div class="container">
+  <h3 mat-dialog-title>¿Está seguro?</h3>
+  <div mat-dialog-content>
+    <p class="mb-3">Esta acción no se puede deshacer. El documento será eliminado permanentemente.</p>
+    <ul class="clearfix">
+      <li>
+        <p><span class="font-weight-bold">Título: </span>{{ data.document.title }}</p>
+      </li>
+      <li>
+        <p><span class="font-weight-bold">Tipo: </span>{{ data.document.type }}</p>
+      </li>
+      <li>
+        <p><span class="font-weight-bold">ID: </span>{{ data.document.custom_id }}</p>
+      </li>
+      <li>
+        <p><span class="font-weight-bold">Fecha: </span>{{ data.document.created_at | date: "short" : "es" }}</p>
+      </li>
+    </ul>
+  </div>
+  <div mat-dialog-actions class="mb-1">
+    <button mat-flat-button color="warn" [mat-dialog-close]="true" (click)="confirmDelete()">
+      Confirmar Eliminación
+    </button>
+    <button mat-flat-button (click)="onNoClick()" tabindex="-1">Cancelar</button>
+  </div>
+</div>

@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 
 export interface Document {
   id: string;
+  custom_id: number;
   title: string;
   type: 'Contrato' | 'Boletín' | 'Comunicado' | 'Informe' | 'Otro';
   clauses: string[];
@@ -34,5 +35,9 @@ export class DocumentsService {
     formData.append('title', title);
     formData.append('type', type);
     return this.http.post(`${this.apiUrl.replace('/documents', '')}/upload-document`, formData);
+  }
+
+  deleteDocument(documentId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${documentId}`);
   }
 }

@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./assets/scss/style.scss";
+
+/* Snackbar styles */
+.snackbar-success {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.snackbar-error {
+  background-color: #f44336 !important;
+  color: white !important;
+}
