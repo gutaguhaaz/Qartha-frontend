@@ -77,7 +77,7 @@
                   <div class="file-upload-area mt-2">
                     <input 
                       type="file" 
-                      id="file-input"
+                      #fileInput
                       accept=".pdf,.doc,.docx"
                       (change)="onFileSelected($event)"
                       class="file-input"
@@ -87,7 +87,7 @@
                       type="button" 
                       mat-stroked-button 
                       color="primary"
-                      (click)="document.getElementById('file-input')?.click()"
+                      (click)="triggerFileInput()"
                       class="file-select-btn">
                       <mat-icon>folder_open</mat-icon>
                       Seleccionar Archivo

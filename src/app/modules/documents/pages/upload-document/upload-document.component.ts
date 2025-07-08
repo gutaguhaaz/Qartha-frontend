@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -35,6 +35,8 @@ import { DocumentsService } from '../../services/documents.service';
   ]
 })
 export class UploadDocumentComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+  
   uploadForm!: FormGroup;
   isLoading = false;
   selectedFile: File | null = null;
@@ -119,10 +121,13 @@ export class UploadDocumentComponent implements OnInit {
     this.uploadForm.reset();
     this.selectedFile = null;
     // Reset file input
-    const fileInput = document.getElementById('file-input') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = '';
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
     }
+  }
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click();
   }
 
   getErrorMessage(field: string): string {
