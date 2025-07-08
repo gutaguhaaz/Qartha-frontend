@@ -138,28 +138,30 @@
                   <th mat-header-cell *matHeaderCellDef>
                     Cláusulas Detectadas
                   </th>
-                  <td mat-cell *matCellDef="let document" class="clauses-cell">
-                    <div
-                      *ngIf="
-                        !document.risk_clauses ||
-                        document.risk_clauses.length === 0
-                      "
-                      class="text-success"
-                    >
-                      <mat-icon class="me-1">check_circle</mat-icon>
-                      Sin cláusulas trampa
-                    </div>
-                    <mat-chip-listbox *ngIf="document.risk_clauses?.length > 0">
-                      <mat-chip
-                        *ngFor="let clause of document.risk_clauses"
-                        color="warn"
-                        selected
-                        class="clause-chip"
+                  <td mat-cell *matCellDef="let document">
+                    <div class="clause-cell">
+                      <div
+                        *ngIf="
+                          !document.risk_clauses ||
+                          document.risk_clauses.length === 0
+                        "
+                        class="text-success"
                       >
-                        <mat-icon matChipAvatar>warning</mat-icon>
-                        {{ clause }}
-                      </mat-chip>
-                    </mat-chip-listbox>
+                        <mat-icon class="me-1">check_circle</mat-icon>
+                        Sin cláusulas trampa
+                      </div>
+                      <mat-chip-listbox *ngIf="document.risk_clauses?.length > 0">
+                        <mat-chip
+                          *ngFor="let clause of document.risk_clauses"
+                          color="warn"
+                          selected
+                          class="clause-chip"
+                        >
+                          <mat-icon matChipAvatar>warning</mat-icon>
+                          {{ clause }}
+                        </mat-chip>
+                      </mat-chip-listbox>
+                    </div>
                   </td>
                 </ng-container>
 
