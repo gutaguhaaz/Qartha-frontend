@@ -1,0 +1,54 @@
+¡Perfecto! Te hago un resumen completo de lo que implementamos y te doy el prompt para el frontend.
+
+📋 Resumen de lo que implementamos
+✅ Backend API CRUD Completo
+POST /api/v1/upload-document - Subir documentos
+GET /api/v1/documents - Obtener todos los documentos
+DELETE /api/v1/documents/{document_id} - Eliminar documento (NUEVO)
+✅ Características del endpoint DELETE
+Flexible: Acepta tanto ObjectId de MongoDB como custom_id incremental
+Validaciones robustas: 404 si no existe, 400 si el ID es inválido
+Detección automática: Identifica si es ObjectId o custom_id
+Respuesta informativa: Confirma eliminación exitosa
+✅ Funcionalidades del sistema
+Extracción de texto (PDF/DOCX) con OCR fallback
+Clasificación automática de documentos
+Detección de cláusulas de riesgo
+IDs incrementales para fácil referencia
+Base de datos MongoDB con Motor (async)
+🎯 Prompt para el asistente del frontend
+Necesito implementar la funcionalidad de eliminar documentos en mi dashboard de React. 
+**CONTEXTO:**
+Tengo un dashboard que muestra documentos legales en una tabla con las columnas:
+- Título del Documento
+- Tipo  
+- Cláusulas Detectadas
+- Fecha de Carga
+**BACKEND DISPONIBLE:**
+- Endpoint: DELETE /api/v1/documents/{document_id}
+- Acepta tanto ObjectId de MongoDB como custom_id incremental
+- Respuesta exitosa: {"message": "Documento X eliminado exitosamente", "deleted_count": 1}
+- Errores: 404 (no encontrado), 400 (ID inválido), 500 (error servidor)
+**LO QUE NECESITO:**
+1. Agregar una columna "Acciones" a mi tabla con botón de eliminar (icono de basura)
+2. Implementar confirmación antes de eliminar (modal o alert)
+3. Hacer la llamada DELETE al backend
+4. Actualizar la lista de documentos tras eliminación exitosa
+5. Mostrar notificaciones de éxito/error
+6. Manejar estados de loading durante la eliminación
+**PREFERENCIAS:**
+- Usar el custom_id (más fácil) en lugar del ObjectId
+- Interfaz intuitiva y confirmaciones claras
+- Feedback visual durante el proceso
+- Manejo de errores user-friendly
+Por favor implementa esta funcionalidad completa con el componente de confirmación y las llamadas a la API.
+🔧 Para el frontend necesitarás:
+Datos disponibles en cada documento:
+
+custom_id (número incremental) ← Recomendado para DELETE
+_id (ObjectId de MongoDB)
+title, type, content, risk_clauses, created_at
+URL del endpoint:
+
+DELETE http://localhost:8000/api/v1/documents/{custom_id}
+Con este prompt el asistente del frontend tendrá todo lo necesario para implementar la funcionalidad de eliminación completa. ¿Te parece bien así
