@@ -83,10 +83,8 @@ export class DocumentDashboardComponent implements OnInit {
       return 0;
     }
     return this.documents.reduce((total, doc) => {
-      if (!doc || !doc.clauses || !Array.isArray(doc.clauses)) {
-        return total;
-      }
-      return total + doc.clauses.length;
+      const clauses = doc.risk_clauses || doc.clauses || [];
+      return total + clauses.length;
     }, 0);
   }
 
