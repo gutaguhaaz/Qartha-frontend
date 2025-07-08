@@ -49,7 +49,7 @@ export const ROUTES: RouteInfo[] = [
     path: 'advance-table',
     title: 'MENUITEMS.ADVANCE-TABLE.TEXT',
     iconType: 'feather',
-    icon: 'trello',
+    icon: 'mail',
     class: '',
     groupTitle: false,
     badge: '',
@@ -59,8 +59,8 @@ export const ROUTES: RouteInfo[] = [
   {
     path: '/documents',
     title: 'MENUITEMS.DOCUMENTS.TEXT',
-    iconType: 'material-icons-two-tone',
-    icon: 'description',
+    iconType: 'feather',
+    icon: 'file-text',
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [
@@ -69,7 +69,7 @@ export const ROUTES: RouteInfo[] = [
         title: 'MENUITEMS.DOCUMENTS.LIST.DASHBOARD',
         iconType: '',
         icon: '',
-        class: 'ml-menu',
+        class: '',
         groupTitle: false,
         submenu: [],
         badge: '',

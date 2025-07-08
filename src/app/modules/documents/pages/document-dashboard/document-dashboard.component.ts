@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
@@ -14,7 +13,8 @@ export interface Document {
   id: string;
   title: string;
   type: 'Contrato' | 'Boletín' | 'Comunicado' | 'Informe' | 'Otro';
-  clauses: string[];
+  clauses?: string[]; // opcional
+  risk_clauses?: string[]; // <- esta línea es nueva
   created_at: string;
 }
 
@@ -29,10 +29,10 @@ export interface Document {
     MatProgressSpinnerModule,
     MatIconModule,
     TranslateModule,
-    BreadcrumbComponent
+    BreadcrumbComponent,
   ],
   templateUrl: './document-dashboard.component.html',
-  styleUrls: ['./document-dashboard.component.scss']
+  styleUrls: ['./document-dashboard.component.scss'],
 })
 export class DocumentDashboardComponent implements OnInit {
   documents: Document[] = [];
@@ -49,7 +49,7 @@ export class DocumentDashboardComponent implements OnInit {
   loadDocuments(): void {
     this.isLoading = true;
     this.error = null;
-    
+
     this.documentsService.getDocuments().subscribe({
       next: (documents) => {
         this.documents = documents;
@@ -59,17 +59,17 @@ export class DocumentDashboardComponent implements OnInit {
         this.error = 'Error al cargar los documentos';
         this.isLoading = false;
         console.error('Error loading documents:', error);
-      }
+      },
     });
   }
 
   getTypeColor(type: string): string {
     const colors: { [key: string]: string } = {
-      'Contrato': 'primary',
-      'Boletín': 'accent',
-      'Comunicado': 'warn',
-      'Informe': 'primary',
-      'Otro': 'basic'
+      Contrato: 'primary',
+      Boletín: 'accent',
+      Comunicado: 'warn',
+      Informe: 'primary',
+      Otro: 'basic',
     };
     return colors[type] || 'basic';
   }
@@ -95,7 +95,7 @@ export class DocumentDashboardComponent implements OnInit {
     if (!row || !row.clauses || !Array.isArray(row.clauses)) {
       return 0;
     }
-    
+
     return row.clauses.reduce((acc: number, c: any) => {
       if (!c || typeof c.clause !== 'string') {
         return acc;
@@ -106,10 +106,15 @@ export class DocumentDashboardComponent implements OnInit {
 
   // Versión más compacta usando optional chaining y nullish coalescing
   getTotalClausesCompact(row: any): number {
-    return row?.clauses?.reduce((acc: number, c: any) => acc + (c?.clause?.length ?? 0), 0) ?? 0;
+    return (
+      row?.clauses?.reduce(
+        (acc: number, c: any) => acc + (c?.clause?.length ?? 0),
+        0,
+      ) ?? 0
+    );
   }
 
   getDocumentsByType(type: string): Document[] {
-    return this.documents.filter(doc => doc.type === type);
+    return this.documents.filter((doc) => doc.type === type);
   }
 }
