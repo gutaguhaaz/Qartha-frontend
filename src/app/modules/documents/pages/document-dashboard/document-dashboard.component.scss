@@ -1,10 +1,9 @@
-
 .info-card {
   border: none;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
-  
+
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -14,11 +13,11 @@
 .info-box8 {
   padding: 20px;
   position: relative;
-  
+
   .card1-icon {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: -30px;
+    left: -20px;
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -28,11 +27,11 @@
     font-size: 24px;
     color: white;
   }
-  
+
   h5 {
     margin: 0 0 10px 0;
     font-weight: 500;
-    
+
     &.font-b-500 {
       font-size: 14px;
       text-transform: uppercase;
@@ -41,10 +40,21 @@
   }
 }
 
-.bg-blue { background: linear-gradient(45deg, #2196F3, #21CBF3); }
-.bg-orange { background: linear-gradient(45deg, #FF9800, #FF5722); }
-.bg-green { background: linear-gradient(45deg, #4CAF50, #8BC34A); }
-.bg-purple { background: linear-gradient(45deg, #9C27B0, #673AB7); }
+.bg-blue {
+  background: linear-gradient(45deg, #2196F3, #21CBF3);
+}
+
+.bg-orange {
+  background: linear-gradient(45deg, #FF9800, #FF5722);
+}
+
+.bg-green {
+  background: linear-gradient(45deg, #4CAF50, #8BC34A);
+}
+
+.bg-purple {
+  background: linear-gradient(45deg, #9C27B0, #673AB7);
+}
 
 .table-responsive {
   border-radius: 8px;
@@ -54,7 +64,7 @@
 
 .table {
   margin-bottom: 0;
-  
+
   th {
     background-color: #f8f9fa;
     font-weight: 600;
@@ -62,16 +72,16 @@
     border-bottom: 2px solid #dee2e6;
     padding: 15px;
   }
-  
+
   td {
     padding: 15px;
     vertical-align: middle;
     border-bottom: 1px solid #dee2e6;
   }
-  
+
   .table-row {
     transition: background-color 0.2s ease;
-    
+
     &:hover {
       background-color: #f8f9fa;
     }
@@ -82,12 +92,12 @@
   .d-flex {
     align-items: center;
   }
-  
+
   h6 {
     font-weight: 600;
     color: #2c3e50;
   }
-  
+
   small {
     font-size: 11px;
     color: #6c757d;
@@ -96,11 +106,11 @@
 
 .clauses-cell {
   max-width: 300px;
-  
+
   .clause-chip {
     margin: 2px;
     font-size: 11px;
-    
+
     mat-icon {
       font-size: 16px;
     }
@@ -117,18 +127,18 @@
 mat-chip {
   border-radius: 16px;
   font-weight: 500;
-  
+
   &.mat-mdc-chip-selected {
     &.mat-primary {
       background-color: #2196F3;
       color: white;
     }
-    
+
     &.mat-accent {
       background-color: #FF5722;
       color: white;
     }
-    
+
     &.mat-warn {
       background-color: #f44336;
       color: white;
@@ -139,23 +149,25 @@ mat-chip {
 .card {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  
+
   .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
     border-radius: 10px 10px 0 0;
     padding: 20px;
-    
+
+
     h2 {
       margin: 0;
       font-weight: 500;
+      color: white !important;
     }
-    
+
     button {
       color: white;
     }
   }
-  
+
   .body {
     padding: 20px;
   }
@@ -164,8 +176,21 @@ mat-chip {
 .text-success {
   color: #28a745 !important;
   font-weight: 500;
-  
+
   mat-icon {
     vertical-align: middle;
   }
+}
+
+.white-icon {
+  mat-icon {
+    color: white;
+  }
+}
+
+button.header-dropdown.white-icon {
+  background: transparent !important;
+  border: none;
+  top: 20px !important;
+  right: 15px !important;
 }

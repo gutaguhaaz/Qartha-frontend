@@ -71,7 +71,7 @@ export const ROUTES: RouteInfo[] = [
         title: 'MENUITEMS.DOCUMENTS.LIST.DASHBOARD',
         iconType: '',
         icon: '',
-        class: 'ml-menu',
+        class: '',
         groupTitle: false,
         badge: '',
         badgeClass: '',
