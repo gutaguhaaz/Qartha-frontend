@@ -124,6 +124,8 @@ export class UploadDocumentComponent implements OnInit {
     if (this.fileInput) {
       this.fileInput.nativeElement.value = '';
     }
+    // Reload page to avoid validation visual issues
+    window.location.reload();
   }
 
   triggerFileInput(): void {
