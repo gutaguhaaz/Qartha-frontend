@@ -211,6 +211,7 @@ button.header-dropdown.white-icon {
     color: #f44336;
   }
 }
+
 .document-stats {
   display: flex;
   justify-content: space-around;
@@ -309,4 +310,10 @@ button.header-dropdown.white-icon {
   text-align: center;
   padding: 2rem;
   color: #666;
+}
+
+td.mat-column-clauses.ng-star-inserted {
+  max-height: 200px !important;
+  display: block;
+  overflow-y: auto;
 }
