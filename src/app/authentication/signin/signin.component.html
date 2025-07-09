@@ -2,12 +2,19 @@
   <div class="row auth-main">
     <div class="col-sm-6 px-0 d-none d-sm-block">
       <div class="left-video">
-        <video autoplay muted loop playsinline class="background-video">
+        <video 
+          autoplay 
+          muted 
+          loop 
+          playsinline 
+          class="background-video"
+          oncanplay="this.style.opacity = '1'"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
           <source src="assets/videos/intro-lexia.webm" type="video/webm">
           <source src="assets/videos/intro-lexia.mp4" type="video/mp4">
-          <!-- Fallback to image if video is not supported -->
-          <img src="assets/images/pages/bg-01.png" alt="Background" class="fallback-image">
         </video>
+        <!-- Fallback to image if video fails to load -->
+        <div class="fallback-image" style="display: none; background-image: url('assets/images/pages/bg-01.png');"></div>
       </div>
     </div>
     <div class="col-sm-6 auth-form-section">
