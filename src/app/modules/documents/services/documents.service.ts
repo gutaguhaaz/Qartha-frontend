@@ -40,4 +40,9 @@ export class DocumentsService {
   deleteDocument(documentId: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${documentId}`);
   }
+
+  analyzeClause(clauseText: string): Observable<any> {
+    const body = { clause_text: clauseText };
+    return this.http.post(`${environment.apiBaseUrl}/clauses/predict`, body);
+  }
 }

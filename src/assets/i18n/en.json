@@ -26,7 +26,8 @@
       "TEXT": "Documents",
       "LIST": {
         "DASHBOARD": "Documents Dashboard",
-        "UPLOAD": "Upload Document"
+        "UPLOAD": "Upload Document",
+        "ANALYZE": "Analyze Clause"
       }
     },
     "APPS": {

@@ -16,6 +16,10 @@ const routes: Routes = [
   {
     path: 'upload',
     loadComponent: () => import('./pages/upload-document/upload-document.component').then(m => m.UploadDocumentComponent)
+  },
+  {
+    path: 'analyze-clause',
+    loadComponent: () => import('./pages/analyze-clause/analyze-clause.component').then(m => m.AnalyzeClauseComponent)
   }
 ];
 

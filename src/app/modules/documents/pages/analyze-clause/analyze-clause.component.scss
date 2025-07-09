@@ -1,0 +1,130 @@
+
+.analysis-result-card {
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  &.result-card-risk {
+    border-left: 4px solid #f44336;
+    background-color: #ffebee;
+  }
+  
+  &.result-card-neutral {
+    border-left: 4px solid #4caf50;
+    background-color: #f1f8e9;
+  }
+}
+
+.result-content {
+  padding: 16px 0;
+}
+
+.result-item {
+  margin-bottom: 16px;
+  
+  .result-label {
+    font-weight: 600;
+    color: #666;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  
+  .result-value {
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    
+    &.confidence-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2196f3;
+    }
+  }
+}
+
+.original-text {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 12px;
+  font-style: italic;
+  color: #495057;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+
+.error-card {
+  margin-top: 20px;
+  background-color: #ffebee;
+  border-left: 4px solid #f44336;
+  
+  mat-card-content {
+    color: #c62828;
+  }
+}
+
+.info-item {
+  p {
+    margin-bottom: 8px;
+  }
+  
+  ul {
+    margin-left: 20px;
+    
+    li {
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+  }
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.text-danger {
+  color: #dc3545 !important;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+
+.text-primary {
+  color: #007bff !important;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.me-2 {
+  margin-right: 8px;
+}
+
+.ms-1 {
+  margin-left: 4px;
+}
+
+.mt-3 {
+  margin-top: 16px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+mat-spinner {
+  width: 20px !important;
+  height: 20px !important;
+}
