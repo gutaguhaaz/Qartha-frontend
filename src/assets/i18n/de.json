@@ -26,7 +26,8 @@
       "TEXT": "Dokumente",
       "LIST": {
         "DASHBOARD": "Dokumente Dashboard",
-        "UPLOAD": "Dokument Hochladen"
+        "UPLOAD": "Dokument Hochladen",
+        "ANALYZE": "Klausel Analysieren"
       }
     },
     "APPS": {

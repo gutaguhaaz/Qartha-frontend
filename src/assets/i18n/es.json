@@ -26,7 +26,8 @@
       "TEXT": "Documentos",
       "LIST": {
         "DASHBOARD": "Dashboard de Documentos",
-        "UPLOAD": "Subir Documento"
+        "UPLOAD": "Subir Documento",
+        "ANALYZE": "Analizar Cláusula"
       }
     },
     "APPS": {
