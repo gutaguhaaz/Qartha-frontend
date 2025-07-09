@@ -158,7 +158,9 @@
                           class="clause-chip"
                           [class.text-red-500]="clause.label === 'riesgosa'"
                           [class.text-blue-500]="clause.label === 'neutra'"
-                          [title]="clause.clause_text"
+                          [matTooltip]="clause.clause_text"
+                          matTooltipPosition="above"
+                          matTooltipClass="custom-tooltip"
                         >
                           <mat-icon matChipAvatar>
                             {{ clause.label === 'riesgosa' ? 'warning' : 'info' }}
