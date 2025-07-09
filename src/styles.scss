@@ -1,32 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "assets/scss/style.scss";
-
-/* Prevent browser extensions from interfering with auth pages */
-body.theme-blue.menu_light.logo-white.light {
-  /* Hide any injected content from extensions */
-  > div:not(app-root):not([class]):not([id^="ng"]):not([id^="mat"]) {
-    display: none !important;
-    visibility: hidden !important;
-    position: absolute !important;
-    top: -9999px !important;
-    left: -9999px !important;
-    z-index: -1 !important;
-  }
-
-  /* Specifically target webinar/extension content */
-  > div[id*="webinar"],
-  > div[style*="background-color: rgb(247, 247, 247)"],
-  > div[style*="border: 1px solid rgb(224, 224, 224)"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    position: absolute !important;
-    top: -10000px !important;
-    left: -10000px !important;
-    z-index: -9999 !important;
-  }
-}
+@import "./assets/scss/style.scss";
 
 /* Snackbar styles */
 .snackbar-success {
