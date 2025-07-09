@@ -4,12 +4,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
+export interface RiskClause {
+  clause_text: string;
+  label: 'riesgosa' | 'neutra';
+}
+
 export interface Document {
   id: string;
   custom_id: number;
   title: string;
   type: 'Contrato' | 'Boletín' | 'Comunicado' | 'Informe' | 'Otro';
   clauses: string[];
+  risk_clauses?: RiskClause[];
   created_at: string;
 }
 

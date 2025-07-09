@@ -153,12 +153,16 @@
                       <mat-chip-listbox *ngIf="document.risk_clauses?.length > 0">
                         <mat-chip
                           *ngFor="let clause of document.risk_clauses"
-                          color="warn"
+                          [color]="clause.label === 'riesgosa' ? 'warn' : 'primary'"
                           selected
                           class="clause-chip"
+                          [class.text-red-500]="clause.label === 'riesgosa'"
+                          [class.text-blue-500]="clause.label === 'neutra'"
                         >
-                          <mat-icon matChipAvatar>warning</mat-icon>
-                          {{ clause }}
+                          <mat-icon matChipAvatar>
+                            {{ clause.label === 'riesgosa' ? 'warning' : 'info' }}
+                          </mat-icon>
+                          {{ clause.clause_text }}
                         </mat-chip>
                       </mat-chip-listbox>
                     </div>

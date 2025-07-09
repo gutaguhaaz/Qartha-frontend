@@ -13,13 +13,18 @@ import { BreadcrumbComponent } from '../../../../shared/components/breadcrumb/br
 import { DocumentsService } from '../../services/documents.service';
 import { DeleteDocumentComponent } from '../../dialogs/delete-document/delete-document.component';
 
+export interface RiskClause {
+  clause_text: string;
+  label: 'riesgosa' | 'neutra';
+}
+
 export interface Document {
   id: string;
   custom_id: number;
   title: string;
   type: 'Contrato' | 'Boletín' | 'Comunicado' | 'Informe' | 'Otro';
   clauses?: string[]; // opcional
-  risk_clauses?: string[]; // <- esta línea es nueva
+  risk_clauses?: RiskClause[]; // Updated to new object format
   created_at: string;
 }
 
@@ -93,8 +98,9 @@ export class DocumentDashboardComponent implements OnInit {
       return 0;
     }
     return this.documents.reduce((total, doc) => {
-      const clauses = doc.risk_clauses || doc.clauses || [];
-      return total + clauses.length;
+      const riskClauses = doc.risk_clauses || [];
+      const regularClauses = doc.clauses || [];
+      return total + riskClauses.length + regularClauses.length;
     }, 0);
   }
 

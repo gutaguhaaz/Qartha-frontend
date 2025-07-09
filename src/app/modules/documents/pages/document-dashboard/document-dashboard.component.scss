@@ -285,7 +285,25 @@ button.header-dropdown.white-icon {
 
 .clause-chip {
   margin: 2px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+
+  &.text-red-500 {
+    background-color: #fee2e2 !important;
+    color: #dc2626 !important;
+
+    .mat-icon {
+      color: #dc2626 !important;
+    }
+  }
+
+  &.text-blue-500 {
+    background-color: #dbeafe !important;
+    color: #2563eb !important;
+
+    .mat-icon {
+      color: #2563eb !important;
+    }
+  }
 }
 
 .table-container {
