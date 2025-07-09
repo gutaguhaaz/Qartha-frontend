@@ -44,6 +44,20 @@ export class SigninComponent
       username: ['admin@software.com', Validators.required],
       password: ['admin@123', Validators.required],
     });
+    
+    // Ensure video autoplay after component loads
+    setTimeout(() => {
+      const video = document.querySelector('.background-video') as HTMLVideoElement;
+      if (video) {
+        video.play().catch(error => {
+          console.log('Video autoplay failed:', error);
+          // Fallback: try to play on any user interaction
+          document.addEventListener('click', () => {
+            video.play().catch(e => console.log('Manual play failed:', e));
+          }, { once: true });
+        });
+      }
+    }, 100);
   }
   get f() {
     return this.authForm.controls;

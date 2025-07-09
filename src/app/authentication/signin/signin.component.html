@@ -8,7 +8,8 @@
           loop 
           playsinline 
           class="background-video"
-          oncanplay="this.style.opacity = '1'"
+          oncanplay="this.style.opacity = '1'; this.play().catch(e => console.log('Autoplay failed:', e));"
+          onloadeddata="this.play().catch(e => console.log('Autoplay failed:', e));"
           onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
           <source src="assets/videos/intro-lexia.webm" type="video/webm">
           <source src="assets/videos/intro-lexia.mp4" type="video/mp4">
