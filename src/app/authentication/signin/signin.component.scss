@@ -85,5 +85,29 @@ button.auth-form-btn.mdc-button.mdc-button--raised.mat-mdc-raised-button.mat-pri
 }
 
 body.theme-blue.menu_light.logo-white.light {
-  overflow-y: hidden !important;
+  overflow: hidden !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+}
+
+.auth-container {
+  overflow: hidden;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.auth-main {
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+}
+
+.left-video {
+  overflow: hidden;
+}
+
+.auth-form-section {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
