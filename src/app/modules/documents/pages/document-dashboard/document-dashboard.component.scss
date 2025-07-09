@@ -199,6 +199,23 @@ button.header-dropdown.white-icon {
   max-width: 100%;
 }
 
+.clauses {
+  max-width: 100%;
+
+  .clause-chip {
+    max-width: 200px;
+    
+    .clause-text {
+      display: inline-block;
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: middle;
+    }
+  }
+}
+
 .delete-btn {
   transition: all 0.3s ease;
 

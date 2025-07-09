@@ -150,7 +150,7 @@
                         <mat-icon class="me-1">check_circle</mat-icon>
                         Sin cláusulas trampa
                       </div>
-                      <mat-chip-listbox *ngIf="document.risk_clauses?.length > 0">
+                      <mat-chip-listbox *ngIf="document.risk_clauses?.length > 0" class="clauses">
                         <mat-chip
                           *ngFor="let clause of document.risk_clauses"
                           [color]="clause.label === 'riesgosa' ? 'warn' : 'primary'"
@@ -158,11 +158,12 @@
                           class="clause-chip"
                           [class.text-red-500]="clause.label === 'riesgosa'"
                           [class.text-blue-500]="clause.label === 'neutra'"
+                          [title]="clause.clause_text"
                         >
                           <mat-icon matChipAvatar>
                             {{ clause.label === 'riesgosa' ? 'warning' : 'info' }}
                           </mat-icon>
-                          {{ clause.clause_text }}
+                          <span class="clause-text">{{ clause.clause_text }}</span>
                         </mat-chip>
                       </mat-chip-listbox>
                     </div>
