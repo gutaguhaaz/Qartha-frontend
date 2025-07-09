@@ -110,6 +110,17 @@ export class AnalyzeClauseComponent implements OnInit {
     });
   }
 
+  getAnalyzedText(): string {
+    if (!this.analysisResult) return '';
+    
+    // Try different possible field names from backend response
+    return this.analysisResult.original_text || 
+           (this.analysisResult as any).text ||
+           (this.analysisResult as any).clause_text ||
+           this.analyzeForm.get('clause_text')?.value || 
+           '';
+  }
+
   getErrorMessage(field: string): string {
     const control = this.analyzeForm.get(field);
     if (control?.hasError('required')) {
