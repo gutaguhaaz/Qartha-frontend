@@ -27,7 +27,8 @@
       "LIST": {
         "DASHBOARD": "Dokumente Dashboard",
         "UPLOAD": "Dokument Hochladen",
-        "ANALYZE": "Klausel Analysieren"
+        "ANALYZE": "Klausel Analysieren",
+        "CLAUSES": "Klausel-Verwaltung"
       }
     },
     "APPS": {

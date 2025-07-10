@@ -1,0 +1,174 @@
+
+.dialog-icon {
+  vertical-align: middle;
+  margin-right: 8px;
+  color: #2196F3;
+}
+
+.dialog-content {
+  padding: 0 24px;
+  min-width: 400px;
+
+  .clause-info {
+    background-color: #f8f9fa;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+
+    h4 {
+      margin: 0 0 12px 0;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+
+    .info-row {
+      margin-bottom: 8px;
+      line-height: 1.5;
+
+      strong {
+        color: #495057;
+        min-width: 100px;
+        display: inline-block;
+      }
+
+      code {
+        background-color: #e9ecef;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+      }
+
+      .clause-text {
+        margin-top: 4px;
+        padding: 8px;
+        background-color: white;
+        border-radius: 4px;
+        border: 1px solid #dee2e6;
+        font-style: italic;
+        color: #6c757d;
+        line-height: 1.4;
+      }
+
+      .current-label {
+        padding: 4px 12px;
+        border-radius: 16px;
+        font-weight: 500;
+        font-size: 14px;
+
+        &.riesgosa {
+          background-color: #fee2e2;
+          color: #dc2626;
+        }
+
+        &.neutra {
+          background-color: #d1fae5;
+          color: #059669;
+        }
+      }
+    }
+  }
+
+  .label-selection {
+    margin-bottom: 20px;
+
+    h4 {
+      margin: 0 0 12px 0;
+      color: #2c3e50;
+      font-weight: 500;
+    }
+
+    .w-100 {
+      width: 100%;
+    }
+
+    .option-icon {
+      vertical-align: middle;
+      margin-right: 8px;
+      font-size: 18px;
+
+      &.riesgosa {
+        color: #dc2626;
+      }
+
+      &.neutra {
+        color: #059669;
+      }
+    }
+  }
+
+  .confirmation-message {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .warning-icon {
+      color: #856404;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    span {
+      color: #856404;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+  }
+}
+
+.dialog-actions {
+  padding: 16px 24px;
+  justify-content: flex-end;
+  gap: 8px;
+
+  .cancel-btn {
+    color: #6c757d;
+
+    mat-icon {
+      margin-right: 4px;
+      font-size: 18px;
+      vertical-align: middle;
+    }
+  }
+
+  .save-btn {
+    mat-icon {
+      margin-right: 4px;
+      font-size: 18px;
+      vertical-align: middle;
+    }
+
+    &:disabled {
+      background-color: #e9ecef !important;
+      color: #6c757d !important;
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 600px) {
+  .dialog-content {
+    min-width: auto;
+    padding: 0 16px;
+
+    .clause-info .info-row strong {
+      min-width: auto;
+      display: block;
+      margin-bottom: 4px;
+    }
+  }
+
+  .dialog-actions {
+    padding: 12px 16px;
+    flex-direction: column;
+
+    button {
+      width: 100%;
+      margin-bottom: 8px;
+    }
+  }
+}

@@ -20,6 +20,10 @@ const routes: Routes = [
   {
     path: 'analyze-clause',
     loadComponent: () => import('./pages/analyze-clause/analyze-clause.component').then(m => m.AnalyzeClauseComponent)
+  },
+  {
+    path: 'clauses',
+    loadComponent: () => import('./pages/clauses/clauses.component').then(m => m.ClausesComponent)
   }
 ];
 

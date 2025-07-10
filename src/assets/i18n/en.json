@@ -27,7 +27,8 @@
       "LIST": {
         "DASHBOARD": "Documents Dashboard",
         "UPLOAD": "Upload Document",
-        "ANALYZE": "Analyze Clause"
+        "ANALYZE": "Analyze Clause",
+        "CLAUSES": "Clauses Management"
       }
     },
     "APPS": {

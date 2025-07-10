@@ -19,6 +19,18 @@ export interface Document {
   created_at: string;
 }
 
+export interface ClauseExample {
+  _id: string;
+  document_id: string;
+  clause_text: string;
+  label: 'riesgosa' | 'neutra';
+  created_at: string;
+}
+
+export interface ClauseUpdateRequest {
+  label: 'riesgosa' | 'neutra';
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,5 +62,13 @@ export class DocumentsService {
   analyzeClause(clauseText: string): Observable<any> {
     const body = { clause_text: clauseText };
     return this.http.post(`${environment.apiBaseUrl}/clauses/predict`, body);
+  }
+
+  getClauses(): Observable<ClauseExample[]> {
+    return this.http.get<ClauseExample[]>(`${environment.apiBaseUrl}/clauses`);
+  }
+
+  updateClauseLabel(clauseId: string, updateRequest: ClauseUpdateRequest): Observable<ClauseExample> {
+    return this.http.put<ClauseExample>(`${environment.apiBaseUrl}/clauses/${clauseId}`, updateRequest);
   }
 }

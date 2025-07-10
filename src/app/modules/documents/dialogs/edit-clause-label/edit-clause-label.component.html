@@ -1,0 +1,66 @@
+
+<h2 mat-dialog-title>
+  <mat-icon class="dialog-icon">edit</mat-icon>
+  Editar Etiqueta de Cláusula
+</h2>
+
+<mat-dialog-content class="dialog-content">
+  <div class="clause-info">
+    <h4>Información de la Cláusula</h4>
+    <div class="info-row">
+      <strong>ID:</strong> <code>{{ data.clause._id.substring(data.clause._id.length - 8) }}</code>
+    </div>
+    <div class="info-row">
+      <strong>Documento:</strong> {{ data.clause.document_id }}
+    </div>
+    <div class="info-row">
+      <strong>Texto:</strong>
+      <div class="clause-text">{{ getTruncatedText(data.clause.clause_text) }}</div>
+    </div>
+    <div class="info-row">
+      <strong>Etiqueta actual:</strong>
+      <span class="current-label" [class]="data.clause.label === 'riesgosa' ? 'riesgosa' : 'neutra'">
+        {{ data.clause.label === 'riesgosa' ? 'Riesgosa' : 'Neutra' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="label-selection">
+    <h4>Nueva Etiqueta</h4>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Seleccionar etiqueta</mat-label>
+      <mat-select [(value)]="selectedLabel" required>
+        <mat-option value="riesgosa">
+          <mat-icon class="option-icon riesgosa">warning</mat-icon>
+          Riesgosa
+        </mat-option>
+        <mat-option value="neutra">
+          <mat-icon class="option-icon neutra">check_circle</mat-icon>
+          Neutra
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="confirmation-message" *ngIf="selectedLabel !== data.clause.label">
+    <mat-icon class="warning-icon">info</mat-icon>
+    <span>¿Confirmar cambio de etiqueta de <strong>{{ data.clause.label === 'riesgosa' ? 'Riesgosa' : 'Neutra' }}</strong> a <strong>{{ selectedLabel === 'riesgosa' ? 'Riesgosa' : 'Neutra' }}</strong>?</span>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <button mat-button (click)="onCancel()" class="cancel-btn">
+    <mat-icon>close</mat-icon>
+    Cancelar
+  </button>
+  <button 
+    mat-raised-button 
+    color="primary" 
+    (click)="onSave()"
+    [disabled]="selectedLabel === data.clause.label"
+    class="save-btn"
+  >
+    <mat-icon>save</mat-icon>
+    Guardar Cambios
+  </button>
+</mat-dialog-actions>

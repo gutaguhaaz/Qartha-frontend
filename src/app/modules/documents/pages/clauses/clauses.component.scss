@@ -1,0 +1,241 @@
+
+.info-card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.info-box8 {
+  padding: 20px;
+  position: relative;
+
+  .card1-icon {
+    position: absolute;
+    top: -30px;
+    left: -20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+  }
+
+  h5 {
+    margin: 0 0 10px 0;
+    font-weight: 500;
+
+    &.font-b-500 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+.bg-blue {
+  background: linear-gradient(45deg, #2196F3, #21CBF3);
+}
+
+.bg-orange {
+  background: linear-gradient(45deg, #FF9800, #FF5722);
+}
+
+.bg-green {
+  background: linear-gradient(45deg, #4CAF50, #8BC34A);
+}
+
+.bg-purple {
+  background: linear-gradient(45deg, #9C27B0, #673AB7);
+}
+
+.table-responsive {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  margin-bottom: 0;
+
+  th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+    padding: 15px;
+  }
+
+  td {
+    padding: 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .table-row {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+  }
+}
+
+.clause-id {
+  background-color: #e9ecef;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #495057;
+}
+
+.document-id {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.clause-text-cell {
+  max-width: 300px;
+
+  .clause-text {
+    line-height: 1.4;
+    color: #555;
+    cursor: pointer;
+  }
+}
+
+.large-icon {
+  font-size: 4rem;
+  width: 4rem;
+  height: 4rem;
+  opacity: 0.3;
+}
+
+mat-chip {
+  border-radius: 16px;
+  font-weight: 500;
+
+  &.mat-mdc-chip-selected {
+    &.mat-primary {
+      background-color: #2196F3;
+      color: white;
+    }
+
+    &.mat-warn {
+      background-color: #f44336;
+      color: white;
+    }
+  }
+}
+
+.text-red-500 {
+  background-color: #fee2e2 !important;
+  color: #dc2626 !important;
+
+  .mat-icon {
+    color: #dc2626 !important;
+  }
+}
+
+.text-green-500 {
+  background-color: #d1fae5 !important;
+  color: #059669 !important;
+
+  .mat-icon {
+    color: #059669 !important;
+  }
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  .header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 20px;
+
+    h2 {
+      margin: 0;
+      font-weight: 500;
+      color: white !important;
+    }
+
+    button {
+      color: white;
+    }
+  }
+
+  .body {
+    padding: 20px;
+  }
+}
+
+.white-icon {
+  mat-icon {
+    color: white;
+  }
+}
+
+button.header-dropdown.white-icon {
+  background: transparent !important;
+  border: none;
+  top: 10px !important;
+  right: 15px !important;
+}
+
+.edit-btn {
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: rgba(33, 150, 243, 0.1);
+    transform: scale(1.1);
+  }
+
+  mat-icon {
+    color: #2196F3;
+  }
+}
+
+::ng-deep .custom-tooltip {
+  background-color: #2c3e50 !important;
+  color: white !important;
+  font-size: 12px !important;
+  max-width: 400px !important;
+  white-space: normal !important;
+  line-height: 1.4 !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .clause-text-cell {
+    max-width: 200px;
+  }
+  
+  .table th,
+  .table td {
+    padding: 10px 8px;
+    font-size: 14px;
+  }
+  
+  .clause-id {
+    font-size: 10px;
+  }
+}

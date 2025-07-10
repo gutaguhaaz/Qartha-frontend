@@ -1,0 +1,248 @@
+
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb
+        [title]="'Gestión de Cláusulas - Dataset ML'"
+        [items]="['Inicio', 'Documentos']"
+        [active_item]="'Cláusulas'"
+      >
+      </app-breadcrumb>
+    </div>
+
+    <!-- Stats Cards Row -->
+    <div class="row mb-4">
+      <div class="col-md-6 col-xl-3">
+        <div class="card info-card">
+          <div class="info-box8">
+            <i class="material-icons bg-blue card1-icon">assignment</i>
+            <h5 class="col-blue font-b-500">Total Cláusulas</h5>
+            <h5>{{ clauses.length }}</h5>
+            <div>
+              <i class="material-icons col-blue float-start me-1 ms-1">list</i>
+              <p class="float-start m-0">Registros totales</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card info-card">
+          <div class="info-box8">
+            <i class="material-icons bg-orange card1-icon">warning</i>
+            <h5 class="col-orange font-b-500">Cláusulas Riesgosas</h5>
+            <h5>{{ (clauses | filter: clause => clause.label === 'riesgosa').length }}</h5>
+            <div>
+              <i class="material-icons col-orange float-start me-1 ms-1">security</i>
+              <p class="float-start m-0">Detectadas como riesgo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card info-card">
+          <div class="info-box8">
+            <i class="material-icons bg-green card1-icon">check_circle</i>
+            <h5 class="col-green font-b-500">Cláusulas Neutras</h5>
+            <h5>{{ (clauses | filter: clause => clause.label === 'neutra').length }}</h5>
+            <div>
+              <i class="material-icons col-green float-start me-1 ms-1">verified</i>
+              <p class="float-start m-0">Consideradas seguras</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card info-card">
+          <div class="info-box8">
+            <i class="material-icons bg-purple card1-icon">analytics</i>
+            <h5 class="col-purple font-b-500">Dataset ML</h5>
+            <h5>{{ ((clauses | filter: clause => clause.label === 'riesgosa').length / clauses.length * 100 || 0).toFixed(1) }}%</h5>
+            <div>
+              <i class="material-icons col-purple float-start me-1 ms-1">trending_up</i>
+              <p class="float-start m-0">Porcentaje riesgoso</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clauses Table -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>Gestión de Cláusulas - Dataset ML</h2>
+            <button
+              mat-icon-button
+              (click)="refreshClauses()"
+              class="header-dropdown white-icon"
+            >
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+
+          <!-- Filters Section -->
+          <div class="body" *ngIf="!isLoading && !error">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Buscar cláusulas</mat-label>
+                  <input
+                    matInput
+                    placeholder="Buscar por texto o ID de documento..."
+                    (input)="onSearchChange($event)"
+                    [value]="searchText"
+                  >
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Filtrar por etiqueta</mat-label>
+                  <mat-select [(value)]="labelFilter" (selectionChange)="onLabelFilterChange($event.value)">
+                    <mat-option value="">Todas las etiquetas</mat-option>
+                    <mat-option value="riesgosa">Riesgosas</mat-option>
+                    <mat-option value="neutra">Neutras</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div *ngIf="filteredClauses.length === 0 && clauses.length > 0" class="text-center p-4">
+              <mat-icon class="large-icon text-muted">search_off</mat-icon>
+              <h4 class="text-muted mt-3">No se encontraron cláusulas</h4>
+              <p class="text-muted">
+                Intenta ajustar los filtros de búsqueda.
+              </p>
+            </div>
+
+            <div *ngIf="clauses.length === 0" class="text-center p-4">
+              <mat-icon class="large-icon text-muted">assignment</mat-icon>
+              <h4 class="text-muted mt-3">Aún no hay cláusulas detectadas</h4>
+              <p class="text-muted">
+                Las cláusulas detectadas en documentos aparecerán aquí automáticamente.
+              </p>
+            </div>
+
+            <div *ngIf="filteredClauses.length > 0" class="table-responsive">
+              <table
+                mat-table
+                [dataSource]="filteredClauses"
+                class="table table-hover"
+              >
+                <!-- ID Column -->
+                <ng-container matColumnDef="id">
+                  <th mat-header-cell *matHeaderCellDef>ID</th>
+                  <td mat-cell *matCellDef="let clause">
+                    <code class="clause-id">{{ getShortId(clause._id) }}</code>
+                  </td>
+                </ng-container>
+
+                <!-- Document ID Column -->
+                <ng-container matColumnDef="document_id">
+                  <th mat-header-cell *matHeaderCellDef>Doc ID</th>
+                  <td mat-cell *matCellDef="let clause">
+                    <span class="document-id">{{ clause.document_id }}</span>
+                  </td>
+                </ng-container>
+
+                <!-- Clause Text Column -->
+                <ng-container matColumnDef="clause_text">
+                  <th mat-header-cell *matHeaderCellDef>Texto de Cláusula</th>
+                  <td mat-cell *matCellDef="let clause" class="clause-text-cell">
+                    <div
+                      class="clause-text"
+                      [matTooltip]="clause.clause_text"
+                      matTooltipPosition="above"
+                      matTooltipClass="custom-tooltip"
+                    >
+                      {{ getTruncatedText(clause.clause_text) }}
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Label Column -->
+                <ng-container matColumnDef="label">
+                  <th mat-header-cell *matHeaderCellDef>Etiqueta</th>
+                  <td mat-cell *matCellDef="let clause">
+                    <mat-chip-listbox>
+                      <mat-chip
+                        [color]="getLabelColor(clause.label)"
+                        selected
+                        [class]="getLabelClass(clause.label)"
+                      >
+                        <mat-icon matChipAvatar>
+                          {{ clause.label === 'riesgosa' ? 'warning' : 'check_circle' }}
+                        </mat-icon>
+                        {{ clause.label === 'riesgosa' ? 'Riesgosa' : 'Neutra' }}
+                      </mat-chip>
+                    </mat-chip-listbox>
+                  </td>
+                </ng-container>
+
+                <!-- Date Column -->
+                <ng-container matColumnDef="created_at">
+                  <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                  <td mat-cell *matCellDef="let clause">
+                    <div class="d-flex flex-column">
+                      <span class="fw-bold">{{
+                        clause.created_at | date: "dd/MM/yyyy"
+                      }}</span>
+                      <small class="text-muted">{{
+                        clause.created_at | date: "HH:mm"
+                      }}</small>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                  <td mat-cell *matCellDef="let clause">
+                    <button
+                      mat-icon-button
+                      color="primary"
+                      (click)="openEditDialog(clause)"
+                      title="Editar etiqueta"
+                      class="edit-btn"
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  class="table-row"
+                ></tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div class="body text-center p-5" *ngIf="isLoading">
+            <mat-spinner class="mx-auto"></mat-spinner>
+            <h5 class="mt-3 text-muted">Cargando cláusulas...</h5>
+          </div>
+
+          <!-- Error State -->
+          <div class="body text-center p-5" *ngIf="error">
+            <mat-icon class="large-icon text-danger">error</mat-icon>
+            <h5 class="mt-3 text-danger">{{ error }}</h5>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="refreshClauses()"
+              class="mt-2"
+            >
+              <mat-icon>refresh</mat-icon>
+              Reintentar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
