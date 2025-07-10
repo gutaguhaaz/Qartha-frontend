@@ -1,0 +1,337 @@
+                      | Names                                           |  Raw size
+node_modules_echarts_index_js.js                                                                        | echarts                                         |   4.50 MB | 
+default-node_modules_ckeditor_ckeditor5-build-classic_build_ckeditor_js-node_modules_ckeditor-501cfe.js | email-email-routes                              |   1.82 MB | 
+src_app_charts_charts_routes_ts.js                                                                      | charts-charts-routes                            |   1.70 MB | 
+src_app_icons_icons_routes_ts.js                                                                        | icons-icons-routes                              |   1.20 MB | 
+src_app_ui_ui_routes_ts.js                                                                              | ui-ui-routes                                    | 975.07 kB | 
+node_modules_apexcharts_dist_apexcharts_common_js.js                                                    | apexcharts                                      | 774.67 kB | 
+src_app_calendar_calendar_routes_ts.js                                                                  | calendar-calendar-routes                        | 724.63 kB | 
+src_app_forms_forms_routes_ts.js                                                                        | forms-forms-routes                              | 499.70 kB | 
+src_app_tables_tables_routes_ts.js                                                                      | tables-tables-routes                            | 400.24 kB | 
+default-node_modules_angular_material_fesm2022_datepicker_mjs.js                                        | advance-table-advance-table-routes              | 333.36 kB | 
+default-node_modules_danielmoncada_angular-datetime-picker_fesm2022_danielmoncada-angular-dat-922e66.js | calendar-calendar-routes                        | 317.36 kB | 
+default-node_modules_angular_material_fesm2022_chips_mjs.js                                             | ui-ui-routes                                    | 260.84 kB | 
+src_app_widget_widget_routes_ts.js                                                                      | widget-widget-routes                            | 224.20 kB | 
+default-node_modules_angular_material_fesm2022_tabs_mjs.js                                              | widget-widget-routes                            | 199.69 kB | 
+default-node_modules_angular_material_fesm2022_table_mjs.js                                             | advance-table-advance-table-routes              | 198.97 kB | 
+default-node_modules_angular_material_fesm2022_form-field_mjs.js                                        | advance-table-advance-table-routes              | 196.20 kB | 
+default-node_modules_angular_cdk_fesm2022_drag-drop_mjs.js                                              | dashboard-dashboard-routes                      | 180.28 kB | 
+src_app_maps_maps_routes_ts.js                                                                          | maps-maps-routes                                | 175.62 kB | 
+src_app_dashboard_dashboard_routes_ts.js                                                                | dashboard-dashboard-routes                      | 171.37 kB | 
+src_app_task_task_routes_ts.js                                                                          | task-task-routes                                | 119.70 kB | 
+default-node_modules_angular_material_fesm2022_dialog_mjs.js                                            | advance-table-advance-table-routes              | 116.69 kB | 
+src_app_advance-table_advance-table_routes_ts.js                                                        | advance-table-advance-table-routes              | 109.78 kB | 
+src_app_apps_apps_routes_ts.js                                                                          | apps-apps-routes                                | 103.45 kB | 
+src_app_authentication_auth_routes_ts.js                                                                | authentication-auth-routes                      |  91.74 kB | 
+src_app_modules_documents_documents_module_ts.js                                                        | modules-documents-documents-module              |  86.03 kB | 
+default-node_modules_angular_material_fesm2022_select_mjs.js                                            | advance-table-advance-table-routes              |  84.51 kB | 
+src_app_contacts_contacts_routes_ts.js                                                                  | contacts-contacts-routes                        |  84.32 kB | 
+src_app_extra-pages_extra-pages_routes_ts.js                                                            | extra-pages-extra-pages-routes                  |  82.50 kB | 
+default-src_app_shared_components_breadcrumb_breadcrumb_component_ts-node_modules_angular_mat-ad5cc6.js | dashboard-dashboard-routes                      |  82.25 kB | 
+src_app_email_email_routes_ts.js                                                                        | email-email-routes                              |  75.88 kB | 
+default-node_modules_angular_material_fesm2022_autocomplete_mjs.js                                      | ui-ui-routes                                    |  73.15 kB | 
+default-node_modules_angular_material_fesm2022_expansion_mjs.js                                         | ui-ui-routes                                    |  69.88 kB | 
+default-node_modules_angular_material_fesm2022_radio_mjs.js                                             | advance-table-advance-table-routes              |  59.28 kB | 
+default-node_modules_angular_material_fesm2022_tooltip_mjs.js                                           | dashboard-dashboard-routes                      |  57.57 kB | 
+default-node_modules_angular_material_fesm2022_snack-bar_mjs.js                                         | advance-table-advance-table-routes              |  50.84 kB | 
+default-node_modules_angular_material_fesm2022_input_mjs.js                                             | advance-table-advance-table-routes              |  48.37 kB | 
+default-node_modules_angular_material_fesm2022_sort_mjs.js                                              | advance-table-advance-table-routes              |  45.97 kB | 
+src_app_timeline_timeline_routes_ts.js                                                                  | timeline-timeline-routes                        |  40.81 kB | 
+default-node_modules_angular_material_fesm2022_paginator_mjs.js                                         | advance-table-advance-table-routes              |  40.28 kB | 
+default-node_modules_angular_material_fesm2022_card_mjs.js                                              | contacts-contacts-routes                        |  36.78 kB | 
+default-node_modules_angular_material_fesm2022_progress-bar_mjs.js                                      | dashboard-dashboard-routes                      |  35.53 kB | 
+src_app_modules_documents_pages_upload-document_upload-document_component_ts.js                         | pages-upload-document-upload-document-component |  33.96 kB | 
+src_app_modules_documents_pages_clauses_clauses_component_ts.js                                         | pages-clauses-clauses-component                 |  33.64 kB | 
+default-node_modules_angular_material_fesm2022_progress-spinner_mjs.js                                  | advance-table-advance-table-routes              |  32.33 kB | 
+src_app_modules_documents_pages_analyze-clause_analyze-clause_component_ts.js                           | pages-analyze-clause-analyze-clause-component   |  29.87 kB | 
+src_app_multilevel_multilevel_routes_ts.js                                                              | multilevel-multilevel-routes                    |  15.59 kB | 
+common.js                                                                                               | common                                          |  13.22 kB | 
+src_app_multilevel_secondlevel_secondlevel_routes_ts.js                                                 | secondlevel-secondlevel-routes                  |   7.37 kB | 
+src_app_multilevel_thirdlevel_thirdlevel_routes_ts.js                                                   | thirdlevel-thirdlevel-routes                    |   4.02 kB | 
+
+Build at: 2025-07-10T01:39:43.957Z - Hash: 79679a8250df3dc9 - Time: 60561ms
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:33:17 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:33:39 - error TS2345: Argument of type 'undefined' is not assignable to parameter of type '(item: ClauseExample) => boolean'.
+
+33             <h5>{{ (clauses | filter: clause => clause.label === 'riesgosa').length }}</h5>
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/modules/documents/pages/clauses/clauses.component.ts:53:16
+    53   templateUrl: './clauses.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component ClausesComponent.
+
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:46:17 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:46:17 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:46:39 - error TS2345: Argument of type 'undefined' is not assignable to parameter of type '(item: ClauseExample) => boolean'.
+
+46             <h5>{{ (clauses | filter: clause => clause.label === 'neutra').length }}</h5>
+                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/modules/documents/pages/clauses/clauses.component.ts:53:16
+    53   templateUrl: './clauses.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component ClausesComponent.
+
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:59:17 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:59:17 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:59:17 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:59:40 - error TS2345: Argument of type 'undefined' is not assignable to parameter of type '(item: ClauseExample) => boolean'.
+
+59             <h5>{{ ((clauses | filter: clause => clause.label === 'riesgosa').length / clauses.length * 100 || 0).toFixed(1) }}%</h5>
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  src/app/modules/documents/pages/clauses/clauses.component.ts:53:16
+    53   templateUrl: './clauses.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component ClausesComponent.
+
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:77:24 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:77:24 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:77:24 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:85:29 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:85:29 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:85:29 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:93:30 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:93:30 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:93:30 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:94:30 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:94:30 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:94:30 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:74 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:74 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:102:74 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:111:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:111:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:111:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:119:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:119:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:119:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:127:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:127:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:127:18 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:130:31 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:130:31 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:130:31 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:135:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:135:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:135:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:136:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:136:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:136:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:137:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:137:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:137:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:143:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:143:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:143:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:144:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:144:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:144:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:145:47 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:145:47 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:145:47 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:151:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:151:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:151:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:152:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:152:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:152:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:155:37 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:155:37 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:155:37 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:159:23 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:159:23 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:159:23 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:166:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:166:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:166:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:167:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:167:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:167:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:170:34 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:170:34 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:170:34 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:172:34 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:172:34 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:172:34 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:175:27 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:175:27 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:175:27 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:177:25 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:177:25 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:177:25 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:185:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:185:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:185:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:186:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:186:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:186:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:188:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:188:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:188:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:191:49 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:191:49 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:191:49 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:200:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:200:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:200:39 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:201:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:201:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:201:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:205:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:205:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:205:32 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:214:36 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:214:36 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:214:36 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:217:19 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:217:19 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:217:19 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:225:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:225:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:225:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:231:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:231:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:231:45 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:233:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:233:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:233:42 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:237:24 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:237:24 - error NG5002: Parser Error: Bindings cannot contain assignments
+
+Error: src/app/modules/documents/pages/clauses/clauses.component.html:237:24 - error NG5002: Parser Error: Bindings cannot contain assignments
