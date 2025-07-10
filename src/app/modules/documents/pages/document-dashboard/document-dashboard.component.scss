@@ -204,7 +204,7 @@ button.header-dropdown.white-icon {
 
   .clause-chip {
     max-width: 200px;
-    
+
     .clause-text {
       display: inline-block;
       max-width: 150px;
@@ -229,17 +229,7 @@ button.header-dropdown.white-icon {
   }
 }
 
-::ng-deep .custom-tooltip {
-  background-color: #2c3e50 !important;
-  color: white !important;
-  font-size: 12px !important;
-  max-width: 300px !important;
-  white-space: normal !important;
-  line-height: 1.4 !important;
-  padding: 8px 12px !important;
-  border-radius: 6px !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-}
+::ng-deep .custom-tooltip {}
 
 .document-stats {
   display: flex;

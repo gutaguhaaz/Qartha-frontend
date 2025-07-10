@@ -1,0 +1,81 @@
+¡Perfecto! 🎯 Te hago el prompt completo para tu proyecto Angular del frontend. Aquí tienes toda la información que necesita el desarrollador:
+
+📋 PROMPT PARA FRONTEND ANGULAR - MÓDULO DE CLÁUSULAS
+🎯 Objetivo:
+Crear un nuevo módulo llamado "Cláusulas" que permita visualizar todas las cláusulas detectadas en los documentos y editar manualmente sus etiquetas para mejorar el dataset de Machine Learning. Estará en "modules/documents/pages/clauses"
+
+🏗️ Estructura requerida:
+1. Nuevo Módulo: "Cláusulas"
+Crear componente ClausesComponent
+Agregar ruta /clausulas en el routing en app.routes.ts 
+Agregar enlace en el menú de navegación y tambien en core/sidebar/sidebar.metada.ts //agregar sus strings en !18n tanto español, ingles y alemán.
+2. Interfaz de la tabla:
+Título sugerido: "Gestión de Cláusulas - Dataset ML"
+
+Columnas de la tabla:
+
+ID (solo últimos 6 caracteres)
+Documento ID
+Texto de la Cláusula (truncado a 100 caracteres con "..." si es más largo)
+Etiqueta Actual (badge colorizado: "riesgosa" = rojo, "neutra" = verde)
+Fecha de Creación (formato dd/MM/yyyy)
+Acciones (botón "Editar Etiqueta")
+3. Funcionalidad de edición:
+Modal/Dialog para editar etiquetas
+Dropdown/Select con opciones: "riesgosa" y "neutra"
+Botones "Guardar" y "Cancelar"
+Feedback visual al usuario tras actualización exitosa
+🔌 Endpoints del Backend disponibles que debenran actualizar sin borrar nada mas en "documents/services/documents.service.ts" sin borrar las que están profavor solo las nuevas:
+// Base URL de tu API
+const API_BASE = 'http://localhost:8000/api/v1';
+// 1. Obtener todas las cláusulas
+GET /api/v1/clauses
+Response: ClauseExampleOut[]
+// 2. Actualizar etiqueta de cláusula
+PUT /api/v1/clauses/{clause_id}
+Body: { "label": "riesgosa" | "neutra" }
+Response: ClauseExampleOut
+📝 Modelos TypeScript sugeridos:
+export interface ClauseExample {
+  _id: string;
+  document_id: string;
+  clause_text: string;
+  label: 'riesgosa' | 'neutra';
+  created_at: string;
+}
+export interface ClauseUpdateRequest {
+  label: 'riesgosa' | 'neutra';
+}
+🎨 Especificaciones UX/UI:
+Estados visuales:
+Loading: Skeleton/spinner mientras carga datos
+Empty state: Mensaje cuando no hay cláusulas
+Error state: Mensaje de error si falla la carga
+Estilos sugeridos:
+Etiqueta "riesgosa": Badge rojo (bg-red-100 text-red-800)
+Etiqueta "neutra": Badge verde (bg-green-100 text-green-800)
+Botón editar: Icono de lápiz/edit
+Tabla: Responsive, con paginación si hay muchos registros
+Confirmaciones:
+Antes de guardar: "¿Confirmar cambio de etiqueta?" //puedes revisr la implementación de dialog "
+passing a parameter, you can execute something else for "Cancel"." 
+Después de guardar: Notificacoin Snackbar  "Etiqueta actualizada correctamente" puedes ver ejemplos en "document-dashboard"
+🔧 Funcionalidades adicionales opcionales:
+Filtro por etiqueta (mostrar solo riesgosas o neutrales)
+Búsqueda por texto de cláusula, puedes usar en la pagina "Advance  Table" ahi viene u nfiltro.
+Ordenamiento por fecha, ID, etc.
+Paginación (mostrar 20-50 registros por página)
+📱 Responsive:
+En móviles: Mostrar cards en lugar de tabla
+Texto de cláusula: máximo 2 líneas en móvil
+⚠️ Validaciones importantes:
+Validar que el ID de cláusula sea válido antes de enviar PUT
+Manejar errores 404 (cláusula no encontrada)
+Manejar errores 400 (ID inválido)
+Timeout en requests (máximo 10 segundos)
+🎯 Objetivo del negocio:
+Este módulo permitirá a los usuarios corregir manualmente las etiquetas incorrectas del modelo ML, mejorando así la calidad del dataset para futuros reentrenamientos del modelo de clasificación de cláusulas.
+
+¡Con este prompt, el desarrollador frontend tendrá todo el contexto necesario para implementar el módulo de cláusulas correctamente! 🚀
+
+Tu tienes accdeso a la arqutectura, Vamos
