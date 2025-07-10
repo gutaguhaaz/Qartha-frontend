@@ -30,7 +30,7 @@
           <div class="info-box8">
             <i class="material-icons bg-orange card1-icon">warning</i>
             <h5 class="col-orange font-b-500">Cláusulas Riesgosas</h5>
-            <h5>{{ (clauses | filter: clause => clause.label === 'riesgosa').length }}</h5>
+            <h5>{{ getRiskyClauses().length }}</h5>
             <div>
               <i class="material-icons col-orange float-start me-1 ms-1">security</i>
               <p class="float-start m-0">Detectadas como riesgo</p>
@@ -43,7 +43,7 @@
           <div class="info-box8">
             <i class="material-icons bg-green card1-icon">check_circle</i>
             <h5 class="col-green font-b-500">Cláusulas Neutras</h5>
-            <h5>{{ (clauses | filter: clause => clause.label === 'neutra').length }}</h5>
+            <h5>{{ getNeutralClauses().length }}</h5>
             <div>
               <i class="material-icons col-green float-start me-1 ms-1">verified</i>
               <p class="float-start m-0">Consideradas seguras</p>
@@ -56,7 +56,7 @@
           <div class="info-box8">
             <i class="material-icons bg-purple card1-icon">analytics</i>
             <h5 class="col-purple font-b-500">Dataset ML</h5>
-            <h5>{{ ((clauses | filter: clause => clause.label === 'riesgosa').length / clauses.length * 100 || 0).toFixed(1) }}%</h5>
+            <h5>{{ getRiskyPercentage().toFixed(1) }}%</h5>
             <div>
               <i class="material-icons col-purple float-start me-1 ms-1">trending_up</i>
               <p class="float-start m-0">Porcentaje riesgoso</p>

@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbComponent } from '../../../../shared/components/breadcrumb/breadcrumb.component';
 import { DocumentsService } from '../../services/documents.service';
 import { EditClauseLabelComponent } from '../../dialogs/edit-clause-label/edit-clause-label.component';
-import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
+
 
 export interface ClauseExample {
   _id: string;
@@ -48,7 +48,7 @@ export interface ClauseUpdateRequest {
     MatSelectModule,
     TranslateModule,
     BreadcrumbComponent,
-    FilterPipe,
+    
   ],
   templateUrl: './clauses.component.html',
   styleUrls: ['./clauses.component.scss'],
@@ -131,6 +131,19 @@ export class ClausesComponent implements OnInit {
 
   refreshClauses(): void {
     this.loadClauses();
+  }
+
+  getRiskyClauses(): ClauseExample[] {
+    return this.clauses.filter(clause => clause.label === 'riesgosa');
+  }
+
+  getNeutralClauses(): ClauseExample[] {
+    return this.clauses.filter(clause => clause.label === 'neutra');
+  }
+
+  getRiskyPercentage(): number {
+    if (this.clauses.length === 0) return 0;
+    return (this.getRiskyClauses().length / this.clauses.length * 100);
   }
 
   openEditDialog(clause: ClauseExample): void {
