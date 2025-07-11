@@ -91,16 +91,16 @@
                         *ngFor="let field of templateFields"
                       >
                         <mat-form-field appearance="outline" class="w-100">
-                          <mat-label>{{ field.name }}</mat-label>
+                          <mat-label>{{ field.label }}</mat-label>
                           <input
                             matInput
-                            [formControlName]="field.name"
+                            [formControlName]="field.field"
                             [placeholder]="field.placeholder || ''"
                             [required]="field.required"
                           />
                           <mat-error
                             *ngIf="
-                              contractForm.get(field.name)?.hasError('required')
+                              contractForm.get(field.field)?.hasError('required')
                             "
                           >
                             Este campo es requerido

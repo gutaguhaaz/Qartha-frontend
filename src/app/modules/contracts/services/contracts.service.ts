@@ -2,6 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { 
   ContractGenerateRequest, 
@@ -26,7 +27,10 @@ export class ContractsService {
 
   // Obtener campos de una plantilla específica
   getTemplateFields(templateName: string): Observable<TemplateField[]> {
-    return this.http.get<TemplateField[]>(`${this.apiUrl}/test-template/${templateName}`);
+    return this.http.get<any>(`${this.apiUrl}/test-template/${templateName}`)
+      .pipe(
+        map(response => response.template_fields || [])
+      );
   }
 
   // Generar contrato

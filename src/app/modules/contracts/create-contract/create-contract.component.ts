@@ -126,7 +126,7 @@ export class CreateContractComponent implements OnInit {
 
     this.templateFields.forEach(field => {
       const validators = field.required ? [Validators.required] : [];
-      group[field.name] = ['', validators];
+      group[field.field] = ['', validators];
     });
 
     this.contractForm = this.fb.group(group);
@@ -146,8 +146,8 @@ export class CreateContractComponent implements OnInit {
     
     const campos: { [key: string]: string } = {};
     this.templateFields.forEach(field => {
-      if (formValue[field.name]) {
-        campos[field.name] = formValue[field.name];
+      if (formValue[field.field]) {
+        campos[field.field] = formValue[field.field];
       }
     });
 
