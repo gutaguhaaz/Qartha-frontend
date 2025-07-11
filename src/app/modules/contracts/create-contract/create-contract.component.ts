@@ -181,6 +181,17 @@ export class CreateContractComponent implements OnInit {
           value = value.toISOString().split('T')[0]; // Format as YYYY-MM-DD
         }
         
+        // Handle signature fields
+        if (field.type === 'signature') {
+          try {
+            const signatureData = JSON.parse(value);
+            // For backend, send the actual signature value
+            value = signatureData.value;
+          } catch (e) {
+            // If not JSON, use as is (backward compatibility)
+          }
+        }
+        
         campos[field.field] = value;
       }
     });

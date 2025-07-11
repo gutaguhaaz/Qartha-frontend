@@ -25,6 +25,7 @@ export interface TemplateField {
   type: 'text' | 'date' | 'email' | 'tel' | 'textarea' | 'signature';
   required: boolean;
   placeholder?: string;
+  signatureType?: 'canvas' | 'upload' | 'text'; // Para campos de firma
 }
 
 export interface TemplateResponse {

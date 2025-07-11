@@ -18,21 +18,19 @@
 
 .signature-field {
   margin-bottom: 20px;
+}
 
-  .signature-label {
-    display: block;
-    color: rgba(0, 0, 0, 0.6);
-    font-size: 14px;
-    font-weight: 400;
-    margin-bottom: 8px;
-  }
+.signature-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: rgba(0, 0, 0, 0.87);
+}
 
-  .signature-error {
-    color: #f44336;
-    font-size: 12px;
-    margin-top: 8px;
-    display: block;
-  }
+.signature-error {
+  color: #f44336;
+  font-size: 12px;
+  margin-top: 8px;
 }
 
 .d-flex {

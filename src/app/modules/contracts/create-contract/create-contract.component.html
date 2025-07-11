@@ -211,6 +211,7 @@
                           <label class="signature-label">{{ field.label }}</label>
                           <app-signature-pad 
                             [formControlName]="field.field"
+                            [signatureType]="field.signatureType || 'canvas'"
                           ></app-signature-pad>
                           <mat-error
                             *ngIf="contractForm.get(field.field)?.hasError('required') && contractForm.get(field.field)?.touched"
