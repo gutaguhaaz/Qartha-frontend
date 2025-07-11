@@ -1,1 +1,20 @@
-
+.sidebar {
+  .menu {
+    .list {
+      .active {
+        .ml-menu {
+          li.active {
+            > a {
+              background: linear-gradient(to right, #121FCF 0%, #009BCF 100%);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              text-fill-color: transparent; // Para compatibilidad futura
+              font-weight: 500;
+            }
+          }
+        }
+      }
+    }
+  }
+}
