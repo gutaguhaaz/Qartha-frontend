@@ -108,6 +108,13 @@ export const APP_ROUTE: Route[] = [
                         (m) => m.DocumentsModule
                     ),
             },
+            {
+                path: 'contracts',
+                loadChildren: () =>
+                    import('./modules/contracts/contracts.module').then(
+                        (m) => m.ContractsModule
+                    ),
+            },
         ],
     },
     {
