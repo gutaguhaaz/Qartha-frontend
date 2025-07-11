@@ -1,4 +1,3 @@
-
 export interface ContractGenerateRequest {
   tipo_contrato: string;
   campos: { [key: string]: string };
@@ -7,6 +6,7 @@ export interface ContractGenerateRequest {
 
 export interface Template {
   name: string;
+  displayName: string;
   fields: string[];
 }
 

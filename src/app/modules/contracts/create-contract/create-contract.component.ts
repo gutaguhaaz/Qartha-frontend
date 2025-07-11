@@ -70,11 +70,12 @@ export class CreateContractComponent implements OnInit {
   loadTemplates(): void {
     this.isLoading = true;
     this.contractsService.getTemplates().subscribe({
-      next: (templates) => {
-        // Asegurar que templates es un array
-        this.templates = Array.isArray(templates) ? templates : 
-                        (typeof templates === 'object' && templates !== null) ? 
-                        Object.values(templates) : [];
+      next: (response) => {
+        // Convertir array de strings a objetos Template
+        this.templates = response.templates.map(name => ({
+          name: name,
+          displayName: this.formatDisplayName(name)
+        }));
         this.isLoading = false;
       },
       error: (error) => {
@@ -214,5 +215,14 @@ export class CreateContractComponent implements OnInit {
     this.snackBar.open('Formulario limpiado', 'Cerrar', {
       duration: 2000
     });
+  }
+
+  formatDisplayName(name: string): string {
+    // Convertir nombres como "cesion_derechos" a "Cesión de Derechos"
+    return name
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2');
   }
 }

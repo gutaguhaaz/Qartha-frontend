@@ -20,8 +20,8 @@ export class ContractsService {
   constructor(private http: HttpClient) {}
 
   // Obtener plantillas disponibles
-  getTemplates(): Observable<Template[]> {
-    return this.http.get<Template[]>(`${this.apiUrl}/templates`);
+  getTemplates(): Observable<{templates: string[], count: number}> {
+    return this.http.get<{templates: string[], count: number}>(`${this.apiUrl}/templates`);
   }
 
   // Obtener campos de una plantilla específica
