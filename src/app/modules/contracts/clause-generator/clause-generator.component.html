@@ -1,151 +1,159 @@
 
-<section class="content">
-  <div class="content-block">
-    <div class="block-header">
-      <h2>{{ 'MENU.GENERATE_CLAUSE' | translate }}</h2>
-      <app-breadcrumb 
-        [title]="'MENU.GENERATE_CLAUSE' | translate" 
-        [items]="[('MENUITEMS.MAIN.TEXT' | translate), ('MENU.CONTRACTS' | translate)]" 
-        [active_item]="'MENU.GENERATE_CLAUSE' | translate">
-      </app-breadcrumb>
-    </div>
-    <div class="row clearfix">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-          <div class="header">
-            <h2>Generador de Cláusulas Inteligente</h2>
-            <small>Selecciona el tipo de cláusula y proporciona el contexto para generar cláusulas específicas</small>
-          </div>
-          <div class="body">
-            <form [formGroup]="clauseForm" (ngSubmit)="onSubmit()">
-              <!-- Clause Type Selection -->
+<app-breadcrumb 
+  [title]="breadscrums[0].title"
+  [items]="breadscrums[0].items"
+  [active_item]="breadscrums[0].active">
+</app-breadcrumb>
+
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Generador de cláusulas -->
+      <div class="col-lg-8">
+        <mat-card class="cardWithShadow">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>auto_fix_high</mat-icon>
+              {{ 'CONTRACTS.GENERATE_CLAUSE' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <form [formGroup]="clauseForm" (ngSubmit)="generateClause()">
+              <!-- Prompt input -->
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-12">
                   <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Tipo de Cláusula</mat-label>
-                    <mat-select formControlName="clauseType" required>
-                      <mat-option *ngFor="let type of clauseTypes" [value]="type.value">
-                        {{ type.label }}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="clauseForm.get('clauseType')?.hasError('required')">
-                      El tipo de cláusula es requerido
+                    <mat-label>{{ 'CONTRACTS.CLAUSE_PROMPT' | translate }}</mat-label>
+                    <textarea 
+                      matInput 
+                      formControlName="prompt"
+                      rows="4"
+                      placeholder="{{ 'CONTRACTS.CLAUSE_PROMPT_PLACEHOLDER' | translate }}">
+                    </textarea>
+                    <mat-error *ngIf="clauseForm.get('prompt')?.hasError('required')">
+                      {{ 'CONTRACTS.PROMPT_REQUIRED' | translate }}
                     </mat-error>
-                  </mat-form-field>
-                </div>
-                
-                <div class="col-md-6">
-                  <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Contexto Legal</mat-label>
-                    <mat-select formControlName="legalContext" required>
-                      <mat-option *ngFor="let context of legalContexts" [value]="context.value">
-                        {{ context.label }}
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="clauseForm.get('legalContext')?.hasError('required')">
-                      El contexto legal es requerido
+                    <mat-error *ngIf="clauseForm.get('prompt')?.hasError('minlength')">
+                      {{ 'CONTRACTS.PROMPT_MIN_LENGTH' | translate }}
                     </mat-error>
                   </mat-form-field>
                 </div>
               </div>
 
-              <!-- Specific Requirements -->
+              <!-- Botones de acción -->
               <div class="row">
-                <div class="col-md-12">
-                  <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Descripción Específica</mat-label>
-                    <textarea matInput formControlName="specificRequirements" rows="4" 
-                              placeholder="Describe los requisitos específicos para esta cláusula..." required></textarea>
-                    <mat-error *ngIf="clauseForm.get('specificRequirements')?.hasError('required')">
-                      La descripción específica es requerida
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-
-              <!-- Additional Parameters -->
-              <div class="row">
-                <div class="col-md-6">
-                  <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Jurisdicción</mat-label>
-                    <mat-select formControlName="jurisdiction">
-                      <mat-option *ngFor="let jurisdiction of jurisdictions" [value]="jurisdiction.value">
-                        {{ jurisdiction.label }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                
-                <div class="col-md-6">
-                  <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Nivel de Protección</mat-label>
-                    <mat-select formControlName="protectionLevel">
-                      <mat-option *ngFor="let level of protectionLevels" [value]="level.value">
-                        {{ level.label }}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-              </div>
-
-              <!-- Submit Button -->
-              <div class="row">
-                <div class="col-md-12 text-center">
-                  <button mat-raised-button color="primary" type="submit" 
-                          [disabled]="clauseForm.invalid || isGenerating" class="btn-lg">
-                    <mat-icon *ngIf="isGenerating">refresh</mat-icon>
-                    <mat-icon *ngIf="!isGenerating">gavel</mat-icon>
-                    {{ isGenerating ? 'Generando...' : 'Generar Cláusula' }}
-                  </button>
+                <div class="col-12">
+                  <div class="d-flex gap-2">
+                    <button 
+                      mat-raised-button 
+                      color="primary" 
+                      type="submit"
+                      [disabled]="clauseForm.invalid || isGenerating">
+                      <mat-icon>auto_fix_high</mat-icon>
+                      {{ 'CONTRACTS.GENERATE_CLAUSE_AI' | translate }}
+                      <mat-spinner *ngIf="isGenerating" diameter="20" class="ms-2"></mat-spinner>
+                    </button>
+                    
+                    <button 
+                      mat-stroked-button 
+                      color="warn"
+                      type="button"
+                      (click)="clearForm()"
+                      [disabled]="isGenerating">
+                      <mat-icon>clear</mat-icon>
+                      {{ 'CONTRACTS.CLEAR_FORM' | translate }}
+                    </button>
+                  </div>
                 </div>
               </div>
             </form>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Generated Clauses Display -->
-    <div class="row clearfix" *ngIf="generatedClauses.length > 0">
-      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-          <div class="header">
-            <h2>Cláusulas Generadas</h2>
-            <small>{{ generatedClauses.length }} cláusula(s) generada(s)</small>
-          </div>
-          <div class="body">
-            <div *ngFor="let clause of generatedClauses; let i = index" class="clause-item mb-4">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <h5 class="clause-title">Opción {{ i + 1 }}</h5>
-                <div class="clause-actions">
-                  <button mat-icon-button (click)="copyClause(clause)" matTooltip="Copiar cláusula">
-                    <mat-icon>content_copy</mat-icon>
-                  </button>
-                  <button mat-icon-button (click)="saveClause(clause)" matTooltip="Guardar cláusula">
-                    <mat-icon>save</mat-icon>
-                  </button>
-                </div>
-              </div>
-              <div class="clause-content p-3 border rounded">
-                <p>{{ clause.content }}</p>
-              </div>
-              <div class="clause-metadata mt-2">
-                <mat-chip-listbox>
-                  <mat-chip-option [selected]="true" color="primary">
-                    {{ clause.type }}
-                  </mat-chip-option>
-                  <mat-chip-option [selected]="true" color="accent">
-                    {{ clause.legalContext }}
-                  </mat-chip-option>
-                  <mat-chip-option [selected]="true" color="warn">
-                    Riesgo: {{ clause.riskLevel }}
-                  </mat-chip-option>
-                </mat-chip-listbox>
+            <!-- Resultado de la cláusula generada -->
+            <div *ngIf="generatedClause" class="generated-clause mt-4">
+              <h4>{{ 'CONTRACTS.GENERATED_CLAUSE' | translate }}</h4>
+              <mat-card class="clause-result">
+                <mat-card-content>
+                  <p class="clause-text">{{ generatedClause.clause }}</p>
+                  <div class="clause-actions">
+                    <mat-chip-listbox>
+                      <mat-chip-option [color]="generatedClause.source === 'gpt' ? 'primary' : 'accent'">
+                        <mat-icon>{{ generatedClause.source === 'gpt' ? 'psychology' : 'code' }}</mat-icon>
+                        {{ generatedClause.source === 'gpt' ? 'IA GPT' : 'Simulado' }}
+                      </mat-chip-option>
+                    </mat-chip-listbox>
+                    <button 
+                      mat-raised-button 
+                      color="accent"
+                      (click)="insertClause(generatedClause)">
+                      <mat-icon>content_copy</mat-icon>
+                      {{ 'CONTRACTS.COPY_CLAUSE' | translate }}
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!-- Panel de sugerencias -->
+      <div class="col-lg-4">
+        <mat-card class="cardWithShadow">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>lightbulb</mat-icon>
+              {{ 'CONTRACTS.PROMPT_SUGGESTIONS' | translate }}
+            </mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="suggestions-list">
+              <button 
+                *ngFor="let suggestion of promptSuggestions"
+                mat-stroked-button
+                class="suggestion-btn"
+                (click)="usePromptSuggestion(suggestion)">
+                {{ suggestion }}
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Historial de cláusulas -->
+        <mat-card class="cardWithShadow mt-3" *ngIf="generatedClauses.length > 0">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>history</mat-icon>
+              {{ 'CONTRACTS.CLAUSE_HISTORY' | translate }}
+            </mat-card-title>
+            <button 
+              mat-icon-button 
+              color="warn"
+              (click)="clearHistory()"
+              matTooltip="Limpiar historial">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="history-list">
+              <div 
+                *ngFor="let clause of generatedClauses.slice(0, 3)" 
+                class="history-item">
+                <p class="history-text">{{ clause.clause.substring(0, 100) }}...</p>
+                <button 
+                  mat-icon-button 
+                  color="primary"
+                  (click)="insertClause(clause)"
+                  matTooltip="Copiar cláusula">
+                  <mat-icon>content_copy</mat-icon>
+                </button>
               </div>
             </div>
-          </div>
-        </div>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
   </div>
-</section>
+</div>
