@@ -1,0 +1,52 @@
+Warning: src/app/modules/contracts/create-contract/create-contract.component.html:86:59 - warning NG8107: The left side of this optional chain operation does not include 'null' or 'undefined' in its type, therefore the '?.' operator can be replaced with the '.' operator.
+
+86                       Campos cargados: {{ templateFields?.length || 0 }} |
+                                                             ~~~~~~
+
+  src/app/modules/contracts/create-contract/create-contract.component.ts:40:16
+    40   templateUrl: './create-contract.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component CreateContractComponent.
+
+
+
+
+Error: src/app/modules/contracts/create-contract/create-contract.component.ts:126:41 - error TS2339: Property 'template_fields' does not exist on type 'never'.
+
+126         } else if (response && response.template_fields && Array.isArray(response.template_fields)) {
+                                            ~~~~~~~~~~~~~~~
+
+
+Error: src/app/modules/contracts/create-contract/create-contract.component.ts:126:83 - error TS2339: Property 'template_fields' does not exist on type 'never'.
+
+126         } else if (response && response.template_fields && Array.isArray(response.template_fields)) {
+                                                                                      ~~~~~~~~~~~~~~~
+
+
+Error: src/app/modules/contracts/create-contract/create-contract.component.ts:127:42 - error TS2339: Property 'template_fields' does not exist on type 'never'.
+
+127           this.templateFields = response.template_fields;
+                                             ~~~~~~~~~~~~~~~
+
+
+Error: src/app/modules/contracts/create-contract/create-contract.component.ts:128:41 - error TS2339: Property 'fields' does not exist on type 'never'.
+
+128         } else if (response && response.fields && typeof response.fields === 'object') {
+                                            ~~~~~~
+
+
+Error: src/app/modules/contracts/create-contract/create-contract.component.ts:128:67 - error TS2339: Property 'fields' does not exist on type 'never'.
+
+128         } else if (response && response.fields && typeof response.fields === 'object') {
+                                                                      ~~~~~~
+
+
+Error: src/app/modules/contracts/create-contract/create-contract.component.ts:130:57 - error TS2339: Property 'fields' does not exist on type 'never'.
+
+130           this.templateFields = Object.entries(response.fields).map(([key, label]) => ({
+                                                            ~~~~~~
+
+
+
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
