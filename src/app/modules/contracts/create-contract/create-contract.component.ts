@@ -70,6 +70,7 @@ export class CreateContractComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('CreateContractComponent initialized');
     this.loadTemplates();
   }
 
@@ -77,6 +78,7 @@ export class CreateContractComponent implements OnInit {
     this.isLoading = true;
     this.contractsService.getTemplates().subscribe({
       next: (response) => {
+        console.log('Templates loaded:', response);
         // Convertir array de strings a objetos Template
         this.templates = response.templates.map(name => ({
           name: name,
@@ -98,9 +100,16 @@ export class CreateContractComponent implements OnInit {
   }
 
   onTemplateChange(templateName: string): void {
+    console.log('Template changed to:', templateName);
+    
     if (!templateName) {
       this.templateFields = [];
       this.selectedTemplate = '';
+      // Reset form to basic structure
+      this.contractForm = this.fb.group({
+        tipo_contrato: [{ value: '', disabled: false }, Validators.required],
+        clausula_extra: [{ value: '', disabled: false }]
+      });
       return;
     }
 
@@ -109,7 +118,8 @@ export class CreateContractComponent implements OnInit {
     
     this.contractsService.getTemplateFields(templateName).subscribe({
       next: (fields) => {
-        this.templateFields = fields;
+        console.log('Template fields loaded:', fields);
+        this.templateFields = fields || [];
         this.buildDynamicForm();
         this.isLoading = false;
       },
@@ -119,12 +129,15 @@ export class CreateContractComponent implements OnInit {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
+        this.templateFields = [];
         this.isLoading = false;
       }
     });
   }
 
   buildDynamicForm(): void {
+    console.log('Building dynamic form with fields:', this.templateFields);
+    
     const group: any = {
       tipo_contrato: [{ value: this.selectedTemplate, disabled: false }, Validators.required],
       clausula_extra: [{ value: '', disabled: false }]
@@ -157,6 +170,7 @@ export class CreateContractComponent implements OnInit {
     });
 
     this.contractForm = this.fb.group(group);
+    console.log('Dynamic form built:', this.contractForm);
   }
 
   generateContract(): void {

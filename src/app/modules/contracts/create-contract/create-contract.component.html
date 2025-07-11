@@ -80,9 +80,10 @@
                   </div>
 
                   <!-- Campos dinámicos -->
-                  <div *ngIf="templateFields.length > 0" class="dynamic-fields">
+                  <div *ngIf="templateFields && templateFields.length > 0" class="dynamic-fields">
                     <h4 class="mb-3">
                       {{ "CONTRACTS.TEMPLATE_FIELDS" | translate }}
+                      ({{ templateFields.length }} campos)
                     </h4>
 
                     <div class="row">
@@ -170,13 +171,13 @@
                           <mat-label>{{ field.label }}</mat-label>
                           <input
                             matInput
-                            [matDatepicker]="picker"
+                            [matDatepicker]="datePicker"
                             [formControlName]="field.field"
                             [required]="field.required"
                             readonly
                           />
-                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                          <mat-datepicker #picker></mat-datepicker>
+                          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                          <mat-datepicker #datePicker></mat-datepicker>
                           <mat-error
                             *ngIf="contractForm.get(field.field)?.hasError('required')"
                           >
