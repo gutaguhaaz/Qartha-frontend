@@ -117,9 +117,37 @@ export class CreateContractComponent implements OnInit {
     this.isLoading = true;
     
     this.contractsService.getTemplateFields(templateName).subscribe({
-      next: (fields) => {
-        console.log('Template fields loaded:', fields);
-        this.templateFields = fields || [];
+      next: (response) => {
+        console.log('Template fields response:', response);
+        
+        // Check if response has template_fields array or if it's a fields object
+        if (response && Array.isArray(response)) {
+          this.templateFields = response;
+        } else if (response && response.template_fields && Array.isArray(response.template_fields)) {
+          this.templateFields = response.template_fields;
+        } else if (response && response.fields && typeof response.fields === 'object') {
+          // Convert fields object to array format
+          this.templateFields = Object.entries(response.fields).map(([key, label]) => ({
+            field: key,
+            label: label as string,
+            type: 'text',
+            required: true,
+            placeholder: `Ingrese ${label}`
+          }));
+        } else if (response && typeof response === 'object' && !Array.isArray(response)) {
+          // If response is directly the fields object
+          this.templateFields = Object.entries(response).map(([key, label]) => ({
+            field: key,
+            label: label as string,
+            type: 'text',
+            required: true,
+            placeholder: `Ingrese ${label}`
+          }));
+        } else {
+          this.templateFields = [];
+        }
+        
+        console.log('Processed template fields:', this.templateFields);
         this.buildDynamicForm();
         this.isLoading = false;
       },
@@ -143,34 +171,38 @@ export class CreateContractComponent implements OnInit {
       clausula_extra: [{ value: '', disabled: false }]
     };
 
-    this.templateFields.forEach(field => {
-      const validators = [];
-      
-      if (field.required) {
-        validators.push(Validators.required);
-      }
-      
-      // Add specific validators based on field type
-      switch (field.type) {
-        case 'email':
-          validators.push(Validators.email);
-          break;
-        case 'tel':
-          // Add phone number pattern if needed
-          break;
-        case 'date':
-          // Date fields will be handled by mat-datepicker
-          break;
-        case 'signature':
-          // Signature validation will be handled by the component
-          break;
-      }
-      
-      group[field.field] = [{ value: '', disabled: false }, validators];
-    });
+    if (this.templateFields && this.templateFields.length > 0) {
+      this.templateFields.forEach(field => {
+        const validators = [];
+        
+        if (field.required) {
+          validators.push(Validators.required);
+        }
+        
+        // Add specific validators based on field type
+        switch (field.type) {
+          case 'email':
+            validators.push(Validators.email);
+            break;
+          case 'tel':
+            // Add phone number pattern if needed
+            break;
+          case 'date':
+            // Date fields will be handled by mat-datepicker
+            break;
+          case 'signature':
+            // Signature validation will be handled by the component
+            break;
+        }
+        
+        group[field.field] = [{ value: '', disabled: false }, validators];
+      });
+    }
 
+    // Rebuild the form with new controls
     this.contractForm = this.fb.group(group);
     console.log('Dynamic form built:', this.contractForm);
+    console.log('Form controls:', Object.keys(this.contractForm.controls));
   }
 
   generateContract(): void {

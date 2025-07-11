@@ -79,6 +79,15 @@
                     </div>
                   </div>
 
+                  <!-- Debug info -->
+                  <div *ngIf="selectedTemplate" class="debug-info mb-3">
+                    <small class="text-muted">
+                      Debug: Template seleccionado: {{ selectedTemplate }} | 
+                      Campos cargados: {{ templateFields?.length || 0 }} | 
+                      Cargando: {{ isLoading }}
+                    </small>
+                  </div>
+
                   <!-- Campos dinámicos -->
                   <div *ngIf="templateFields && templateFields.length > 0" class="dynamic-fields">
                     <h4 class="mb-3">
