@@ -34,11 +34,11 @@ import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcru
   styleUrls: ['./calculator.component.scss']
 })
 export class CalculatorComponent implements OnInit {
-  liquidacionForm: FormGroup;
-  finiquitoForm: FormGroup;
-  vacacionesForm: FormGroup;
-  interesesForm: FormGroup;
-  contratoForm: FormGroup;
+  liquidacionForm!: FormGroup;
+  finiquitoForm!: FormGroup;
+  vacacionesForm!: FormGroup;
+  interesesForm!: FormGroup;
+  contratoForm!: FormGroup;
 
   // Resultados
   liquidacionResult: any = {};
