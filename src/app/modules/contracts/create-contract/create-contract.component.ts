@@ -64,8 +64,8 @@ export class CreateContractComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.contractForm = this.fb.group({
-      tipo_contrato: ['', Validators.required],
-      clausula_extra: ['']
+      tipo_contrato: [{ value: '', disabled: false }, Validators.required],
+      clausula_extra: [{ value: '', disabled: false }]
     });
   }
 
@@ -126,8 +126,8 @@ export class CreateContractComponent implements OnInit {
 
   buildDynamicForm(): void {
     const group: any = {
-      tipo_contrato: [this.selectedTemplate, Validators.required],
-      clausula_extra: ['']
+      tipo_contrato: [{ value: this.selectedTemplate, disabled: false }, Validators.required],
+      clausula_extra: [{ value: '', disabled: false }]
     };
 
     this.templateFields.forEach(field => {
@@ -153,13 +153,18 @@ export class CreateContractComponent implements OnInit {
           break;
       }
       
-      group[field.field] = ['', validators];
+      group[field.field] = [{ value: '', disabled: false }, validators];
     });
 
     this.contractForm = this.fb.group(group);
   }
 
   generateContract(): void {
+    // Enable all controls temporarily to get their values
+    Object.keys(this.contractForm.controls).forEach(key => {
+      this.contractForm.get(key)?.enable();
+    });
+
     if (this.contractForm.invalid) {
       this.snackBar.open('Por favor complete todos los campos requeridos', 'Cerrar', {
         duration: 3000,
