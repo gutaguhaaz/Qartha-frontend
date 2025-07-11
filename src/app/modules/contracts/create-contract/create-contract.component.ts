@@ -71,7 +71,10 @@ export class CreateContractComponent implements OnInit {
     this.isLoading = true;
     this.contractsService.getTemplates().subscribe({
       next: (templates) => {
-        this.templates = templates;
+        // Asegurar que templates es un array
+        this.templates = Array.isArray(templates) ? templates : 
+                        (typeof templates === 'object' && templates !== null) ? 
+                        Object.values(templates) : [];
         this.isLoading = false;
       },
       error: (error) => {
@@ -80,6 +83,7 @@ export class CreateContractComponent implements OnInit {
           duration: 3000,
           panelClass: ['error-snackbar']
         });
+        this.templates = [];
         this.isLoading = false;
       }
     });

@@ -41,7 +41,7 @@
                             "CONTRACTS.SELECT_TEMPLATE" | translate
                           }}</mat-option>
                           <mat-option
-                            *ngFor="let template of templates"
+                            *ngFor="let template of (templates || [])"
                             [value]="template.name"
                           >
                             {{ template.name }}
