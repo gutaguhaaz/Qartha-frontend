@@ -1,0 +1,143 @@
+📐 Fórmulas y conceptos legales (basado en LFT e ISR SAT)
+1. 🧾 Liquidación (despido injustificado)
+Incluye:
+3 meses de salario (90 días)
+
+
+20 días por cada año trabajado
+
+
+Prima de antigüedad (12 días por año si aplica)
+
+
+Parte proporcional de aguinaldo, vacaciones y prima vacacional
+
+
+
+liquidacion = 
+  (sdi * 90) + 
+  (sdi * 20 * años) + 
+  (sueldo_diario * 12 * años) + 
+  aguinaldo_proporcional + 
+  vacaciones_proporcionales + 
+  prima_vacacional
+
+
+2. 🧾 Finiquito
+Incluye:
+Días trabajados no pagados
+
+
+Aguinaldo proporcional
+
+
+Vacaciones proporcionales
+
+
+Prima vacacional
+
+
+
+finiquito = 
+  (sueldo_diario * días_trabajados) + 
+  aguinaldo_proporcional + 
+  vacaciones_proporcionales + 
+  prima_vacacional
+
+
+3. 📆 Vacaciones proporcionales
+Según la LFT (art. 76 reformado 2023):
+
+vacaciones_proporcionales = 
+  (días_vacaciones_anuales * días_trabajados / 365) * sueldo_diario
+
+Nota: mínimo 12 días de vacaciones al primer año según reforma.
+
+4. 🎁 Aguinaldo proporcional
+Según la LFT (mínimo 15 días por año trabajado):
+
+aguinaldo_proporcional = 
+  (15 * días_trabajados / 365) * sueldo_diario
+
+
+5. 💵 Prima vacacional
+Mínimo 25% sobre vacaciones devengadas:
+
+prima_vacacional = 
+  vacaciones_proporcionales * 0.25
+
+
+6. 💰 Interés moratorio legal
+Usando tasa fija (ej. 6% anual):
+
+interes_moratorio = 
+  monto * (tasa / 100) * (días / 365)
+
+
+7. 📅 Fecha de vencimiento de contrato
+
+fecha_vencimiento = fecha_firma + meses_plazo
+
+
+
+🧾 PROMPT PARA REPLIT – Módulo Calculadora Legal México (Angular)
+
+
+Quiero que me ayudes a crear un módulo en Angular llamado "Calculadora Legal", que estará ubicado en la carpeta `app/apps/calculator/`. Este componente será standalone y mostrará una interfaz con pestañas (tabs) para distintas herramientas legales aplicables en México. No se conecta al backend; todo es frontend.
+
+Las pestañas que quiero incluir con sus respectivos campos y fórmulas son:
+
+1. **Liquidación por despido injustificado**
+   - Entradas: Sueldo diario integrado (SDI), años trabajados, sueldo diario normal, días trabajados del año actual
+   - Cálculos:
+     - 90 días de SDI
+     - 20 días por año de SDI
+     - Prima de antigüedad: 12 días por año con sueldo diario (si aplica)
+     - Aguinaldo proporcional: (15 × días_trabajados / 365) × sueldo_diario
+     - Vacaciones proporcionales: (12 × días_trabajados / 365) × sueldo_diario
+     - Prima vacacional: vacaciones_proporcionales × 0.25
+
+2. **Finiquito**
+   - Entradas: Sueldo diario, días trabajados del año, días de vacaciones disponibles
+   - Cálculos similares al anterior, sin indemnización ni prima de antigüedad
+
+3. **Vacaciones y aguinaldo**
+   - Entradas: días trabajados, sueldo diario
+   - Cálculos: vacaciones, aguinaldo proporcional, prima vacacional
+
+4. **Intereses moratorios**
+   - Entradas: monto, tasa anual (%), fecha inicio y fecha fin
+   - Cálculo: monto × (tasa / 100) × (días / 365)
+
+5. **Vencimiento de contrato**
+   - Entradas: fecha de firma, plazo en meses
+   - Resultado: fecha de vencimiento y fecha de aviso previo (1 mes antes)
+
+Requiere:
+- `ReactiveFormsModule`
+- Validaciones básicas (`required`, `min`)
+- Mostrar resultados en tiempo real debajo del formulario
+- Diseño compatible con Material Design (tu plantilla ya lo usa)
+- Icono sugerido: `fa-calculator` en el menú de aplicaciones
+
+Genera los archivos:
+- `calculadora.component.ts`
+- `calculadora.component.html`
+- `calculadora.component.scss` (si es necesario)
+
+Este módulo debe estar listo para usarse con Angular 15+ y usar componentes standalone. 
+
+Por favor, agrega la ruta en /apps/apps.routes.ts  para que sean accesibles, y porfavor guiíate en el layout de //app/apps/drag-drop/drag-drop.component.html
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb [title]="'Drag &amp; Drop'" [items]="['Home']" [active_item]="'Drag &amp; Drop'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+…..
+
+ 
