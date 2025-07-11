@@ -74,7 +74,8 @@ export class CreateContractComponent implements OnInit {
         // Convertir array de strings a objetos Template
         this.templates = response.templates.map(name => ({
           name: name,
-          displayName: this.formatDisplayName(name)
+          displayName: this.formatDisplayName(name),
+          fields: []
         }));
         this.isLoading = false;
       },

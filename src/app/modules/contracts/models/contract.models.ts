@@ -7,7 +7,7 @@ export interface ContractGenerateRequest {
 export interface Template {
   name: string;
   displayName: string;
-  fields: string[];
+  fields?: string[];
 }
 
 export interface GPTClauseRequest {
