@@ -1,4 +1,3 @@
-
 .main-content {
   padding: 20px;
 }
@@ -9,10 +8,31 @@
 
 .dynamic-fields {
   margin-top: 20px;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+
+  h4 {
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+}
+
+.signature-field {
+  margin-bottom: 20px;
+
+  .signature-label {
+    display: block;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+
+  .signature-error {
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 8px;
+    display: block;
+  }
 }
 
 .d-flex {
@@ -72,14 +92,14 @@ button {
   .main-content {
     padding: 10px;
   }
-  
+
   .col-md-6 {
     margin-bottom: 16px;
   }
-  
+
   .d-flex {
     flex-direction: column;
-    
+
     button {
       width: 100%;
       margin-bottom: 8px;

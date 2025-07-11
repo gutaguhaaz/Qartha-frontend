@@ -89,8 +89,14 @@
                       <div
                         class="col-md-6"
                         *ngFor="let field of templateFields"
+                        [class.col-12]="field.type === 'signature' || field.type === 'textarea'"
                       >
-                        <mat-form-field appearance="outline" class="w-100">
+                        <!-- Text Input -->
+                        <mat-form-field 
+                          appearance="outline" 
+                          class="w-100"
+                          *ngIf="field.type === 'text'"
+                        >
                           <mat-label>{{ field.label }}</mat-label>
                           <input
                             matInput
@@ -98,14 +104,121 @@
                             [placeholder]="field.placeholder || ''"
                             [required]="field.required"
                           />
+                          <mat-icon matSuffix>text_fields</mat-icon>
                           <mat-error
-                            *ngIf="
-                              contractForm.get(field.field)?.hasError('required')
-                            "
+                            *ngIf="contractForm.get(field.field)?.hasError('required')"
                           >
                             Este campo es requerido
                           </mat-error>
                         </mat-form-field>
+
+                        <!-- Email Input -->
+                        <mat-form-field 
+                          appearance="outline" 
+                          class="w-100"
+                          *ngIf="field.type === 'email'"
+                        >
+                          <mat-label>{{ field.label }}</mat-label>
+                          <input
+                            matInput
+                            type="email"
+                            [formControlName]="field.field"
+                            [placeholder]="field.placeholder || ''"
+                            [required]="field.required"
+                          />
+                          <mat-icon matSuffix>email</mat-icon>
+                          <mat-error
+                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                          >
+                            Este campo es requerido
+                          </mat-error>
+                          <mat-error
+                            *ngIf="contractForm.get(field.field)?.hasError('email')"
+                          >
+                            Ingrese un email válido
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!-- Phone Input -->
+                        <mat-form-field 
+                          appearance="outline" 
+                          class="w-100"
+                          *ngIf="field.type === 'tel'"
+                        >
+                          <mat-label>{{ field.label }}</mat-label>
+                          <input
+                            matInput
+                            type="tel"
+                            [formControlName]="field.field"
+                            [placeholder]="field.placeholder || ''"
+                            [required]="field.required"
+                          />
+                          <mat-icon matSuffix>phone</mat-icon>
+                          <mat-error
+                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                          >
+                            Este campo es requerido
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!-- Date Input -->
+                        <mat-form-field 
+                          appearance="outline" 
+                          class="w-100"
+                          *ngIf="field.type === 'date'"
+                        >
+                          <mat-label>{{ field.label }}</mat-label>
+                          <input
+                            matInput
+                            [matDatepicker]="picker"
+                            [formControlName]="field.field"
+                            [required]="field.required"
+                            readonly
+                          />
+                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                          <mat-datepicker #picker></mat-datepicker>
+                          <mat-error
+                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                          >
+                            Este campo es requerido
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!-- Textarea -->
+                        <mat-form-field 
+                          appearance="outline" 
+                          class="w-100"
+                          *ngIf="field.type === 'textarea'"
+                        >
+                          <mat-label>{{ field.label }}</mat-label>
+                          <textarea
+                            matInput
+                            rows="4"
+                            [formControlName]="field.field"
+                            [placeholder]="field.placeholder || ''"
+                            [required]="field.required"
+                          ></textarea>
+                          <mat-icon matSuffix>text_fields</mat-icon>
+                          <mat-error
+                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                          >
+                            Este campo es requerido
+                          </mat-error>
+                        </mat-form-field>
+
+                        <!-- Signature Pad -->
+                        <div *ngIf="field.type === 'signature'" class="signature-field">
+                          <label class="signature-label">{{ field.label }}</label>
+                          <app-signature-pad 
+                            [formControlName]="field.field"
+                          ></app-signature-pad>
+                          <mat-error
+                            *ngIf="contractForm.get(field.field)?.hasError('required') && contractForm.get(field.field)?.touched"
+                            class="signature-error"
+                          >
+                            La firma es requerida
+                          </mat-error>
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -20,9 +20,9 @@ export interface GPTClauseResponse {
 }
 
 export interface TemplateField {
-  field: string;  // Cambiar de 'name' a 'field' para coincidir con el backend
-  label: string;  // Agregar label que viene del backend
-  type: string;
+  field: string;
+  label: string;
+  type: 'text' | 'date' | 'email' | 'tel' | 'textarea' | 'signature';
   required: boolean;
   placeholder?: string;
 }

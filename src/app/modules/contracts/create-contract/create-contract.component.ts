@@ -10,10 +10,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { ContractsService } from '../services/contracts.service';
 import { Template, TemplateField, ContractGenerateRequest } from '../models/contract.models';
 import { BreadcrumbComponent } from '../../../shared/components/breadcrumb/breadcrumb.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { SignaturePadComponent } from '../components/signature-pad/signature-pad.component';
 
 @Component({
   selector: 'app-create-contract',
@@ -28,8 +31,11 @@ import { TranslateModule } from '@ngx-translate/core';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     BreadcrumbComponent,
-    TranslateModule
+    TranslateModule,
+    SignaturePadComponent
   ],
   templateUrl: './create-contract.component.html',
   styleUrls: ['./create-contract.component.scss']
@@ -125,7 +131,28 @@ export class CreateContractComponent implements OnInit {
     };
 
     this.templateFields.forEach(field => {
-      const validators = field.required ? [Validators.required] : [];
+      const validators = [];
+      
+      if (field.required) {
+        validators.push(Validators.required);
+      }
+      
+      // Add specific validators based on field type
+      switch (field.type) {
+        case 'email':
+          validators.push(Validators.email);
+          break;
+        case 'tel':
+          // Add phone number pattern if needed
+          break;
+        case 'date':
+          // Date fields will be handled by mat-datepicker
+          break;
+        case 'signature':
+          // Signature validation will be handled by the component
+          break;
+      }
+      
       group[field.field] = ['', validators];
     });
 
@@ -147,7 +174,14 @@ export class CreateContractComponent implements OnInit {
     const campos: { [key: string]: string } = {};
     this.templateFields.forEach(field => {
       if (formValue[field.field]) {
-        campos[field.field] = formValue[field.field];
+        let value = formValue[field.field];
+        
+        // Format date fields
+        if (field.type === 'date' && value instanceof Date) {
+          value = value.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        }
+        
+        campos[field.field] = value;
       }
     });
 
