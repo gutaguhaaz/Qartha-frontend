@@ -117,7 +117,7 @@ export class CreateContractComponent implements OnInit {
     this.isLoading = true;
     
     this.contractsService.getTemplateFields(templateName).subscribe({
-      next: (response) => {
+      next: (response: any) => {
         console.log('Template fields response:', response);
         
         // Check if response has template_fields array or if it's a fields object

@@ -26,11 +26,8 @@ export class ContractsService {
   }
 
   // Obtener campos de una plantilla específica
-  getTemplateFields(templateName: string): Observable<TemplateField[]> {
-    return this.http.get<any>(`${this.apiUrl}/test-template/${templateName}`)
-      .pipe(
-        map(response => response.template_fields || [])
-      );
+  getTemplateFields(templateName: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/test-template/${templateName}`);
   }
 
   // Generar contrato
