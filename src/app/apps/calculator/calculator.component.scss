@@ -1,0 +1,195 @@
+
+.calculator-tabs {
+  margin-top: 20px;
+  
+  .mat-tab-body-content {
+    padding: 20px 0;
+  }
+}
+
+.tab-content {
+  .form-card {
+    margin-bottom: 20px;
+    
+    .mat-card-header {
+      padding-bottom: 16px;
+      
+      .mat-card-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      
+      .mat-card-subtitle {
+        color: #666;
+        font-size: 14px;
+      }
+    }
+    
+    .mat-form-field {
+      margin-bottom: 16px;
+      
+      &.w-100 {
+        width: 100%;
+      }
+    }
+  }
+  
+  .result-card {
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    
+    .mat-card-header {
+      padding-bottom: 16px;
+      
+      .mat-card-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+    }
+    
+    .calculation-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      
+      &:last-child {
+        border-bottom: none;
+      }
+      
+      .label {
+        font-weight: 500;
+        color: #34495e;
+        flex: 1;
+      }
+      
+      .value {
+        font-weight: 600;
+        color: #27ae60;
+        font-size: 16px;
+        text-align: right;
+      }
+      
+      &.total {
+        background: rgba(52, 152, 219, 0.1);
+        padding: 16px;
+        margin: 16px -16px -16px;
+        border-radius: 8px;
+        
+        .label {
+          color: #2980b9;
+          font-size: 16px;
+        }
+        
+        .value {
+          color: #2980b9;
+          font-size: 18px;
+        }
+      }
+    }
+  }
+}
+
+.alert {
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  
+  mat-icon {
+    margin-right: 8px;
+  }
+  
+  &.alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+  }
+}
+
+.text-danger {
+  color: #e74c3c !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .tab-content {
+    .row {
+      .col-md-6 {
+        margin-bottom: 20px;
+      }
+    }
+  }
+  
+  .calculation-item {
+    flex-direction: column;
+    text-align: center;
+    
+    .label {
+      margin-bottom: 8px;
+    }
+    
+    .value {
+      font-size: 18px;
+    }
+  }
+}
+
+// Custom tab styling
+.mat-tab-group.calculator-tabs {
+  .mat-tab-label {
+    font-weight: 500;
+    font-size: 14px;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    
+    &.mat-tab-label-active {
+      opacity: 1;
+      font-weight: 600;
+    }
+  }
+  
+  .mat-tab-body-wrapper {
+    .mat-tab-body {
+      .mat-tab-body-content {
+        overflow-x: hidden;
+      }
+    }
+  }
+}
+
+// Material Design enhancements
+.mat-raised-button {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  
+  .mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.mat-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.mat-form-field-appearance-outline {
+  .mat-form-field-outline {
+    border-radius: 8px;
+  }
+}

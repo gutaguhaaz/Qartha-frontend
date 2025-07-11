@@ -21,4 +21,8 @@ export const APPS_ROUTE: Route[] = [
     path: "dragdrop",
     component: DragDropComponent,
   },
+  {
+    path: "calculator",
+    loadComponent: () => import("./calculator/calculator.component").then(m => m.CalculatorComponent),
+  },
 ];

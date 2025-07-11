@@ -1,0 +1,440 @@
+
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <app-breadcrumb [title]="'Calculadora Legal'" [items]="['Apps']" [active_item]="'Calculadora Legal'"></app-breadcrumb>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>
+              <mat-icon>calculate</mat-icon>
+              Calculadora Legal México
+            </h2>
+            <ul class="header-dropdown">
+              <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <mat-icon>more_vert</mat-icon>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <mat-tab-group dynamicHeight="true" class="calculator-tabs">
+              
+              <!-- Tab 1: Liquidación -->
+              <mat-tab label="💼 Liquidación">
+                <div class="tab-content">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-card class="form-card">
+                        <mat-card-header>
+                          <mat-card-title>Datos para Liquidación</mat-card-title>
+                          <mat-card-subtitle>Despido injustificado según LFT</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <form [formGroup]="liquidacionForm">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>Sueldo Diario Integrado (SDI)</mat-label>
+                                  <input matInput type="number" formControlName="sdi" placeholder="0.00">
+                                  <span matPrefix>$</span>
+                                  <mat-error *ngIf="liquidacionForm.get('sdi')?.hasError('required')">
+                                    Campo requerido
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>Sueldo Diario Normal</mat-label>
+                                  <input matInput type="number" formControlName="sueldoDiario" placeholder="0.00">
+                                  <span matPrefix>$</span>
+                                  <mat-error *ngIf="liquidacionForm.get('sueldoDiario')?.hasError('required')">
+                                    Campo requerido
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>Años Trabajados</mat-label>
+                                  <input matInput type="number" formControlName="anosTrabajados" placeholder="0">
+                                  <mat-error *ngIf="liquidacionForm.get('anosTrabajados')?.hasError('required')">
+                                    Campo requerido
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>Días Trabajados (Año Actual)</mat-label>
+                                  <input matInput type="number" formControlName="diasTrabajados" placeholder="0" max="365">
+                                  <mat-error *ngIf="liquidacionForm.get('diasTrabajados')?.hasError('required')">
+                                    Campo requerido
+                                  </mat-error>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="text-right">
+                              <button mat-raised-button color="warn" (click)="clearForm('liquidacion')">
+                                <mat-icon>clear</mat-icon>
+                                Limpiar
+                              </button>
+                            </div>
+                          </form>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-card class="result-card" *ngIf="liquidacionResult.total">
+                        <mat-card-header>
+                          <mat-card-title>Resultado de Liquidación</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="calculation-item">
+                            <span class="label">3 meses de salario (90 días):</span>
+                            <span class="value">{{ formatCurrency(liquidacionResult.tresMesesSalario) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">20 días por año trabajado:</span>
+                            <span class="value">{{ formatCurrency(liquidacionResult.veinteDiasPorAno) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Prima de antigüedad:</span>
+                            <span class="value">{{ formatCurrency(liquidacionResult.primaAntiguedad) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Aguinaldo proporcional:</span>
+                            <span class="value">{{ formatCurrency(liquidacionResult.aguinaldoProporcional) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Vacaciones proporcionales:</span>
+                            <span class="value">{{ formatCurrency(liquidacionResult.vacacionesProporcionales) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Prima vacacional:</span>
+                            <span class="value">{{ formatCurrency(liquidacionResult.primaVacacional) }}</span>
+                          </div>
+                          <mat-divider></mat-divider>
+                          <div class="calculation-item total">
+                            <span class="label"><strong>TOTAL LIQUIDACIÓN:</strong></span>
+                            <span class="value"><strong>{{ formatCurrency(liquidacionResult.total) }}</strong></span>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- Tab 2: Finiquito -->
+              <mat-tab label="📋 Finiquito">
+                <div class="tab-content">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-card class="form-card">
+                        <mat-card-header>
+                          <mat-card-title>Datos para Finiquito</mat-card-title>
+                          <mat-card-subtitle>Renuncia voluntaria</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <form [formGroup]="finiquitoForm">
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Sueldo Diario</mat-label>
+                              <input matInput type="number" formControlName="sueldoDiario" placeholder="0.00">
+                              <span matPrefix>$</span>
+                              <mat-error *ngIf="finiquitoForm.get('sueldoDiario')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Días Trabajados (Año Actual)</mat-label>
+                              <input matInput type="number" formControlName="diasTrabajados" placeholder="0" max="365">
+                              <mat-error *ngIf="finiquitoForm.get('diasTrabajados')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Días de Vacaciones por Año</mat-label>
+                              <input matInput type="number" formControlName="diasVacaciones" placeholder="12">
+                              <mat-error *ngIf="finiquitoForm.get('diasVacaciones')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <div class="text-right">
+                              <button mat-raised-button color="warn" (click)="clearForm('finiquito')">
+                                <mat-icon>clear</mat-icon>
+                                Limpiar
+                              </button>
+                            </div>
+                          </form>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-card class="result-card" *ngIf="finiquitoResult.total">
+                        <mat-card-header>
+                          <mat-card-title>Resultado de Finiquito</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="calculation-item">
+                            <span class="label">Días trabajados pendientes:</span>
+                            <span class="value">{{ formatCurrency(finiquitoResult.diasPendientes) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Aguinaldo proporcional:</span>
+                            <span class="value">{{ formatCurrency(finiquitoResult.aguinaldoProporcional) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Vacaciones proporcionales:</span>
+                            <span class="value">{{ formatCurrency(finiquitoResult.vacacionesProporcionales) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Prima vacacional:</span>
+                            <span class="value">{{ formatCurrency(finiquitoResult.primaVacacional) }}</span>
+                          </div>
+                          <mat-divider></mat-divider>
+                          <div class="calculation-item total">
+                            <span class="label"><strong>TOTAL FINIQUITO:</strong></span>
+                            <span class="value"><strong>{{ formatCurrency(finiquitoResult.total) }}</strong></span>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- Tab 3: Vacaciones y Aguinaldo -->
+              <mat-tab label="🌴 Vacaciones">
+                <div class="tab-content">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-card class="form-card">
+                        <mat-card-header>
+                          <mat-card-title>Cálculo de Vacaciones</mat-card-title>
+                          <mat-card-subtitle>Aguinaldo y prima vacacional</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <form [formGroup]="vacacionesForm">
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Sueldo Diario</mat-label>
+                              <input matInput type="number" formControlName="sueldoDiario" placeholder="0.00">
+                              <span matPrefix>$</span>
+                              <mat-error *ngIf="vacacionesForm.get('sueldoDiario')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Días Trabajados</mat-label>
+                              <input matInput type="number" formControlName="diasTrabajados" placeholder="0" max="365">
+                              <mat-error *ngIf="vacacionesForm.get('diasTrabajados')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Días de Vacaciones Anuales</mat-label>
+                              <input matInput type="number" formControlName="diasVacaciones" placeholder="12">
+                              <mat-error *ngIf="vacacionesForm.get('diasVacaciones')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <div class="text-right">
+                              <button mat-raised-button color="warn" (click)="clearForm('vacaciones')">
+                                <mat-icon>clear</mat-icon>
+                                Limpiar
+                              </button>
+                            </div>
+                          </form>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-card class="result-card" *ngIf="vacacionesResult.total">
+                        <mat-card-header>
+                          <mat-card-title>Resultado de Vacaciones</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="calculation-item">
+                            <span class="label">Aguinaldo proporcional:</span>
+                            <span class="value">{{ formatCurrency(vacacionesResult.aguinaldoProporcional) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Vacaciones proporcionales:</span>
+                            <span class="value">{{ formatCurrency(vacacionesResult.vacacionesProporcionales) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Prima vacacional (25%):</span>
+                            <span class="value">{{ formatCurrency(vacacionesResult.primaVacacional) }}</span>
+                          </div>
+                          <mat-divider></mat-divider>
+                          <div class="calculation-item total">
+                            <span class="label"><strong>TOTAL:</strong></span>
+                            <span class="value"><strong>{{ formatCurrency(vacacionesResult.total) }}</strong></span>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- Tab 4: Intereses Moratorios -->
+              <mat-tab label="📈 Intereses">
+                <div class="tab-content">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-card class="form-card">
+                        <mat-card-header>
+                          <mat-card-title>Intereses Moratorios</mat-card-title>
+                          <mat-card-subtitle>Cálculo de intereses legales</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <form [formGroup]="interesesForm">
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Monto Principal</mat-label>
+                              <input matInput type="number" formControlName="monto" placeholder="0.00">
+                              <span matPrefix>$</span>
+                              <mat-error *ngIf="interesesForm.get('monto')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Tasa Anual (%)</mat-label>
+                              <input matInput type="number" formControlName="tasa" placeholder="6">
+                              <span matSuffix>%</span>
+                              <mat-error *ngIf="interesesForm.get('tasa')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>Fecha de Inicio</mat-label>
+                                  <input matInput [matDatepicker]="picker1" formControlName="fechaInicio">
+                                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-6">
+                                <mat-form-field appearance="outline" class="w-100">
+                                  <mat-label>Fecha de Fin</mat-label>
+                                  <input matInput [matDatepicker]="picker2" formControlName="fechaFin">
+                                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                              </div>
+                            </div>
+                            <div class="text-right">
+                              <button mat-raised-button color="warn" (click)="clearForm('intereses')">
+                                <mat-icon>clear</mat-icon>
+                                Limpiar
+                              </button>
+                            </div>
+                          </form>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-card class="result-card" *ngIf="interesesResult.montoTotal">
+                        <mat-card-header>
+                          <mat-card-title>Resultado de Intereses</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="calculation-item">
+                            <span class="label">Días transcurridos:</span>
+                            <span class="value">{{ interesesResult.diasTranscurridos }} días</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Tasa diaria:</span>
+                            <span class="value">{{ interesesResult.tasaDiaria | number:'1.4-4' }}%</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Intereses moratorios:</span>
+                            <span class="value">{{ formatCurrency(interesesResult.interesesMoratorios) }}</span>
+                          </div>
+                          <mat-divider></mat-divider>
+                          <div class="calculation-item total">
+                            <span class="label"><strong>MONTO TOTAL:</strong></span>
+                            <span class="value"><strong>{{ formatCurrency(interesesResult.montoTotal) }}</strong></span>
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+
+              <!-- Tab 5: Vencimiento de Contrato -->
+              <mat-tab label="📅 Contrato">
+                <div class="tab-content">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <mat-card class="form-card">
+                        <mat-card-header>
+                          <mat-card-title>Vencimiento de Contrato</mat-card-title>
+                          <mat-card-subtitle>Cálculo de fechas importantes</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <form [formGroup]="contratoForm">
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Fecha de Firma</mat-label>
+                              <input matInput [matDatepicker]="picker3" formControlName="fechaFirma">
+                              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                              <mat-datepicker #picker3></mat-datepicker>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100">
+                              <mat-label>Plazo en Meses</mat-label>
+                              <input matInput type="number" formControlName="plazoMeses" placeholder="12">
+                              <mat-error *ngIf="contratoForm.get('plazoMeses')?.hasError('required')">
+                                Campo requerido
+                              </mat-error>
+                            </mat-form-field>
+                            <div class="text-right">
+                              <button mat-raised-button color="warn" (click)="clearForm('contrato')">
+                                <mat-icon>clear</mat-icon>
+                                Limpiar
+                              </button>
+                            </div>
+                          </form>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-card class="result-card" *ngIf="contratoResult.fechaVencimiento">
+                        <mat-card-header>
+                          <mat-card-title>Fechas del Contrato</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                          <div class="calculation-item">
+                            <span class="label">Fecha de vencimiento:</span>
+                            <span class="value">{{ formatDate(contratoResult.fechaVencimiento) }}</span>
+                          </div>
+                          <div class="calculation-item">
+                            <span class="label">Fecha de aviso previo:</span>
+                            <span class="value">{{ formatDate(contratoResult.fechaAvisoPrevio) }}</span>
+                          </div>
+                          <div class="calculation-item" [class.text-danger]="contratoResult.diasRestantes < 30">
+                            <span class="label">Días restantes:</span>
+                            <span class="value">{{ contratoResult.diasRestantes }} días</span>
+                          </div>
+                          <div *ngIf="contratoResult.diasRestantes < 30" class="alert alert-warning">
+                            <mat-icon>warning</mat-icon>
+                            El contrato vence pronto. Considere renovar o dar aviso.
+                          </div>
+                        </mat-card-content>
+                      </mat-card>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
