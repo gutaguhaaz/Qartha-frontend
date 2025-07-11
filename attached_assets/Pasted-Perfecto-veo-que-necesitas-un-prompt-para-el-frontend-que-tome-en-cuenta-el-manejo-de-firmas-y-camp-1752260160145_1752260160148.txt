@@ -1,0 +1,98 @@
+Perfecto, veo que necesitas un prompt para el frontend que tome en cuenta el manejo de firmas y campos especiales. Basándome en tu backend, aquí está el prompt completo:
+
+🎯 PROMPT FINAL PARA EL FRONTEND - MÓDULO CONTRATOS
+Contexto del Backend
+Tienes un backend FastAPI que maneja contratos con estos endpoints clave:
+
+GET /api/v1/templates - Lista plantillas disponibles
+GET /api/v1/test-template/{name} - Obtiene campos dinámicos de cada plantilla
+POST /api/v1/generate-contract - Genera contrato DOCX
+Estructura de Respuesta del Backend
+El endpoint /test-template/{name} devuelve campos en este formato:
+
+[
+  {
+    "field": "NOMBRE_CLIENTE",
+    "label": "Nombre Cliente",
+    "type": "text",
+    "required": true
+  },
+  {
+    "field": "FIRMA_EMPLEADO", 
+    "label": "Firma Empleado",
+    "type": "signature",
+    "required": true
+  }
+]
+Tipos de Campo que Maneja el Backend
+text - Input normal de texto
+date - Selector de fecha
+email - Input de email con validación
+tel - Input de teléfono
+textarea - Área de texto multilínea
+signature - ⚠️ ESPECIAL: Campo de firma digital
+Requerimientos del Frontend
+1. Estructura de Carpetas
+src/app/modules/contracts/
+├── contracts.module.ts
+├── contracts-routing.module.ts
+├── services/
+│   └── contract.service.ts
+├── models/
+│   └── contract.models.ts
+├── components/
+│   ├── contract-generator/
+│   │   ├── contract-generator.component.ts
+│   │   ├── contract-generator.component.html
+│   │   └── contract-generator.component.scss
+│   └── signature-pad/
+│       ├── signature-pad.component.ts
+│       ├── signature-pad.component.html
+│       └── signature-pad.component.scss
+2. Funcionalidades Clave
+Dropdown de plantillas: Cargar desde /api/v1/templates
+Formulario dinámico: Generar campos basándose en /test-template/{name}
+Componente de firma: Para campos type: "signature" usando canvas HTML5
+Validación: Campos requeridos y tipos específicos
+Descarga: Generar y descargar contrato DOCX
+3. Manejo Especial de Firmas
+// Para campos tipo "signature"
+if (field.type === 'signature') {
+  // Renderizar componente SignaturePadComponent
+  // Convertir firma a base64 para envío
+  // Validar que la firma no esté vacía
+}
+4. Formato de Envío al Backend
+{
+  "tipo_contrato": "nda",
+  "campos": {
+    "NOMBRE_CLIENTE": "Juan Pérez",
+    "FECHA_FIRMA": "2025-01-20",
+    "FIRMA_EMPLEADO": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA...",
+    "DESCRIPCION": "Texto multilínea aquí"
+  },
+  "clausula_extra": "Cláusula opcional"
+}
+5. Componentes Requeridos
+MaterialModule: Para UI (MatDatepicker, MatSelect, etc.)
+ReactiveFormsModule: Para formularios dinámicos
+SignaturePadComponent: Para captura de firmas
+HttpClientModule: Para comunicación con API
+Consideraciones Importantes
+Firmas dinámicas: Cada plantilla puede tener diferentes campos de firma
+Validación: Firmas requeridas deben validarse antes de envío
+Responsive: Pad de firmas debe funcionar en móviles
+Error handling: Manejar errores de red y validación
+Loading states: Mostrar spinners durante generación
+Endpoint de Prueba
+# Obtener campos de plantilla específica
+GET https://tu-backend.replit.app/api/v1/test-template/laboral
+# Respuesta incluirá campos como:
+# - NOMBRE_EMPLEADO (text)
+# - FECHA_INICIO (date) 
+# - FIRMA_EMPLEADO (signature)
+# - PUESTO (text)
+Ahora, déjame hacer una última revisión del backend para asegurar que detecte correctamente los campos de firma:
+
+app/services/contract_service.py
+El backend ya está preparado para detectar campos de firma automáticamente. El prompt incluye toda la información necesaria para que el frontend maneje correctamente los diferentes tipos de campos, especialmente las firmas digitales que requieren un componente especial con canvas HTML5.
