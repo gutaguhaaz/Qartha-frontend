@@ -116,7 +116,7 @@ export const ROUTES: RouteInfo[] = [
     path: '',
     title: 'MENU.CONTRACTS',
     iconType: 'feather',
-    icon: 'file-text',
+    icon: 'briefcase',
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [
