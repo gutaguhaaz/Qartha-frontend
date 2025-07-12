@@ -117,15 +117,17 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   private cargarDocumentos(): void {
-    // Cargar documentos disponibles (usando datos simulados temporalmente)
-    this.legalAgentService.obtenerDocumentosPrueba().subscribe({
-      next: (docs) => {
-        this.documentos = docs;
-      },
-      error: (error) => {
-        console.error('Error al cargar documentos:', error);
-      }
-    });
+    // Cargar documentos disponibles
+    this.legalAgentService.obtenerDocumentos()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (docs: Document[]) => {
+          this.documentos = docs;
+        },
+        error: (error: any) => {
+          console.error('Error al cargar documentos:', error);
+        }
+      });
   }
 
   enviarMensaje(): void {

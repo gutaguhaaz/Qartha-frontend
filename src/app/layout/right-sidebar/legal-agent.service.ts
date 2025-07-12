@@ -65,7 +65,33 @@ export class LegalAgentService {
   }
 
   obtenerDocumentos(): Observable<Document[]> {
-    return this.http.get<Document[]>(`${this.apiUrl}/documents`);
+    // Cambiar por la línea comentada cuando el backend esté configurado
+    // return this.http.get<Document[]>(`${this.apiUrl}/documents`);
+    
+    // Método temporal para pruebas - remover cuando el backend esté configurado
+    return new Observable(observer => {
+      observer.next([
+        {
+          id: '1',
+          name: 'Contrato de Trabajo.pdf',
+          file_type: 'pdf',
+          uploaded_at: '2024-01-15T10:30:00Z'
+        },
+        {
+          id: '2',
+          name: 'Acuerdo de Confidencialidad.docx',
+          file_type: 'docx',
+          uploaded_at: '2024-01-16T14:20:00Z'
+        },
+        {
+          id: '3',
+          name: 'Términos y Condiciones.pdf',
+          file_type: 'pdf',
+          uploaded_at: '2024-01-17T09:15:00Z'
+        }
+      ]);
+      observer.complete();
+    });
   }
 
   agregarMensaje(mensaje: ChatMessage): void {
