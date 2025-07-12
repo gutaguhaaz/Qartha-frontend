@@ -9,7 +9,8 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { ConfigService } from '@config';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
-import { InConfiguration, AuthService, LanguageService } from '@core';
+import { DirectionService, LanguageService, RightSidebarService } from '@core';
+import { InConfiguration, AuthService } from '@core';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { FeatherIconsComponent } from '../../shared/components/feather-icons/feather-icons.component';
@@ -60,7 +61,9 @@ export class HeaderComponent
     private configService: ConfigService,
     private authService: AuthService,
     private router: Router,
-    public languageService: LanguageService
+    private directoryService: DirectionService,
+    private languageService: LanguageService,
+    private rightSidebarService: RightSidebarService
   ) {
     super();
   }
