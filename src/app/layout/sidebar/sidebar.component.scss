@@ -1,10 +1,12 @@
 .sidebar {
+  background: linear-gradient(90deg, #f6fff7 0%, #edf3ff 100%);
+
   .menu {
     .list {
       .active {
         .ml-menu {
           li.active {
-            > a {
+            >a {
               background: linear-gradient(to right, #121FCF 0%, #009BCF 100%);
               -webkit-background-clip: text;
               -webkit-text-fill-color: transparent;
