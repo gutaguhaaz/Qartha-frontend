@@ -67,7 +67,7 @@ export class LegalAgentService {
   obtenerDocumentos(): Observable<Document[]> {
     // Cambiar por la línea comentada cuando el backend esté configurado
     // return this.http.get<Document[]>(`${this.apiUrl}/documents`);
-    
+
     // Método temporal para pruebas - remover cuando el backend esté configurado
     return new Observable(observer => {
       observer.next([
