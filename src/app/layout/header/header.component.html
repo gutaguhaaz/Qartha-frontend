@@ -72,18 +72,7 @@
           </button>
         </li>
         <!-- #END# Full Screen Button -->
-        <!-- Legal Agent Button -->
-        <li class="legal-agent">
-          <button
-            mat-icon-button
-            class="nav-notification-icons"
-            (click)="openRightSidebar()"
-            matTooltip="Agente Legal"
-          >
-            <mat-icon>⚖️</mat-icon>
-          </button>
-        </li>
-        <!-- #END# Legal Agent Button -->
+
         <li class="nav-item">
           <button
             mat-icon-button
@@ -97,6 +86,7 @@
               <img src="{{ defaultFlag }}" height="16" />
             }
           </button>
+
           <mat-menu #languagemenu="matMenu" class="lang-item-menu">
             @for (item of listLang; track item) {
               <div class="lang-item">
@@ -175,6 +165,21 @@
             </div>
           </mat-menu>
         </li>
+        <!-- Legal Agent Button -->
+        <li class="legal-agent">
+          <button
+            mat-icon-button
+            class="nav-notification-icons"
+            (click)="openRightSidebar()"
+            matTooltip="Agente Legal"
+          >
+            <app-feather-icons
+              [icon]="'message-circle'"
+              [class]="'header-icon'"
+            ></app-feather-icons>
+          </button>
+        </li>
+        <!-- #END# Legal Agent Button -->
         <!-- #END# Notifications-->
         <li class="nav-item user_profile">
           <button mat-button [matMenuTriggerFor]="profilemenu">
