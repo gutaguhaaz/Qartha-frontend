@@ -1,5 +1,5 @@
 
-<div class="right-sidebar" [class.open]="rightSidebarService.sidebarState">
+<div class="right-sidebar" [class.open]="rightSidebarService.sidebarState | async">
   <div class="sidebar-overlay" (click)="rightSidebarService.changeMsg()"></div>
   <div class="sidebar-container">
     <!-- Header del Chat -->
