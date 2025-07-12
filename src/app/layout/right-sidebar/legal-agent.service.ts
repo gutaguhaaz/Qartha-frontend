@@ -39,7 +39,7 @@ export interface ChatMessage {
   providedIn: 'root'
 })
 export class LegalAgentService {
-  private readonly apiUrl = environment.apiUrl;
+  private readonly apiUrl = environment.apiBaseUrl;
   private chatHistorySubject = new BehaviorSubject<ChatMessage[]>([]);
   public chatHistory$ = this.chatHistorySubject.asObservable();
 

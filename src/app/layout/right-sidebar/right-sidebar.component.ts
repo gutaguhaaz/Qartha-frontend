@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
-import { RightSidebarService } from '@/core';
+import { RightSidebarService } from '../../core/service/rightsidebar.service';
 import { LegalAgentService, ChatMessage, AgentStatus, Document, PreguntaGPT } from './legal-agent.service';
 import { Subject, takeUntil, finalize } from 'rxjs';
 
