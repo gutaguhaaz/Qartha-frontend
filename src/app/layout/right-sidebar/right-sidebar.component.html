@@ -1,74 +1,178 @@
-<div class="settingSidebar" [ngClass]="isOpenSidebar ? 'showSettingPanel' : ''">
-  <a href="javascript:void(0)" class="settingPanelToggle" (click)="toggleRightSidebar()">
-    <app-feather-icons [icon]="'settings'" [class]="'setting-sidebar-icon'"></app-feather-icons>
-  </a>
-  <ng-scrollbar [style.height]="maxHeight + 'px'" visibility="hover">
-    <div class="settingSidebar-body ps-container ps-theme-default">
-      <div class=" fade show active">
-        <div class="setting-panel-header">Setting Panel
-        </div>
-        <div class="p-15 border-bottom">
-          <h6 class="font-medium m-b-10">Select Layout</h6>
-          <div class="flex flex-wrap hiddenradio">
-            <div class="flex flex-col ">
-              <label>
-                <input type="radio" name="value" value="light" [checked]="isDarTheme === false ? true : false"
-                  (click)="lightThemeBtnClick()">
-                <img src="assets/images/light.png">
-              </label>
-              <div class="mt-1 text-md text-center"> Light </div>
-            </div>
-            <div class="flex flex-col mt-3"> <label>
-                <input type="radio" name="value" value="dark" [checked]="isDarTheme === true ? true : false"
-                  (click)="darkThemeBtnClick()">
-                <img src="assets/images/dark.png">
-              </label>
-              <div class="mt-1 text-md text-center"> Dark </div>
-            </div>
+
+<div class="right-sidebar" [class.open]="rightSidebarService.sidebarState">
+  <div class="sidebar-overlay" (click)="rightSidebarService.changeMsg()"></div>
+  <div class="sidebar-container">
+    <!-- Header del Chat -->
+    <div class="chat-header">
+      <div class="header-content">
+        <div class="agent-info">
+          <h3>🤖 Agente Legal</h3>
+          <div class="status-indicator">
+            <span class="status-dot" [style.background-color]="statusColor"></span>
+            <span class="status-text">{{ statusText }}</span>
           </div>
         </div>
-        <div class="rightSetting">
-          <h6 class="font-medium m-b-10">Sidebar Menu Color</h6>
-          <mat-button-toggle-group class="mt-2" [value]="isDarkSidebar ? 'dark' : 'light'">
-            <mat-button-toggle (click)="lightSidebarBtnClick()" value="light">Light</mat-button-toggle>
-            <mat-button-toggle (click)="darkSidebarBtnClick()" value="dark">Dark</mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-        <div class="p-15 border-bottom">
-          <h6 class="font-medium m-b-10">Color Theme</h6>
-          <div class="theme-setting-options">
-            <ul class="choose-theme list-unstyled mb-0">
-              <li data-theme="white" [ngClass]="{'active': selectedBgColor === 'white'}" (click)="selectTheme('white')">
-                <div class="white"></div>
-              </li>
-              <li data-theme="black" [ngClass]="{'active': selectedBgColor === 'black'}" (click)="selectTheme('black')">
-                <div class="black"></div>
-              </li>
-              <li data-theme="purple" [ngClass]="{'active': selectedBgColor === 'purple'}"
-                (click)="selectTheme('purple')">
-                <div class="purple"></div>
-              </li>
-              <li data-theme="orange" [ngClass]="{'active': selectedBgColor === 'orange'}"
-                (click)="selectTheme('orange')">
-                <div class="orange"></div>
-              </li>
-              <li data-theme="cyan" [ngClass]="{'active': selectedBgColor === 'cyan'}" (click)="selectTheme('cyan')">
-                <div class="cyan"></div>
-              </li>
-              <li data-theme="green" [ngClass]="{'active': selectedBgColor === 'green'}" (click)="selectTheme('green')">
-                <div class="green"></div>
-              </li>
-              <li data-theme="blue" [ngClass]="{'active': selectedBgColor === 'blue'}" (click)="selectTheme('blue')">
-                <div class="blue"></div>
-              </li>
-            </ul>
+        <button 
+          mat-icon-button 
+          (click)="rightSidebarService.changeMsg()"
+          matTooltip="Cerrar chat"
+          class="close-btn">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <!-- Selector de Documento -->
+      <div class="document-selector" *ngIf="isAgentActive">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Seleccionar documento (opcional)</mat-label>
+          <mat-select 
+            [formControl]="chatForm.get('documentoId')!"
+            (selectionChange)="onDocumentoSeleccionado($event.value)">
+            <mat-option value="">Sin contexto específico</mat-option>
+            <mat-option *ngFor="let doc of documentos" [value]="doc.id">
+              {{ doc.name }} ({{ doc.file_type }})
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        <!-- Preview del documento seleccionado -->
+        <div class="document-preview" *ngIf="documentoSeleccionado">
+          <div class="preview-content">
+            <mat-icon>description</mat-icon>
+            <div class="doc-info">
+              <span class="doc-name">{{ documentoSeleccionado.name }}</span>
+              <span class="doc-type">{{ documentoSeleccionado.file_type }}</span>
+            </div>
           </div>
-        </div>
-        <div class="rightSetting">
-          <h6 class="font-medium m-b-10">RTL Layout</h6>
-          <mat-slide-toggle class="mt-2" [checked]="isRtl" (change)="switchDirection($event)"></mat-slide-toggle>
         </div>
       </div>
     </div>
-  </ng-scrollbar>
+
+    <!-- Chat Messages Container -->
+    <div class="chat-container" #chatContainer>
+      <div class="chat-messages">
+        <!-- Mensaje de bienvenida -->
+        <div class="welcome-message" *ngIf="chatMessages.length === 0 && isAgentActive">
+          <div class="welcome-content">
+            <mat-icon class="welcome-icon">⚖️</mat-icon>
+            <h4>¡Hola! Soy tu Agente Legal</h4>
+            <p>Puedo ayudarte a analizar contratos, revisar cláusulas y responder consultas legales.</p>
+            <p><strong>Tip:</strong> Selecciona un documento para consultas específicas o pregunta sin contexto.</p>
+          </div>
+        </div>
+
+        <!-- Estado deshabilitado -->
+        <div class="agent-disabled" *ngIf="!isAgentActive">
+          <div class="disabled-content">
+            <mat-icon class="disabled-icon">warning</mat-icon>
+            <h4>Agente Legal No Disponible</h4>
+            <p>{{ statusText }}</p>
+            <p>Contacta al administrador para configurar el servicio.</p>
+          </div>
+        </div>
+
+        <!-- Mensajes del chat -->
+        <div 
+          *ngFor="let mensaje of chatMessages" 
+          class="message-wrapper"
+          [ngClass]="'message-' + mensaje.tipo">
+          
+          <div class="message-content">
+            <div class="message-avatar">
+              <mat-icon *ngIf="mensaje.tipo === 'usuario'">person</mat-icon>
+              <span *ngIf="mensaje.tipo === 'agente'">⚖️</span>
+            </div>
+            
+            <div class="message-bubble">
+              <div class="message-text">{{ mensaje.texto }}</div>
+              <div class="message-meta">
+                <span class="message-time">{{ mensaje.timestamp | date:'HH:mm' }}</span>
+                <span class="message-source" *ngIf="mensaje.fuente">
+                  📄 {{ mensaje.fuente }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indicador de escritura -->
+        <div class="typing-indicator" *ngIf="isTyping">
+          <div class="message-content">
+            <div class="message-avatar">
+              <span>⚖️</span>
+            </div>
+            <div class="typing-bubble">
+              <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preguntas Sugeridas -->
+    <div class="suggested-questions" *ngIf="chatMessages.length === 0 && isAgentActive">
+      <h5>Preguntas frecuentes:</h5>
+      <div class="questions-chips">
+        <mat-chip-set>
+          <mat-chip 
+            *ngFor="let pregunta of preguntasSugeridas"
+            (click)="usarPreguntaSugerida(pregunta)"
+            [disabled]="isLoading">
+            {{ pregunta }}
+          </mat-chip>
+        </mat-chip-set>
+      </div>
+    </div>
+
+    <!-- Input del Chat -->
+    <div class="chat-input-container" *ngIf="isAgentActive">
+      <form [formGroup]="chatForm" (ngSubmit)="enviarMensaje()" class="chat-form">
+        <div class="input-wrapper">
+          <mat-form-field appearance="outline" class="message-input">
+            <mat-label>Escribe tu consulta legal...</mat-label>
+            <textarea 
+              matInput 
+              formControlName="mensaje"
+              (keydown)="onKeyPress($event)"
+              [disabled]="isLoading"
+              rows="2"
+              maxlength="1000">
+            </textarea>
+            <mat-hint align="end">{{ chatForm.get('mensaje')?.value?.length || 0 }}/1000</mat-hint>
+          </mat-form-field>
+          
+          <div class="input-actions">
+            <button 
+              type="button"
+              mat-icon-button 
+              (click)="limpiarChat()"
+              matTooltip="Limpiar chat"
+              [disabled]="isLoading || chatMessages.length === 0"
+              class="clear-btn">
+              <mat-icon>delete</mat-icon>
+            </button>
+            
+            <button 
+              type="submit"
+              mat-fab 
+              color="primary"
+              [disabled]="chatForm.invalid || isLoading"
+              matTooltip="Enviar mensaje"
+              class="send-btn">
+              <mat-icon *ngIf="!isLoading">send</mat-icon>
+              <mat-progress-spinner 
+                *ngIf="isLoading"
+                diameter="24"
+                mode="indeterminate">
+              </mat-progress-spinner>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
