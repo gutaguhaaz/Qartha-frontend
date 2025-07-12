@@ -13,6 +13,7 @@ import { DirectionService, LanguageService, RightSidebarService } from '@core';
 import { InConfiguration, AuthService } from '@core';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { FeatherIconsComponent } from '../../shared/components/feather-icons/feather-icons.component';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -31,6 +32,7 @@ interface Notifications {
   standalone: true,
   imports: [
     MatButtonModule,
+    MatIconModule,
     FeatherIconsComponent,
     MatMenuModule,
     RouterLink,
@@ -189,6 +191,10 @@ export class HeaderComponent
       localStorage.setItem('collapsed_menu', 'true');
     }
   }
+  openRightSidebar() {
+    this.rightSidebarService.setRightSidebar(true);
+  }
+
   logout() {
     this.subs.sink = this.authService.logout().subscribe((res) => {
       if (!res.success) {
