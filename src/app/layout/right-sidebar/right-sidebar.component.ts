@@ -1,4 +1,3 @@
-
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -36,7 +35,7 @@ import { Subject, takeUntil, finalize } from 'rxjs';
 })
 export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('chatContainer') private chatContainer!: ElementRef;
-  
+
   chatForm!: FormGroup;
   agentStatus: AgentStatus | null = null;
   documentos: Document[] = [];
@@ -45,7 +44,7 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
   isLoading = false;
   isTyping = false;
   shouldScrollToBottom = false;
-  
+
   private destroy$ = new Subject<void>();
 
   preguntasSugeridas = [
@@ -118,16 +117,15 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   private cargarDocumentos(): void {
-    this.legalAgentService.obtenerDocumentos()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (docs) => {
-          this.documentos = docs;
-        },
-        error: (error) => {
-          console.error('Error al cargar documentos:', error);
-        }
-      });
+    // Cargar documentos disponibles (usando datos simulados temporalmente)
+    this.legalAgentService.obtenerDocumentosPrueba().subscribe({
+      next: (docs) => {
+        this.documentos = docs;
+      },
+      error: (error) => {
+        console.error('Error al cargar documentos:', error);
+      }
+    });
   }
 
   enviarMensaje(): void {
