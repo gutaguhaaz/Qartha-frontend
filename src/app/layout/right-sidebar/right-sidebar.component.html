@@ -26,7 +26,7 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Seleccionar documento (opcional)</mat-label>
           <mat-select 
-            [formControl]="chatForm.get('documentoId')!"
+            formControlName="documentoId"
             (selectionChange)="onDocumentoSeleccionado($event.value)">
             <mat-option value="">Sin contexto específico</mat-option>
             <mat-option *ngFor="let doc of documentos" [value]="doc.id">

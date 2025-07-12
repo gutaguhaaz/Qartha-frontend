@@ -11,6 +11,10 @@ export class RightSidebarService {
     this.sidebarSubject.next(value);
   };
 
+  changeMsg() {
+    this.sidebarSubject.next(false);
+  }
+
   constructor() {
     //constructor
   }
