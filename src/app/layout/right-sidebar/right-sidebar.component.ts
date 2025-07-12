@@ -99,7 +99,8 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   private cargarEstadoAgente(): void {
-    this.legalAgentService.obtenerEstado()
+    // Cambiar por obtenerEstado() cuando el backend esté configurado
+    this.legalAgentService.obtenerEstadoPrueba()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (status) => {

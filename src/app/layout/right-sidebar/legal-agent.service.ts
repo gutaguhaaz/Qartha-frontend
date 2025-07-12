@@ -53,6 +53,18 @@ export class LegalAgentService {
     return this.http.get<AgentStatus>(`${this.apiUrl}/legal-agent/status`);
   }
 
+  // Método temporal para pruebas - remover cuando el backend esté configurado
+  obtenerEstadoPrueba(): Observable<AgentStatus> {
+    return new Observable(observer => {
+      observer.next({
+        gpt_enabled: true,
+        api_key_configured: true,
+        status: 'Agente Activo'
+      });
+      observer.complete();
+    });
+  }
+
   obtenerDocumentos(): Observable<Document[]> {
     return this.http.get<Document[]>(`${this.apiUrl}/documents`);
   }
