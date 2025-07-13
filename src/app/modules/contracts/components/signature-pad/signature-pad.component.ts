@@ -254,7 +254,7 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   currentSignature: SignatureData | null = null;
   
   private isDrawing = false;
-  private ctx?: CanvasRenderingContext2D;
+  private ctx: CanvasRenderingContext2D | null = null;
   private onChange = (value: any) => {};
   private onTouched = () => {};
 
@@ -332,7 +332,7 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
     if (this.canvasRef) {
       const canvas = this.canvasRef.nativeElement;
       this.ctx = canvas.getContext('2d');
-      if (this.ctx) {
+      if (this.ctx !== null) {
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
         this.ctx.strokeStyle = '#000';
@@ -344,7 +344,7 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
 
   startDrawing(event: MouseEvent | TouchEvent): void {
     this.isDrawing = true;
-    if (this.ctx) {
+    if (this.ctx !== null) {
       this.ctx.beginPath();
       const rect = this.canvasRef?.nativeElement.getBoundingClientRect();
       if (rect) {
@@ -357,7 +357,7 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   draw(event: MouseEvent | TouchEvent): void {
-    if (!this.isDrawing || !this.ctx) return;
+    if (!this.isDrawing || this.ctx === null) return;
     
     const rect = this.canvasRef?.nativeElement.getBoundingClientRect();
     if (rect) {
@@ -375,7 +375,7 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   clearCanvas(): void {
-    if (this.ctx && this.canvasRef) {
+    if (this.ctx !== null && this.canvasRef) {
       const canvas = this.canvasRef.nativeElement;
       this.ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
