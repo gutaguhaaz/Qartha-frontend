@@ -132,7 +132,7 @@ export class CreateContractComponent implements OnInit {
           this.templateFields = Object.entries(response.fields).map(([key, label]) => ({
             field: key,
             label: label as string,
-            type: 'text',
+            type: this.determineFieldType(key, label as string),
             required: true,
             placeholder: `Ingrese ${label}`
           }));
@@ -141,7 +141,7 @@ export class CreateContractComponent implements OnInit {
           this.templateFields = Object.entries(response).map(([key, label]) => ({
             field: key,
             label: label as string,
-            type: 'text',
+            type: this.determineFieldType(key, label as string),
             required: true,
             placeholder: `Ingrese ${label}`
           }));
@@ -378,5 +378,45 @@ export class CreateContractComponent implements OnInit {
       default:
         return 'canvas'; // Default to canvas for 'signature' type
     }
+  }
+
+  private determineFieldType(fieldName: string, label: string): string {
+    const lowerFieldName = fieldName.toLowerCase();
+    const lowerLabel = label.toLowerCase();
+    
+    // Check if it's a signature field
+    if (lowerFieldName.includes('firma') || lowerLabel.includes('firma') ||
+        lowerFieldName.includes('signature') || lowerLabel.includes('signature')) {
+      return 'signature';
+    }
+    
+    // Check for email fields
+    if (lowerFieldName.includes('email') || lowerFieldName.includes('correo') ||
+        lowerLabel.includes('email') || lowerLabel.includes('correo')) {
+      return 'email';
+    }
+    
+    // Check for phone fields
+    if (lowerFieldName.includes('telefono') || lowerFieldName.includes('tel') ||
+        lowerFieldName.includes('phone') || lowerLabel.includes('teléfono') ||
+        lowerLabel.includes('telefono') || lowerLabel.includes('phone')) {
+      return 'tel';
+    }
+    
+    // Check for date fields
+    if (lowerFieldName.includes('fecha') || lowerFieldName.includes('date') ||
+        lowerLabel.includes('fecha') || lowerLabel.includes('date')) {
+      return 'date';
+    }
+    
+    // Check for textarea fields (descriptions, etc.)
+    if (lowerFieldName.includes('descripcion') || lowerFieldName.includes('description') ||
+        lowerFieldName.includes('observaciones') || lowerFieldName.includes('comentarios') ||
+        lowerLabel.includes('descripción') || lowerLabel.includes('observaciones')) {
+      return 'textarea';
+    }
+    
+    // Default to text
+    return 'text';
   }
 }
