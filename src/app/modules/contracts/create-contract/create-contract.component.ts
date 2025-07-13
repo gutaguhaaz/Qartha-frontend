@@ -258,7 +258,7 @@ export class CreateContractComponent implements OnInit {
         }
         
         // Handle signature fields
-        if (field.type === 'signature' || field.type === 'signature-text' || field.type === 'signature-canvas' || field.type === 'signature-image') {
+        if (this.isSignatureField(field.type)) {
           try {
             const signatureData = JSON.parse(value);
             // Send signature object with type and value
@@ -353,6 +353,13 @@ export class CreateContractComponent implements OnInit {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ')
       .replace(/([a-z])([A-Z])/g, '$1 $2');
+  }
+
+  isSignatureField(fieldType: string): boolean {
+    return fieldType === 'signature' || 
+           fieldType === 'signature-text' || 
+           fieldType === 'signature-canvas' || 
+           fieldType === 'signature-image';
   }
 
   getSignatureType(fieldType: string): 'text' | 'canvas' | 'image' {

@@ -267,7 +267,7 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   currentSignature: SignatureData | null = null;
   
   private isDrawing = false;
-  private ctx?: CanvasRenderingContext2D;
+  private ctx?: CanvasRenderingContext2D | null;
   private onChange = (value: any) => {};
   private onTouched = () => {};
 

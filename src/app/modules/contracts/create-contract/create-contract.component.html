@@ -217,7 +217,7 @@
                         </mat-form-field>
 
                         <!-- Signature Pad -->
-                        <div *ngIf="field.type === 'signature' || field.type === 'signature-text' || field.type === 'signature-canvas' || field.type === 'signature-image'" class="signature-field">
+                        <div *ngIf="isSignatureField(field.type)" class="signature-field">
                           <label class="signature-label">{{ field.label }}</label>
                           <app-signature-pad 
                             [formControlName]="field.field"

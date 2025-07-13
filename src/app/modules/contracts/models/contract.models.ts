@@ -22,7 +22,7 @@ export interface GPTClauseResponse {
 export interface TemplateField {
   field: string;
   label: string;
-  type: 'text' | 'date' | 'email' | 'tel' | 'textarea' | 'signature';
+  type: 'text' | 'email' | 'tel' | 'date' | 'textarea' | 'signature' | 'signature-text' | 'signature-canvas' | 'signature-image';
   required: boolean;
   placeholder?: string;
   signatureType?: 'canvas' | 'upload' | 'text'; // Para campos de firma
