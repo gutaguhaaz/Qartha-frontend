@@ -1,0 +1,364 @@
+Perfecto! Voy a agregar campos de firma a todas las plantillas de contratos para que el sistema de firmas multi-formato funcione correctamente.
+
+app/templates/cesion_derechos.docx
+Agregar campos de firma
+app/templates/colaboracion.docx
+Agregar campos de firma
+app/templates/laboral.docx
+Agregar campos de firma
+app/templates/servicios.docx
+Agregar campos de firma
+🎯 PROMPT PARA EL FRONTEND ANGULAR
+// ===========================================
+// 🎯 PROMPT PARA IMPLEMENTAR FIRMA MULTI-FORMATO EN ANGULAR
+// Componente: RightSidebar
+// ===========================================
+/*
+OBJETIVO: Crear un componente de firma inteligente que detecte automáticamente 
+el tipo de campo de firma y renderice el input apropiado (texto, canvas, signature pad, upload).
+BACKEND YA CONFIGURADO ✅:
+- Acepta firmas en formato: { type: "text|canvas|image", value: "..." }
+- Detecta automáticamente campos [FIRMA_XXX] en plantillas
+- Inserta imágenes reales en documentos DOCX
+ESTRUCTURA DE DATOS ESPERADA:
+{
+  "campos": {
+    "FIRMA_CLIENTE": {
+      "type": "signature-canvas",  // Detectado automáticamente
+      "value": "data:image/png;base64,..." // Canvas/imagen
+    },
+    "FIRMA_EMPLEADO": {
+      "type": "signature-text",
+      "value": "Juan Pérez Rodríguez" // Texto simple
+    }
+  }
+}
+*/
+// ===========================================
+// 📦 DEPENDENCIAS NECESARIAS
+// ===========================================
+// npm install signature_pad
+// npm install html2canvas (opcional, para captura avanzada)
+// ===========================================
+// 🔧 COMPONENTE SIGNATURE-FIELD
+// ===========================================
+@Component({
+  selector: 'app-signature-field',
+  template: `
+    <div class="signature-field-container">
+      <label>{{ field.label }}</label>
+      
+      <!-- SELECTOR DE TIPO DE FIRMA -->
+      <div class="signature-type-selector" *ngIf="allowTypeChange">
+        <button 
+          *ngFor="let type of signatureTypes" 
+          [class.active]="selectedType === type.value"
+          (click)="changeSignatureType(type.value)">
+          {{ type.label }}
+        </button>
+      </div>
+      <!-- TEXTO -->
+      <div *ngIf="selectedType === 'text'" class="signature-text">
+        <input 
+          type="text" 
+          [(ngModel)]="textSignature"
+          (input)="onSignatureChange()"
+          placeholder="Escriba su nombre completo">
+      </div>
+      <!-- CANVAS PARA DIBUJAR -->
+      <div *ngIf="selectedType === 'canvas'" class="signature-canvas">
+        <canvas 
+          #signatureCanvas
+          width="400" 
+          height="200"
+          (mousedown)="startDrawing($event)"
+          (mousemove)="draw($event)"
+          (mouseup)="stopDrawing()"
+          (touchstart)="startDrawing($event)"
+          (touchmove)="draw($event)"
+          (touchend)="stopDrawing()">
+        </canvas>
+        <div class="canvas-controls">
+          <button (click)="clearCanvas()">Limpiar</button>
+          <button (click)="saveCanvasSignature()">Guardar</button>
+        </div>
+      </div>
+      <!-- SIGNATURE PAD (LIBRERÍA) -->
+      <div *ngIf="selectedType === 'signature-pad'" class="signature-pad">
+        <canvas #signaturePad width="400" height="200"></canvas>
+        <div class="pad-controls">
+          <button (click)="clearPad()">Limpiar</button>
+          <button (click)="savePadSignature()">Guardar</button>
+        </div>
+      </div>
+      <!-- UPLOAD DE IMAGEN -->
+      <div *ngIf="selectedType === 'image'" class="signature-upload">
+        <input 
+          type="file" 
+          accept="image/png,image/jpeg"
+          (change)="onImageUpload($event)">
+        <div *ngIf="uploadedImage" class="image-preview">
+          <img [src]="uploadedImage" alt="Firma subida" style="max-width: 200px;">
+        </div>
+      </div>
+      <!-- PREVIEW FINAL -->
+      <div *ngIf="finalSignature" class="signature-preview">
+        <h4>Vista previa:</h4>
+        <div *ngIf="selectedType === 'text'">{{ finalSignature }}</div>
+        <img *ngIf="selectedType !== 'text'" [src]="finalSignature" style="max-width: 300px;">
+      </div>
+    </div>
+  `
+})
+export class SignatureFieldComponent {
+  @Input() field: any; // Campo desde el backend
+  @Input() allowTypeChange: boolean = true;
+  @Output() signatureChange = new EventEmitter<any>();
+  selectedType: string = 'text';
+  textSignature: string = '';
+  finalSignature: string = '';
+  
+  signatureTypes = [
+    { value: 'text', label: 'Texto' },
+    { value: 'canvas', label: 'Dibujar' },
+    { value: 'signature-pad', label: 'Firma Digital' },
+    { value: 'image', label: 'Subir Imagen' }
+  ];
+  // Canvas variables
+  @ViewChild('signatureCanvas') canvasRef!: ElementRef;
+  isDrawing = false;
+  
+  // Signature Pad variables
+  @ViewChild('signaturePad') padRef!: ElementRef;
+  signaturePad: any;
+  ngOnInit() {
+    // Detectar tipo automático desde el backend
+    if (this.field.type.startsWith('signature-')) {
+      this.selectedType = this.field.type.replace('signature-', '');
+    }
+  }
+  ngAfterViewInit() {
+    if (this.selectedType === 'signature-pad') {
+      this.initSignaturePad();
+    }
+  }
+  changeSignatureType(type: string) {
+    this.selectedType = type;
+    this.clearCurrentSignature();
+    
+    if (type === 'signature-pad') {
+      setTimeout(() => this.initSignaturePad(), 100);
+    }
+  }
+  // ===========================================
+  // 🎨 MÉTODOS PARA CANVAS
+  // ===========================================
+  startDrawing(event: any) {
+    this.isDrawing = true;
+    const canvas = this.canvasRef.nativeElement;
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    
+    ctx.beginPath();
+    ctx.moveTo(
+      event.clientX - rect.left, 
+      event.clientY - rect.top
+    );
+  }
+  draw(event: any) {
+    if (!this.isDrawing) return;
+    
+    const canvas = this.canvasRef.nativeElement;
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    
+    ctx.lineTo(
+      event.clientX - rect.left, 
+      event.clientY - rect.top
+    );
+    ctx.stroke();
+  }
+  stopDrawing() {
+    this.isDrawing = false;
+  }
+  clearCanvas() {
+    const canvas = this.canvasRef.nativeElement;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  saveCanvasSignature() {
+    const canvas = this.canvasRef.nativeElement;
+    this.finalSignature = canvas.toDataURL('image/png');
+    this.emitSignatureChange();
+  }
+  // ===========================================
+  // ✍️ MÉTODOS PARA SIGNATURE PAD
+  // ===========================================
+  initSignaturePad() {
+    // Asumiendo que importaste SignaturePad
+    // import SignaturePad from 'signature_pad';
+    
+    const canvas = this.padRef.nativeElement;
+    this.signaturePad = new SignaturePad(canvas, {
+      backgroundColor: 'rgba(255, 255, 255, 0)',
+      penColor: 'rgb(0, 0, 0)'
+    });
+  }
+  clearPad() {
+    if (this.signaturePad) {
+      this.signaturePad.clear();
+    }
+  }
+  savePadSignature() {
+    if (this.signaturePad && !this.signaturePad.isEmpty()) {
+      this.finalSignature = this.signaturePad.toDataURL('image/png');
+      this.emitSignatureChange();
+    }
+  }
+  // ===========================================
+  // 📤 MÉTODOS PARA UPLOAD
+  // ===========================================
+  onImageUpload(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.finalSignature = e.target.result;
+        this.emitSignatureChange();
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+  // ===========================================
+  // 📝 MÉTODOS PARA TEXTO
+  // ===========================================
+  onSignatureChange() {
+    this.finalSignature = this.textSignature;
+    this.emitSignatureChange();
+  }
+  // ===========================================
+  // 🔄 MÉTODOS AUXILIARES
+  // ===========================================
+  clearCurrentSignature() {
+    this.finalSignature = '';
+    this.textSignature = '';
+  }
+  emitSignatureChange() {
+    const signatureData = {
+      type: this.selectedType,
+      value: this.finalSignature
+    };
+    
+    this.signatureChange.emit({
+      field: this.field.field,
+      signature: signatureData
+    });
+  }
+}
+// ===========================================
+// 🏠 USO EN RIGHT-SIDEBAR COMPONENT
+// ===========================================
+@Component({
+  selector: 'app-right-sidebar',
+  template: `
+    <div class="contract-form">
+      <h3>Generar Contrato: {{ selectedTemplate }}</h3>
+      
+      <div *ngFor="let field of templateFields" class="form-group">
+        
+        <!-- CAMPOS DE FIRMA -->
+        <app-signature-field 
+          *ngIf="field.type.startsWith('signature')"
+          [field]="field"
+          (signatureChange)="onSignatureChange($event)">
+        </app-signature-field>
+        
+        <!-- CAMPOS NORMALES (texto, email, etc.) -->
+        <div *ngIf="!field.type.startsWith('signature')">
+          <label>{{ field.label }}</label>
+          <input 
+            [type]="field.type"
+            [(ngModel)]="formData[field.field]"
+            [placeholder]="field.label">
+        </div>
+      </div>
+      <button (click)="generateContract()" [disabled]="!isFormValid()">
+        Generar Contrato
+      </button>
+    </div>
+  `
+})
+export class RightSidebarComponent {
+  templateFields: any[] = [];
+  formData: any = {};
+  selectedTemplate: string = '';
+  onSignatureChange(event: any) {
+    // Guardar firma en formato esperado por el backend
+    this.formData[event.field] = event.signature;
+  }
+  generateContract() {
+    const payload = {
+      tipo_contrato: this.selectedTemplate,
+      campos: this.formData
+    };
+    this.contractService.generateContract(payload).subscribe(response => {
+      // Descargar archivo generado
+      this.downloadFile(response);
+    });
+  }
+  isFormValid(): boolean {
+    return Object.keys(this.formData).length > 0;
+  }
+}
+// ===========================================
+// 🎨 CSS SUGERIDO
+// ===========================================
+/*
+.signature-field-container {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+.signature-type-selector {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.signature-type-selector button {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  cursor: pointer;
+}
+.signature-type-selector button.active {
+  background: #007bff;
+  color: white;
+}
+.signature-canvas canvas,
+.signature-pad canvas {
+  border: 2px dashed #ccc;
+  cursor: crosshair;
+}
+.canvas-controls,
+.pad-controls {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+.signature-preview {
+  margin-top: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+*/
+✅ RESULTADO FINAL:
+Con estos cambios, el sistema completo soportará:
+
+Backend: Ya detecta [FIRMA_XXX] automáticamente
+Plantillas: Todas tienen campos de firma consistentes
+Frontend: Componente inteligente que renderiza según tipo
+API: Recibe y procesa firmas en múltiples formatos
+Output: Documentos .docx con firmas reales insertadas
+¡Tu sistema de firmas multi-formato ya está listo! 🎯✨
