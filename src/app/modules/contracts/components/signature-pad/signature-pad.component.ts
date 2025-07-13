@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, ViewChild, forwardRef, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, ElementRef, ViewChild, forwardRef, OnInit, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -155,15 +155,16 @@ export interface FieldConfig {
     }
     
     .signature-canvas {
-      border: 1px solid #ddd;
+      border: 2px solid #2196f3;
       border-radius: 4px;
       background-color: white;
       cursor: crosshair;
       display: block;
-      margin: 0 auto;
+      margin: 16px auto;
       width: 100%;
       max-width: 500px;
       height: 150px;
+      touch-action: none;
     }
     
     .signature-canvas:hover {
@@ -255,7 +256,7 @@ export interface FieldConfig {
     }
   `]
 })
-export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDestroy {
+export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDestroy, AfterViewInit {
   @ViewChild('signatureCanvas', { static: false }) canvasRef?: ElementRef<HTMLCanvasElement>;
   @ViewChild('fileInput', { static: false }) fileInputRef?: ElementRef<HTMLInputElement>;
   
@@ -267,7 +268,7 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   currentSignature: SignatureData | null = null;
   
   private isDrawing = false;
-  private ctx?: CanvasRenderingContext2D | null;
+  private ctx?: CanvasRenderingContext2D;
   private onChange = (value: any) => {};
   private onTouched = () => {};
 
@@ -287,9 +288,12 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   }
 
   ngAfterViewInit(): void {
-    if (this.selectedTabIndex === 0) {
-      setTimeout(() => this.initCanvas(), 100);
-    }
+    // Always try to initialize canvas when component loads
+    setTimeout(() => {
+      if (this.selectedTabIndex === 0) {
+        this.initCanvas();
+      }
+    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -324,18 +328,26 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   onTabChange(event: any): void {
     this.selectedTabIndex = event.index;
     if (event.index === 0) {
-      setTimeout(() => this.initCanvas(), 100);
+      // Clear current signature when switching to canvas
+      setTimeout(() => {
+        this.initCanvas();
+      }, 100);
     }
   }
 
   private initCanvas(): void {
     if (this.canvasRef) {
       const canvas = this.canvasRef.nativeElement;
-      this.ctx = canvas.getContext('2d');
-      if (this.ctx) {
+      const context = canvas.getContext('2d');
+      if (context) {
+        this.ctx = context;
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 2;
         this.ctx.lineCap = 'round';
+        
+        // Set canvas size
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 150;
       }
     }
   }
