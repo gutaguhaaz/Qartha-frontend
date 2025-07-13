@@ -259,6 +259,8 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   private onTouched = () => {};
 
   ngOnInit(): void {
+    console.log('SignaturePad initialized with type:', this.signatureType);
+    
     // Set default tab based on signature type
     switch (this.signatureType) {
       case 'text':
@@ -270,6 +272,8 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
       case 'image':
         this.selectedTabIndex = 2;
         break;
+      default:
+        this.selectedTabIndex = 0; // Default to canvas
     }
   }
 

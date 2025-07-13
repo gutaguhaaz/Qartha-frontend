@@ -6,39 +6,55 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.dynamic-fields {
-  margin-top: 20px;
-
-  h4 {
-    color: #333;
-    font-weight: 500;
-    margin-bottom: 20px;
-  }
+.signature-field {
+  margin: 20px 0;
+  padding: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fafafa;
 }
 
-.signature-field {
-  margin: 16px 0;
-  padding: 12px;
-  border: 1px dashed #2196f3;
-  border-radius: 8px;
-  background-color: #f8f9ff;
+.signature-label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #333;
+}
 
-  .signature-label {
-    display: block;
-    margin-bottom: 12px;
-    font-weight: 600;
-    color: #2196f3;
-    font-size: 14px;
-  }
+.field-type-badge {
+  display: inline-block;
+  background: #2196f3;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  margin-left: 8px;
+  text-transform: uppercase;
+}
 
-  .signature-error {
-    color: #f44336;
-    font-size: 12px;
-    margin-top: 8px;
-    padding: 4px 8px;
-    background-color: #ffebee;
-    border-radius: 4px;
-  }
+.signature-error {
+  color: #f44336;
+  font-size: 12px;
+  margin-top: 8px;
+  display: block;
+}
+
+.debug-info {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.dynamic-fields {
+  margin-top: 20px;
+}
+
+.dynamic-fields h4 {
+  color: #2196f3;
+  border-bottom: 2px solid #e3f2fd;
+  padding-bottom: 8px;
 }
 
 .signature-label {

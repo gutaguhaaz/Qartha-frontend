@@ -364,19 +364,24 @@ export class CreateContractComponent implements OnInit {
   }
 
   isSignatureField(fieldType: string): boolean {
-    return fieldType === 'signature' || fieldType === 'signature-text' || fieldType === 'signature-canvas' || fieldType === 'signature-image';
+    return fieldType === 'signature' || 
+           fieldType === 'signature-text' || 
+           fieldType === 'signature-canvas' || 
+           fieldType === 'signature-image' ||
+           fieldType.startsWith('signature-');
   }
 
   getSignatureType(fieldType: string): 'text' | 'canvas' | 'image' {
-    switch (fieldType) {
-      case 'signature-text':
-        return 'text';
-      case 'signature-canvas':
-        return 'canvas';
-      case 'signature-image':
-        return 'image';
-      default:
-        return 'canvas'; // Default to canvas for 'signature' type
+    console.log('Getting signature type for field type:', fieldType);
+    
+    if (fieldType.includes('text')) {
+      return 'text';
+    } else if (fieldType.includes('canvas')) {
+      return 'canvas';
+    } else if (fieldType.includes('image')) {
+      return 'image';
+    } else {
+      return 'canvas'; // Default to canvas for generic 'signature' type
     }
   }
 }

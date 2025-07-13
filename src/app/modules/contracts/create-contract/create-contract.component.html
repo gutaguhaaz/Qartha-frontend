@@ -217,7 +217,10 @@
 
                         <!-- Signature Pad -->
                         <div *ngIf="isSignatureField(field.type)" class="signature-field">
-                          <label class="signature-label">{{ field.label }}</label>
+                          <label class="signature-label">
+                            <strong>{{ field.label }}</strong>
+                            <span class="field-type-badge">{{ field.type }}</span>
+                          </label>
                           <app-signature-pad 
                             [formControlName]="field.field"
                             [signatureType]="getSignatureType(field.type)"
