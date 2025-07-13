@@ -35,7 +35,6 @@
                         <mat-select
                           formControlName="tipo_contrato"
                           (selectionChange)="onTemplateChange($event.value)"
-                          [disabled]="isLoading"
                         >
                           <mat-option value="">{{
                             "CONTRACTS.SELECT_TEMPLATE" | translate

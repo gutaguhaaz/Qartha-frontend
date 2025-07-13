@@ -16,14 +16,6 @@ export interface SignatureData {
   value: string;
 }
 
-export interface FieldConfig {
-  field: string;
-  label: string;
-  type: 'signature';
-  required: boolean;
-  signatureType?: SignatureType;
-}
-
 @Component({
   selector: 'app-signature-pad',
   standalone: true,
@@ -96,21 +88,12 @@ export interface FieldConfig {
         <!-- Image Upload Tab -->
         <mat-tab label="🖼️ Subir Imagen">
           <div class="tab-content">
-            <div class="upload-area">
-              <input 
-                type="file" 
-                #fileInput 
-                accept="image/png,image/jpeg,image/jpg"
-                (change)="onImageSelected($event)"
-                style="display: none"
-              >
-              <button mat-raised-button color="accent" (click)="fileInput.click()" type="button">
-                <mat-icon>upload</mat-icon>
-                Seleccionar Imagen
-              </button>
-              <p class="upload-hint">Solo archivos PNG, JPG o JPEG</p>
+            <input #fileInput type="file" accept="image/*" (change)="onImageSelected($event)" style="display: none;">
+            <div class="upload-area" (click)="fileInput.click()">
+              <mat-icon>cloud_upload</mat-icon>
+              <p>Haz clic para seleccionar una imagen de firma</p>
             </div>
-            <div *ngIf="uploadedImage" class="image-preview">
+            <div *ngIf="uploadedImage" class="uploaded-preview">
               <img [src]="uploadedImage" alt="Firma subida" class="signature-image">
               <button mat-icon-button color="warn" (click)="clearUploadedImage()" type="button">
                 <mat-icon>delete</mat-icon>
@@ -167,83 +150,82 @@ export interface FieldConfig {
       touch-action: none;
     }
     
-    .signature-canvas:hover {
-      border-color: #2196f3;
-    }
-    
     .signature-actions {
-      margin-top: 12px;
-      text-align: center;
       display: flex;
       gap: 8px;
       justify-content: center;
+      margin-top: 16px;
     }
-    
+
     .upload-area {
+      border: 2px dashed #2196f3;
+      border-radius: 8px;
+      padding: 40px;
       text-align: center;
-      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
-    
-    .upload-hint {
-      margin-top: 8px;
-      color: #666;
-      font-size: 12px;
+
+    .upload-area:hover {
+      background-color: #f3f7ff;
+      border-color: #1976d2;
     }
-    
+
+    .upload-area mat-icon {
+      font-size: 48px;
+      color: #2196f3;
+      margin-bottom: 16px;
+    }
+
+    .uploaded-preview {
+      margin-top: 16px;
+      text-align: center;
+      position: relative;
+    }
+
     .text-signature-preview {
       margin-top: 16px;
-      padding: 12px;
+      padding: 16px;
       border: 1px solid #ddd;
       border-radius: 4px;
       background-color: white;
-      text-align: center;
     }
-    
+
     .signature-text {
       font-family: 'Brush Script MT', cursive;
       font-size: 24px;
       color: #333;
       margin: 0;
+      text-align: center;
     }
-    
+
     .signature-text-display {
       font-family: 'Brush Script MT', cursive;
       font-size: 20px;
       color: #333;
       margin: 0;
-      text-align: center;
     }
-    
-    .image-preview {
-      margin-top: 16px;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
+
     .signature-image {
-      max-width: 200px;
-      max-height: 100px;
+      max-width: 300px;
+      max-height: 150px;
       border: 1px solid #ddd;
       border-radius: 4px;
     }
-    
+
     .signature-preview-section {
-      margin-top: 16px;
-      padding: 12px;
+      margin-top: 20px;
+      padding: 16px;
       border: 1px solid #2196f3;
-      border-radius: 4px;
-      background-color: #f3f9ff;
+      border-radius: 8px;
+      background-color: white;
     }
-    
+
     .signature-preview-section h4 {
-      margin: 0 0 8px 0;
+      margin: 0 0 12px 0;
       color: #2196f3;
-      font-size: 14px;
     }
-    
+
     .preview-content {
       display: flex;
       align-items: center;
@@ -253,6 +235,10 @@ export interface FieldConfig {
     .text-signature-input {
       font-family: 'Brush Script MT', cursive;
       font-size: 18px;
+    }
+
+    .w-100 {
+      width: 100%;
     }
   `]
 })
@@ -303,16 +289,24 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   // ControlValueAccessor implementation
   writeValue(value: any): void {
     if (value) {
-      this.currentSignature = value;
-      if (value.type === 'text') {
-        this.textSignature = value.value;
+      try {
+        this.currentSignature = JSON.parse(value);
+        if (this.currentSignature) {
+          if (this.currentSignature.type === 'text') {
+            this.textSignature = this.currentSignature.value;
+            this.selectedTabIndex = 1;
+          } else if (this.currentSignature.type === 'canvas') {
+            this.selectedTabIndex = 0;
+          } else if (this.currentSignature.type === 'image') {
+            this.uploadedImage = this.currentSignature.value;
+            this.selectedTabIndex = 2;
+          }
+        }
+      } catch (e) {
+        // If not JSON, treat as text signature
+        this.textSignature = value;
+        this.currentSignature = { type: 'text', value: value };
         this.selectedTabIndex = 1;
-      } else if (value.type === 'canvas') {
-        this.selectedTabIndex = 0;
-        // Could restore canvas if needed
-      } else if (value.type === 'image') {
-        this.uploadedImage = value.value;
-        this.selectedTabIndex = 2;
       }
     }
   }
@@ -328,7 +322,6 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   onTabChange(event: any): void {
     this.selectedTabIndex = event.index;
     if (event.index === 0) {
-      // Clear current signature when switching to canvas
       setTimeout(() => {
         this.initCanvas();
       }, 100);
@@ -338,29 +331,25 @@ export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDe
   private initCanvas(): void {
     if (this.canvasRef) {
       const canvas = this.canvasRef.nativeElement;
-      const context = canvas.getContext('2d');
-      if (context) {
-        this.ctx = context;
+      this.ctx = canvas.getContext('2d');
+      if (this.ctx) {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
         this.ctx.strokeStyle = '#000';
         this.ctx.lineWidth = 2;
         this.ctx.lineCap = 'round';
-        
-        // Set canvas size
-        canvas.width = canvas.offsetWidth;
-        canvas.height = 150;
       }
     }
   }
 
   startDrawing(event: MouseEvent | TouchEvent): void {
     this.isDrawing = true;
-    const rect = this.canvasRef?.nativeElement.getBoundingClientRect();
-    if (rect) {
-      const x = (event as MouseEvent).clientX ? (event as MouseEvent).clientX - rect.left : (event as TouchEvent).touches[0].clientX - rect.left;
-      const y = (event as MouseEvent).clientY ? (event as MouseEvent).clientY - rect.top : (event as TouchEvent).touches[0].clientY - rect.top;
-      
-      if (this.ctx) {
-        this.ctx.beginPath();
+    if (this.ctx) {
+      this.ctx.beginPath();
+      const rect = this.canvasRef?.nativeElement.getBoundingClientRect();
+      if (rect) {
+        const x = (event as MouseEvent).clientX ? (event as MouseEvent).clientX - rect.left : (event as TouchEvent).touches[0].clientX - rect.left;
+        const y = (event as MouseEvent).clientY ? (event as MouseEvent).clientY - rect.top : (event as TouchEvent).touches[0].clientY - rect.top;
         this.ctx.moveTo(x, y);
       }
     }

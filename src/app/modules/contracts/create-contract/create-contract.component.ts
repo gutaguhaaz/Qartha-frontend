@@ -63,8 +63,8 @@ export class CreateContractComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.contractForm = this.fb.group({
-      tipo_contrato: [{ value: '', disabled: false }, Validators.required],
-      clausula_extra: [{ value: '', disabled: false }]
+      tipo_contrato: ['', Validators.required],
+      clausula_extra: ['']
     });
   }
 
@@ -106,14 +106,17 @@ export class CreateContractComponent implements OnInit {
       this.selectedTemplate = '';
       // Reset form to basic structure
       this.contractForm = this.fb.group({
-        tipo_contrato: [{ value: '', disabled: false }, Validators.required],
-        clausula_extra: [{ value: '', disabled: false }]
+        tipo_contrato: ['', Validators.required],
+        clausula_extra: ['']
       });
       return;
     }
 
     this.selectedTemplate = templateName;
     this.isLoading = true;
+    
+    // Disable form while loading
+    this.contractForm.get('tipo_contrato')?.disable();
 
     this.contractsService.getTemplateFields(templateName).subscribe({
       next: (response: any) => {
@@ -149,6 +152,9 @@ export class CreateContractComponent implements OnInit {
         console.log('Processed template fields:', this.templateFields);
         this.buildDynamicForm();
         this.isLoading = false;
+        
+        // Re-enable form controls
+        this.contractForm.get('tipo_contrato')?.enable();
       },
       error: (error) => {
         console.error('Error loading template fields:', error);
@@ -158,6 +164,9 @@ export class CreateContractComponent implements OnInit {
         });
         this.templateFields = [];
         this.isLoading = false;
+        
+        // Re-enable form controls
+        this.contractForm.get('tipo_contrato')?.enable();
       }
     });
   }
@@ -166,8 +175,8 @@ export class CreateContractComponent implements OnInit {
     console.log('Building dynamic form with fields:', this.templateFields);
 
     const group: any = {
-      tipo_contrato: [{ value: this.selectedTemplate, disabled: false }, Validators.required],
-      clausula_extra: [{ value: '', disabled: false }]
+      tipo_contrato: [this.selectedTemplate, Validators.required],
+      clausula_extra: ['']
     };
 
     if (this.templateFields && this.templateFields.length > 0) {
@@ -200,7 +209,7 @@ export class CreateContractComponent implements OnInit {
             break;
         }
 
-        group[field.field] = [{ value: '', disabled: false }, validators];
+        group[field.field] = ['', validators];
       });
     }
 
