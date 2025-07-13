@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -63,8 +64,8 @@ export class CreateContractComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {
     this.contractForm = this.fb.group({
-      tipo_contrato: ['', Validators.required],
-      clausula_extra: ['']
+      tipo_contrato: [{ value: '', disabled: false }, Validators.required],
+      clausula_extra: [{ value: '', disabled: false }]
     });
   }
 
@@ -100,14 +101,14 @@ export class CreateContractComponent implements OnInit {
 
   onTemplateChange(templateName: string): void {
     console.log('Template changed to:', templateName);
-
+    
     if (!templateName) {
       this.templateFields = [];
       this.selectedTemplate = '';
       // Reset form to basic structure
       this.contractForm = this.fb.group({
-        tipo_contrato: ['', Validators.required],
-        clausula_extra: ['']
+        tipo_contrato: [{ value: '', disabled: false }, Validators.required],
+        clausula_extra: [{ value: '', disabled: false }]
       });
       return;
     }
@@ -115,13 +116,10 @@ export class CreateContractComponent implements OnInit {
     this.selectedTemplate = templateName;
     this.isLoading = true;
     
-    // Disable form while loading
-    this.contractForm.get('tipo_contrato')?.disable();
-
     this.contractsService.getTemplateFields(templateName).subscribe({
       next: (response: any) => {
         console.log('Template fields response:', response);
-
+        
         // Check if response has template_fields array or if it's a fields object
         if (response && Array.isArray(response)) {
           this.templateFields = response;
@@ -148,13 +146,10 @@ export class CreateContractComponent implements OnInit {
         } else {
           this.templateFields = [];
         }
-
+        
         console.log('Processed template fields:', this.templateFields);
         this.buildDynamicForm();
         this.isLoading = false;
-        
-        // Re-enable form controls
-        this.contractForm.get('tipo_contrato')?.enable();
       },
       error: (error) => {
         console.error('Error loading template fields:', error);
@@ -164,29 +159,26 @@ export class CreateContractComponent implements OnInit {
         });
         this.templateFields = [];
         this.isLoading = false;
-        
-        // Re-enable form controls
-        this.contractForm.get('tipo_contrato')?.enable();
       }
     });
   }
 
   buildDynamicForm(): void {
     console.log('Building dynamic form with fields:', this.templateFields);
-
+    
     const group: any = {
-      tipo_contrato: [this.selectedTemplate, Validators.required],
-      clausula_extra: ['']
+      tipo_contrato: [{ value: this.selectedTemplate, disabled: false }, Validators.required],
+      clausula_extra: [{ value: '', disabled: false }]
     };
 
     if (this.templateFields && this.templateFields.length > 0) {
       this.templateFields.forEach(field => {
         const validators = [];
-
+        
         if (field.required) {
           validators.push(Validators.required);
         }
-
+        
         // Add specific validators based on field type
         switch (field.type) {
           case 'email':
@@ -199,17 +191,11 @@ export class CreateContractComponent implements OnInit {
             // Date fields will be handled by mat-datepicker
             break;
           case 'signature':
-          case 'signature-text':
-          case 'signature-canvas':
-          case 'signature-image':
-            // Custom signature validator
-            if (field.required) {
-              validators.push(this.signatureValidator);
-            }
+            // Signature validation will be handled by the component
             break;
         }
-
-        group[field.field] = ['', validators];
+        
+        group[field.field] = [{ value: '', disabled: false }, validators];
       });
     }
 
@@ -217,25 +203,6 @@ export class CreateContractComponent implements OnInit {
     this.contractForm = this.fb.group(group);
     console.log('Dynamic form built:', this.contractForm);
     console.log('Form controls:', Object.keys(this.contractForm.controls));
-  }
-
-  // Custom validator for signature fields
-  private signatureValidator(control: any) {
-    const value = control.value;
-    if (!value) {
-      return { required: true };
-    }
-
-    try {
-      const signatureData = JSON.parse(value);
-      if (!signatureData.type || !signatureData.value) {
-        return { invalidSignature: true };
-      }
-      return null;
-    } catch (e) {
-      // If it's not JSON, treat as text signature
-      return value.trim() ? null : { required: true };
-    }
   }
 
   generateContract(): void {
@@ -254,36 +221,29 @@ export class CreateContractComponent implements OnInit {
 
     this.isGenerating = true;
     const formValue = this.contractForm.value;
-
-    const campos: { [key: string]: any } = {};
+    
+    const campos: { [key: string]: string } = {};
     this.templateFields.forEach(field => {
       if (formValue[field.field]) {
         let value = formValue[field.field];
-
+        
         // Format date fields
         if (field.type === 'date' && value instanceof Date) {
           value = value.toISOString().split('T')[0]; // Format as YYYY-MM-DD
         }
-
+        
         // Handle signature fields
-        if (this.isSignatureField(field.type)) {
+        if (field.type === 'signature') {
           try {
             const signatureData = JSON.parse(value);
-            // Send signature object with type and value
-            campos[field.field] = {
-              type: signatureData.type,
-              value: signatureData.value
-            };
+            // For backend, send the actual signature value
+            value = signatureData.value;
           } catch (e) {
-            // If not JSON, treat as text signature (backward compatibility)
-            campos[field.field] = {
-              type: 'text',
-              value: value
-            };
+            // If not JSON, use as is (backward compatibility)
           }
-        } else {
-          campos[field.field] = value;
         }
+        
+        campos[field.field] = value;
       }
     });
 
@@ -361,27 +321,5 @@ export class CreateContractComponent implements OnInit {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ')
       .replace(/([a-z])([A-Z])/g, '$1 $2');
-  }
-
-  isSignatureField(fieldType: string): boolean {
-    return fieldType === 'signature' || 
-           fieldType === 'signature-text' || 
-           fieldType === 'signature-canvas' || 
-           fieldType === 'signature-image' ||
-           fieldType.startsWith('signature-');
-  }
-
-  getSignatureType(fieldType: string): 'text' | 'canvas' | 'image' {
-    console.log('Getting signature type for field type:', fieldType);
-    
-    if (fieldType.includes('text')) {
-      return 'text';
-    } else if (fieldType.includes('canvas')) {
-      return 'canvas';
-    } else if (fieldType.includes('image')) {
-      return 'image';
-    } else {
-      return 'canvas'; // Default to canvas for generic 'signature' type
-    }
   }
 }

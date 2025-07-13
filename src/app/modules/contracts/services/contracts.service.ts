@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -21,12 +22,12 @@ export class ContractsService {
 
   // Obtener plantillas disponibles
   getTemplates(): Observable<{templates: string[], count: number}> {
-    return this.http.get<{templates: string[], count: number}>(`${this.apiUrl}/contracts/templates`);
+    return this.http.get<{templates: string[], count: number}>(`${this.apiUrl}/templates`);
   }
 
   // Obtener campos de una plantilla específica
   getTemplateFields(templateName: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/contracts/test-template/${templateName}`);
+    return this.http.get<any>(`${this.apiUrl}/test-template/${templateName}`);
   }
 
   // Generar contrato
@@ -34,7 +35,7 @@ export class ContractsService {
     const headers = new HttpHeaders({
       'Accept': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     });
-    return this.http.post(`${this.apiUrl}/contracts/generate-contract`, request, {
+    return this.http.post(`${this.apiUrl}/generate-contract`, request, {
       headers,
       responseType: 'blob'
     });
@@ -45,7 +46,7 @@ export class ContractsService {
     const headers = new HttpHeaders({
       'Accept': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     });
-    return this.http.get(`${this.apiUrl}/contracts/download-template/${templateName}`, {
+    return this.http.get(`${this.apiUrl}/download-template/${templateName}`, {
       headers,
       responseType: 'blob'
     });
@@ -54,7 +55,7 @@ export class ContractsService {
   // Generar cláusula con IA
   generateClause(prompt: string): Observable<GPTClauseResponse> {
     const request: GPTClauseRequest = { prompt };
-    return this.http.post<GPTClauseResponse>(`${this.apiUrl}/contracts/generate-clause-gpt`, request);
+    return this.http.post<GPTClauseResponse>(`${this.apiUrl}/generate-clause-gpt`, request);
   }
 
   // Método utilitario para descargar archivos

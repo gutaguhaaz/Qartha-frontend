@@ -1,5 +1,5 @@
 
-import { Component, ElementRef, ViewChild, forwardRef, OnInit, OnDestroy, AfterViewInit, Input } from '@angular/core';
+import { Component, ElementRef, ViewChild, forwardRef, OnInit, OnDestroy, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,12 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 
-export type SignatureType = 'text' | 'canvas' | 'image';
-
-export interface SignatureData {
-  type: SignatureType;
-  value: string;
-}
+export type SignatureType = 'canvas' | 'upload' | 'text';
 
 @Component({
   selector: 'app-signature-pad',
@@ -29,18 +24,11 @@ export interface SignatureData {
     MatTabsModule,
     FormsModule
   ],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SignaturePadComponent),
-      multi: true
-    }
-  ],
   template: `
     <div class="signature-container">
       <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
         <!-- Canvas Signature Tab -->
-        <mat-tab label="✏️ Dibujar Firma">
+        <mat-tab label="Dibujar Firma">
           <div class="tab-content">
             <canvas 
               #signatureCanvas
@@ -58,19 +46,42 @@ export interface SignatureData {
                 <mat-icon>clear</mat-icon>
                 Limpiar Firma
               </button>
-              <button mat-raised-button color="primary" (click)="saveCanvasSignature()" type="button">
-                <mat-icon>save</mat-icon>
-                Guardar Firma
+            </div>
+          </div>
+        </mat-tab>
+
+        <!-- Upload Image Tab -->
+        <mat-tab label="Subir Imagen">
+          <div class="tab-content">
+            <div class="upload-area">
+              <input 
+                #fileInput 
+                type="file" 
+                accept="image/*" 
+                (change)="onFileSelected($event)"
+                style="display: none"
+              >
+              <button mat-raised-button color="primary" (click)="fileInput.click()" type="button">
+                <mat-icon>cloud_upload</mat-icon>
+                Seleccionar Imagen
               </button>
+              <p class="upload-hint">Formatos: PNG, JPG, JPEG</p>
+              
+              <div *ngIf="uploadedImagePreview" class="image-preview">
+                <img [src]="uploadedImagePreview" alt="Vista previa" class="preview-image">
+                <button mat-icon-button color="warn" (click)="removeUploadedImage()" type="button">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
             </div>
           </div>
         </mat-tab>
 
         <!-- Text Signature Tab -->
-        <mat-tab label="📝 Firma de Texto">
+        <mat-tab label="Firma de Texto">
           <div class="tab-content">
             <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Escriba su nombre completo</mat-label>
+              <mat-label>Escribe tu firma</mat-label>
               <input 
                 matInput 
                 [(ngModel)]="textSignature"
@@ -84,43 +95,7 @@ export interface SignatureData {
             </div>
           </div>
         </mat-tab>
-
-        <!-- Image Upload Tab -->
-        <mat-tab label="🖼️ Subir Imagen">
-          <div class="tab-content">
-            <input #fileInput type="file" accept="image/*" (change)="onImageSelected($event)" style="display: none;">
-            <div class="upload-area" (click)="fileInput.click()">
-              <mat-icon>cloud_upload</mat-icon>
-              <p>Haz clic para seleccionar una imagen de firma</p>
-            </div>
-            <div *ngIf="uploadedImage" class="uploaded-preview">
-              <img [src]="uploadedImage" alt="Firma subida" class="signature-image">
-              <button mat-icon-button color="warn" (click)="clearUploadedImage()" type="button">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </div>
-        </mat-tab>
       </mat-tab-group>
-
-      <!-- Preview Section -->
-      <div *ngIf="currentSignature" class="signature-preview-section">
-        <h4>Vista Previa de la Firma:</h4>
-        <div class="preview-content">
-          <div *ngIf="currentSignature.type === 'text'" class="text-preview">
-            <p class="signature-text-display">{{ currentSignature.value }}</p>
-          </div>
-          <div *ngIf="currentSignature.type === 'canvas'" class="canvas-preview">
-            <img [src]="currentSignature.value" alt="Firma dibujada" class="signature-image">
-          </div>
-          <div *ngIf="currentSignature.type === 'image'" class="image-preview">
-            <img [src]="currentSignature.value" alt="Firma subida" class="signature-image">
-          </div>
-        </div>
-        <button mat-icon-button color="warn" (click)="clearCurrentSignature()" type="button">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
     </div>
   `,
   styles: [`
@@ -138,317 +113,296 @@ export interface SignatureData {
     }
     
     .signature-canvas {
-      border: 2px solid #2196f3;
+      border: 1px solid #ddd;
       border-radius: 4px;
       background-color: white;
       cursor: crosshair;
       display: block;
-      margin: 16px auto;
+      margin: 0 auto;
       width: 100%;
       max-width: 500px;
       height: 150px;
-      touch-action: none;
+    }
+    
+    .signature-canvas:hover {
+      border-color: #2196f3;
     }
     
     .signature-actions {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 16px;
+      margin-top: 12px;
+      text-align: center;
     }
-
+    
     .upload-area {
-      border: 2px dashed #2196f3;
-      border-radius: 8px;
-      padding: 40px;
       text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      padding: 20px;
     }
-
-    .upload-area:hover {
-      background-color: #f3f7ff;
-      border-color: #1976d2;
+    
+    .upload-hint {
+      margin: 10px 0;
+      color: #666;
+      font-size: 14px;
     }
-
-    .upload-area mat-icon {
-      font-size: 48px;
-      color: #2196f3;
-      margin-bottom: 16px;
-    }
-
-    .uploaded-preview {
+    
+    .image-preview {
       margin-top: 16px;
-      text-align: center;
       position: relative;
+      display: inline-block;
     }
-
-    .text-signature-preview {
-      margin-top: 16px;
-      padding: 16px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: white;
-    }
-
-    .signature-text {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 24px;
-      color: #333;
-      margin: 0;
-      text-align: center;
-    }
-
-    .signature-text-display {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 20px;
-      color: #333;
-      margin: 0;
-    }
-
-    .signature-image {
+    
+    .preview-image {
       max-width: 300px;
       max-height: 150px;
       border: 1px solid #ddd;
       border-radius: 4px;
     }
-
-    .signature-preview-section {
-      margin-top: 20px;
-      padding: 16px;
-      border: 1px solid #2196f3;
-      border-radius: 8px;
+    
+    .text-signature-preview {
+      text-align: center;
+      margin-top: 16px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
       background-color: white;
     }
-
-    .signature-preview-section h4 {
-      margin: 0 0 12px 0;
-      color: #2196f3;
-    }
-
-    .preview-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    
+    .signature-text {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 24px;
+      color: #333;
+      margin: 0;
     }
     
     .text-signature-input {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 18px;
+      font-size: 16px;
     }
-
+    
     .w-100 {
       width: 100%;
     }
-  `]
+  `],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SignaturePadComponent),
+      multi: true
+    }
+  ]
 })
-export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('signatureCanvas', { static: false }) canvasRef?: ElementRef<HTMLCanvasElement>;
-  @ViewChild('fileInput', { static: false }) fileInputRef?: ElementRef<HTMLInputElement>;
-  
+export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDestroy {
+  @ViewChild('signatureCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
   @Input() signatureType: SignatureType = 'canvas';
+  
+  private canvas!: HTMLCanvasElement;
+  private ctx!: CanvasRenderingContext2D;
+  private isDrawing = false;
+  private lastX = 0;
+  private lastY = 0;
   
   selectedTabIndex = 0;
   textSignature = '';
-  uploadedImage = '';
-  currentSignature: SignatureData | null = null;
+  uploadedImagePreview: string | null = null;
   
-  private isDrawing = false;
-  private ctx: CanvasRenderingContext2D | null = null;
-  private onChange = (value: any) => {};
+  private onChange = (value: string) => {};
   private onTouched = () => {};
-
-  ngOnInit(): void {
-    console.log('SignaturePad initialized with type:', this.signatureType);
+  
+  ngOnInit() {
+    this.setupCanvas();
+    this.setInitialTab();
+  }
+  
+  ngOnDestroy() {
+    // Cleanup if needed
+  }
+  
+  private setupCanvas() {
+    this.canvas = this.canvasRef.nativeElement;
+    this.ctx = this.canvas.getContext('2d')!;
     
-    // Set default tab based on signature type
+    // Set canvas size
+    this.canvas.width = 500;
+    this.canvas.height = 150;
+    
+    // Configure drawing style
+    this.ctx.strokeStyle = '#000';
+    this.ctx.lineWidth = 2;
+    this.ctx.lineCap = 'round';
+    this.ctx.lineJoin = 'round';
+    
+    // Fill with white background
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+  
+  private setInitialTab() {
     switch (this.signatureType) {
-      case 'text':
-        this.selectedTabIndex = 1;
-        break;
       case 'canvas':
         this.selectedTabIndex = 0;
         break;
-      case 'image':
+      case 'upload':
+        this.selectedTabIndex = 1;
+        break;
+      case 'text':
         this.selectedTabIndex = 2;
         break;
-      default:
-        this.selectedTabIndex = 0; // Default to canvas
     }
   }
-
-  ngAfterViewInit(): void {
-    // Always try to initialize canvas when component loads
-    setTimeout(() => {
-      if (this.selectedTabIndex === 0) {
-        this.initCanvas();
-      }
-    }, 100);
-  }
-
-  ngOnDestroy(): void {
-    // Cleanup if needed
-  }
-
-  // ControlValueAccessor implementation
-  writeValue(value: any): void {
-    if (value) {
-      try {
-        this.currentSignature = JSON.parse(value);
-        if (this.currentSignature) {
-          if (this.currentSignature.type === 'text') {
-            this.textSignature = this.currentSignature.value;
-            this.selectedTabIndex = 1;
-          } else if (this.currentSignature.type === 'canvas') {
-            this.selectedTabIndex = 0;
-          } else if (this.currentSignature.type === 'image') {
-            this.uploadedImage = this.currentSignature.value;
-            this.selectedTabIndex = 2;
-          }
-        }
-      } catch (e) {
-        // If not JSON, treat as text signature
-        this.textSignature = value;
-        this.currentSignature = { type: 'text', value: value };
-        this.selectedTabIndex = 1;
-      }
-    }
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  onTabChange(event: any): void {
+  
+  onTabChange(event: any) {
     this.selectedTabIndex = event.index;
-    if (event.index === 0) {
-      setTimeout(() => {
-        this.initCanvas();
-      }, 100);
-    }
+    this.clearAll();
   }
-
-  private initCanvas(): void {
-    if (this.canvasRef) {
-      const canvas = this.canvasRef.nativeElement;
-      this.ctx = canvas.getContext('2d');
-      if (this.ctx !== null) {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        this.ctx.strokeStyle = '#000';
-        this.ctx.lineWidth = 2;
-        this.ctx.lineCap = 'round';
-      }
-    }
-  }
-
-  startDrawing(event: MouseEvent | TouchEvent): void {
+  
+  startDrawing(event: MouseEvent | TouchEvent) {
     this.isDrawing = true;
-    if (this.ctx !== null) {
-      this.ctx.beginPath();
-      const rect = this.canvasRef?.nativeElement.getBoundingClientRect();
-      if (rect) {
-        const x = (event as MouseEvent).clientX ? (event as MouseEvent).clientX - rect.left : (event as TouchEvent).touches[0].clientX - rect.left;
-        const y = (event as MouseEvent).clientY ? (event as MouseEvent).clientY - rect.top : (event as TouchEvent).touches[0].clientY - rect.top;
-        this.ctx.moveTo(x, y);
-      }
-    }
-    event.preventDefault();
-  }
-
-  draw(event: MouseEvent | TouchEvent): void {
-    if (!this.isDrawing || this.ctx === null) return;
+    const rect = this.canvas.getBoundingClientRect();
     
-    const rect = this.canvasRef?.nativeElement.getBoundingClientRect();
-    if (rect) {
-      const x = (event as MouseEvent).clientX ? (event as MouseEvent).clientX - rect.left : (event as TouchEvent).touches[0].clientX - rect.left;
-      const y = (event as MouseEvent).clientY ? (event as MouseEvent).clientY - rect.top : (event as TouchEvent).touches[0].clientY - rect.top;
-      
-      this.ctx.lineTo(x, y);
-      this.ctx.stroke();
+    if (event instanceof MouseEvent) {
+      this.lastX = event.clientX - rect.left;
+      this.lastY = event.clientY - rect.top;
+    } else {
+      const touch = event.touches[0];
+      this.lastX = touch.clientX - rect.left;
+      this.lastY = touch.clientY - rect.top;
+      event.preventDefault();
     }
-    event.preventDefault();
   }
-
-  stopDrawing(): void {
+  
+  draw(event: MouseEvent | TouchEvent) {
+    if (!this.isDrawing) return;
+    
+    const rect = this.canvas.getBoundingClientRect();
+    let currentX, currentY;
+    
+    if (event instanceof MouseEvent) {
+      currentX = event.clientX - rect.left;
+      currentY = event.clientY - rect.top;
+    } else {
+      const touch = event.touches[0];
+      currentX = touch.clientX - rect.left;
+      currentY = touch.clientY - rect.top;
+      event.preventDefault();
+    }
+    
+    this.ctx.beginPath();
+    this.ctx.moveTo(this.lastX, this.lastY);
+    this.ctx.lineTo(currentX, currentY);
+    this.ctx.stroke();
+    
+    this.lastX = currentX;
+    this.lastY = currentY;
+    
+    // Emit the signature as base64
+    this.emitCanvasSignature();
+  }
+  
+  stopDrawing() {
     this.isDrawing = false;
   }
-
-  clearCanvas(): void {
-    if (this.ctx !== null && this.canvasRef) {
-      const canvas = this.canvasRef.nativeElement;
-      this.ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-    this.clearCurrentSignature();
+  
+  clearCanvas() {
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    this.emitCanvasSignature();
   }
-
-  saveCanvasSignature(): void {
-    if (this.canvasRef) {
-      const canvas = this.canvasRef.nativeElement;
-      const dataURL = canvas.toDataURL('image/png');
-      
-      this.currentSignature = {
-        type: 'canvas',
-        value: dataURL
-      };
-      
-      this.updateValue();
-    }
-  }
-
-  onTextSignatureChange(): void {
-    if (this.textSignature.trim()) {
-      this.currentSignature = {
-        type: 'text',
-        value: this.textSignature.trim()
-      };
-    } else {
-      this.currentSignature = null;
-    }
-    
-    this.updateValue();
-  }
-
-  onImageSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
+  
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataURL = e.target?.result as string;
-        this.uploadedImage = dataURL;
-        
-        this.currentSignature = {
-          type: 'image',
-          value: dataURL
-        };
-        
-        this.updateValue();
+      reader.onload = (e: any) => {
+        this.uploadedImagePreview = e.target.result;
+        this.emitUploadedImage();
       };
       reader.readAsDataURL(file);
     }
   }
-
-  clearUploadedImage(): void {
-    this.uploadedImage = '';
-    if (this.fileInputRef) {
-      this.fileInputRef.nativeElement.value = '';
-    }
-    this.clearCurrentSignature();
-  }
-
-  clearCurrentSignature(): void {
-    this.currentSignature = null;
-    this.updateValue();
-  }
-
-  private updateValue(): void {
-    // Send as JSON string for form compatibility
-    const value = this.currentSignature ? JSON.stringify(this.currentSignature) : '';
-    this.onChange(value);
+  
+  removeUploadedImage() {
+    this.uploadedImagePreview = null;
+    this.onChange('');
     this.onTouched();
+  }
+  
+  onTextSignatureChange() {
+    this.emitTextSignature();
+  }
+  
+  private emitCanvasSignature() {
+    const dataURL = this.canvas.toDataURL('image/png');
+    const signature = {
+      type: 'canvas',
+      value: dataURL
+    };
+    this.onChange(JSON.stringify(signature));
+    this.onTouched();
+  }
+  
+  private emitUploadedImage() {
+    if (this.uploadedImagePreview) {
+      const signature = {
+        type: 'upload',
+        value: this.uploadedImagePreview
+      };
+      this.onChange(JSON.stringify(signature));
+      this.onTouched();
+    }
+  }
+  
+  private emitTextSignature() {
+    const signature = {
+      type: 'text',
+      value: this.textSignature
+    };
+    this.onChange(JSON.stringify(signature));
+    this.onTouched();
+  }
+  
+  clearAll() {
+    this.clearCanvas();
+    this.removeUploadedImage();
+    this.textSignature = '';
+    this.onChange('');
+    this.onTouched();
+  }
+  
+  // ControlValueAccessor implementation
+  writeValue(value: string): void {
+    if (!value) {
+      this.clearAll();
+      return;
+    }
+    
+    try {
+      const signature = JSON.parse(value);
+      switch (signature.type) {
+        case 'canvas':
+          // For canvas, we could reload the image if needed
+          break;
+        case 'upload':
+          this.uploadedImagePreview = signature.value;
+          this.selectedTabIndex = 1;
+          break;
+        case 'text':
+          this.textSignature = signature.value;
+          this.selectedTabIndex = 2;
+          break;
+      }
+    } catch (e) {
+      // If it's not JSON, treat as legacy canvas signature
+      // You could load it to canvas if needed
+    }
+  }
+  
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
+  }
+  
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+  
+  setDisabledState(isDisabled: boolean): void {
+    // Handle disabled state if needed
   }
 }

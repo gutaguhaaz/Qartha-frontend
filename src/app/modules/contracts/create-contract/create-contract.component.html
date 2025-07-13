@@ -35,6 +35,7 @@
                         <mat-select
                           formControlName="tipo_contrato"
                           (selectionChange)="onTemplateChange($event.value)"
+                          [disabled]="isLoading"
                         >
                           <mat-option value="">{{
                             "CONTRACTS.SELECT_TEMPLATE" | translate
@@ -216,26 +217,17 @@
                         </mat-form-field>
 
                         <!-- Signature Pad -->
-                        <div *ngIf="isSignatureField(field.type)" class="signature-field">
-                          <label class="signature-label">
-                            <strong>{{ field.label }}</strong>
-                            <span class="field-type-badge">{{ field.type }}</span>
-                          </label>
+                        <div *ngIf="field.type === 'signature'" class="signature-field">
+                          <label class="signature-label">{{ field.label }}</label>
                           <app-signature-pad 
                             [formControlName]="field.field"
-                            [signatureType]="getSignatureType(field.type)"
+                            [signatureType]="field.signatureType || 'canvas'"
                           ></app-signature-pad>
                           <mat-error
                             *ngIf="contractForm.get(field.field)?.hasError('required') && contractForm.get(field.field)?.touched"
                             class="signature-error"
                           >
                             La firma es requerida
-                          </mat-error>
-                          <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('invalidSignature') && contractForm.get(field.field)?.touched"
-                            class="signature-error"
-                          >
-                            Firma inválida
                           </mat-error>
                         </div>
                       </div>
