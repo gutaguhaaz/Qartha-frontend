@@ -17,7 +17,28 @@
 }
 
 .signature-field {
-  margin-bottom: 20px;
+  margin: 16px 0;
+  padding: 12px;
+  border: 1px dashed #2196f3;
+  border-radius: 8px;
+  background-color: #f8f9ff;
+
+  .signature-label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #2196f3;
+    font-size: 14px;
+  }
+
+  .signature-error {
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 8px;
+    padding: 4px 8px;
+    background-color: #ffebee;
+    border-radius: 4px;
+  }
 }
 
 .signature-label {

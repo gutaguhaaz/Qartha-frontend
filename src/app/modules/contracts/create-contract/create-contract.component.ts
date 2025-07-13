@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -101,7 +100,7 @@ export class CreateContractComponent implements OnInit {
 
   onTemplateChange(templateName: string): void {
     console.log('Template changed to:', templateName);
-    
+
     if (!templateName) {
       this.templateFields = [];
       this.selectedTemplate = '';
@@ -115,11 +114,11 @@ export class CreateContractComponent implements OnInit {
 
     this.selectedTemplate = templateName;
     this.isLoading = true;
-    
+
     this.contractsService.getTemplateFields(templateName).subscribe({
       next: (response: any) => {
         console.log('Template fields response:', response);
-        
+
         // Check if response has template_fields array or if it's a fields object
         if (response && Array.isArray(response)) {
           this.templateFields = response;
@@ -146,7 +145,7 @@ export class CreateContractComponent implements OnInit {
         } else {
           this.templateFields = [];
         }
-        
+
         console.log('Processed template fields:', this.templateFields);
         this.buildDynamicForm();
         this.isLoading = false;
@@ -165,7 +164,7 @@ export class CreateContractComponent implements OnInit {
 
   buildDynamicForm(): void {
     console.log('Building dynamic form with fields:', this.templateFields);
-    
+
     const group: any = {
       tipo_contrato: [{ value: this.selectedTemplate, disabled: false }, Validators.required],
       clausula_extra: [{ value: '', disabled: false }]
@@ -174,11 +173,11 @@ export class CreateContractComponent implements OnInit {
     if (this.templateFields && this.templateFields.length > 0) {
       this.templateFields.forEach(field => {
         const validators = [];
-        
+
         if (field.required) {
           validators.push(Validators.required);
         }
-        
+
         // Add specific validators based on field type
         switch (field.type) {
           case 'email':
@@ -200,7 +199,7 @@ export class CreateContractComponent implements OnInit {
             }
             break;
         }
-        
+
         group[field.field] = [{ value: '', disabled: false }, validators];
       });
     }
@@ -217,7 +216,7 @@ export class CreateContractComponent implements OnInit {
     if (!value) {
       return { required: true };
     }
-    
+
     try {
       const signatureData = JSON.parse(value);
       if (!signatureData.type || !signatureData.value) {
@@ -246,17 +245,17 @@ export class CreateContractComponent implements OnInit {
 
     this.isGenerating = true;
     const formValue = this.contractForm.value;
-    
+
     const campos: { [key: string]: any } = {};
     this.templateFields.forEach(field => {
       if (formValue[field.field]) {
         let value = formValue[field.field];
-        
+
         // Format date fields
         if (field.type === 'date' && value instanceof Date) {
           value = value.toISOString().split('T')[0]; // Format as YYYY-MM-DD
         }
-        
+
         // Handle signature fields
         if (this.isSignatureField(field.type)) {
           try {
@@ -356,10 +355,7 @@ export class CreateContractComponent implements OnInit {
   }
 
   isSignatureField(fieldType: string): boolean {
-    return fieldType === 'signature' || 
-           fieldType === 'signature-text' || 
-           fieldType === 'signature-canvas' || 
-           fieldType === 'signature-image';
+    return fieldType === 'signature' || fieldType === 'signature-text' || fieldType === 'signature-canvas' || fieldType === 'signature-image';
   }
 
   getSignatureType(fieldType: string): 'text' | 'canvas' | 'image' {
