@@ -85,14 +85,6 @@
                       Campos cargados: {{ templateFields.length || 0 }} | 
                       Cargando: {{ isLoading }}
                     </small>
-                    <div *ngIf="templateFields.length > 0" class="mt-1">
-                      <small class="text-muted">
-                        Tipos de campos: 
-                        <span *ngFor="let field of templateFields; let i = index">
-                          {{ field.field }}({{ field.type || 'text' }}){{ i < templateFields.length - 1 ? ', ' : '' }}
-                        </span>
-                      </small>
-                    </div>
                   </div>
 
                   <!-- Campos dinámicos -->
@@ -226,11 +218,6 @@
                         <!-- Signature Pad -->
                         <div *ngIf="isSignatureField(field.type)" class="signature-field">
                           <label class="signature-label">{{ field.label }}</label>
-                          <div class="signature-debug mb-2">
-                            <small class="text-info">
-                              🖊️ Campo de firma detectado: {{ field.field }} (tipo: {{ field.type }})
-                            </small>
-                          </div>
                           <app-signature-pad 
                             [formControlName]="field.field"
                             [signatureType]="getSignatureType(field.type)"
