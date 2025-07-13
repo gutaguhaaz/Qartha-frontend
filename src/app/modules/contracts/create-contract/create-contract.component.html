@@ -217,17 +217,23 @@
                         </mat-form-field>
 
                         <!-- Signature Pad -->
-                        <div *ngIf="field.type === 'signature'" class="signature-field">
+                        <div *ngIf="field.type === 'signature' || field.type === 'signature-text' || field.type === 'signature-canvas' || field.type === 'signature-image'" class="signature-field">
                           <label class="signature-label">{{ field.label }}</label>
                           <app-signature-pad 
                             [formControlName]="field.field"
-                            [signatureType]="field.signatureType || 'canvas'"
+                            [signatureType]="getSignatureType(field.type)"
                           ></app-signature-pad>
                           <mat-error
                             *ngIf="contractForm.get(field.field)?.hasError('required') && contractForm.get(field.field)?.touched"
                             class="signature-error"
                           >
                             La firma es requerida
+                          </mat-error>
+                          <mat-error
+                            *ngIf="contractForm.get(field.field)?.hasError('invalidSignature') && contractForm.get(field.field)?.touched"
+                            class="signature-error"
+                          >
+                            Firma inválida
                           </mat-error>
                         </div>
                       </div>

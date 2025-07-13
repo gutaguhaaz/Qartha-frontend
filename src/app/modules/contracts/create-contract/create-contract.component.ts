@@ -191,7 +191,13 @@ export class CreateContractComponent implements OnInit {
             // Date fields will be handled by mat-datepicker
             break;
           case 'signature':
-            // Signature validation will be handled by the component
+          case 'signature-text':
+          case 'signature-canvas':
+          case 'signature-image':
+            // Custom signature validator
+            if (field.required) {
+              validators.push(this.signatureValidator);
+            }
             break;
         }
         
@@ -203,6 +209,25 @@ export class CreateContractComponent implements OnInit {
     this.contractForm = this.fb.group(group);
     console.log('Dynamic form built:', this.contractForm);
     console.log('Form controls:', Object.keys(this.contractForm.controls));
+  }
+
+  // Custom validator for signature fields
+  private signatureValidator(control: any) {
+    const value = control.value;
+    if (!value) {
+      return { required: true };
+    }
+    
+    try {
+      const signatureData = JSON.parse(value);
+      if (!signatureData.type || !signatureData.value) {
+        return { invalidSignature: true };
+      }
+      return null;
+    } catch (e) {
+      // If it's not JSON, treat as text signature
+      return value.trim() ? null : { required: true };
+    }
   }
 
   generateContract(): void {
@@ -222,7 +247,7 @@ export class CreateContractComponent implements OnInit {
     this.isGenerating = true;
     const formValue = this.contractForm.value;
     
-    const campos: { [key: string]: string } = {};
+    const campos: { [key: string]: any } = {};
     this.templateFields.forEach(field => {
       if (formValue[field.field]) {
         let value = formValue[field.field];
@@ -233,17 +258,24 @@ export class CreateContractComponent implements OnInit {
         }
         
         // Handle signature fields
-        if (field.type === 'signature') {
+        if (field.type === 'signature' || field.type === 'signature-text' || field.type === 'signature-canvas' || field.type === 'signature-image') {
           try {
             const signatureData = JSON.parse(value);
-            // For backend, send the actual signature value
-            value = signatureData.value;
+            // Send signature object with type and value
+            campos[field.field] = {
+              type: signatureData.type,
+              value: signatureData.value
+            };
           } catch (e) {
-            // If not JSON, use as is (backward compatibility)
+            // If not JSON, treat as text signature (backward compatibility)
+            campos[field.field] = {
+              type: 'text',
+              value: value
+            };
           }
+        } else {
+          campos[field.field] = value;
         }
-        
-        campos[field.field] = value;
       }
     });
 
@@ -321,5 +353,18 @@ export class CreateContractComponent implements OnInit {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ')
       .replace(/([a-z])([A-Z])/g, '$1 $2');
+  }
+
+  getSignatureType(fieldType: string): 'text' | 'canvas' | 'image' {
+    switch (fieldType) {
+      case 'signature-text':
+        return 'text';
+      case 'signature-canvas':
+        return 'canvas';
+      case 'signature-image':
+        return 'image';
+      default:
+        return 'canvas'; // Default to canvas for 'signature' type
+    }
   }
 }
