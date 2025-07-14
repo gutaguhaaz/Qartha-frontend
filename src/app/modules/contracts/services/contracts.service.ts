@@ -15,7 +15,7 @@ import {
   providedIn: 'root'
 })
 export class ContractsService {
-  private apiUrl = environment.apiBaseUrl || 'https://tu-repl-url.replit.app/api/v1';
+  private apiUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) {}
 
