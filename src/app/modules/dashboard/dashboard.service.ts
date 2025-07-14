@@ -39,21 +39,39 @@ export class DashboardService {
   getSummary(): Observable<DashboardSummary> {
     return this.http.get<any>(`${this.apiUrl}/summary`).pipe(
       map((response) => ({
-        documentos_analizados: response.documentos_analizados || 0,
-        clausulas_riesgosas: response.clausulas_riesgosas || 0,
-        gpt_activado: response.gpt_enabled || response.gpt_activado || false,
-        plantillas_disponibles:
-          response.template_count || response.plantillas_disponibles || 0,
+        documentos_analizados: response.document_count || 0,
+        clausulas_riesgosas: response.risk_clause_count || 0,
+        gpt_activado: response.gpt_enabled || false,
+        plantillas_disponibles: response.template_count || 0,
       })),
     );
   }
 
   getTypeDistribution(): Observable<TypeCount[]> {
-    return this.http.get<TypeCount[]>(`${this.apiUrl}/type-distribution`);
+    return this.http.get<any[]>(`${this.apiUrl}/type-distribution`).pipe(
+      map((response) => response.map(item => ({
+        tipo: item.type,
+        cantidad: item.count
+      })))
+    );
   }
 
   getDocumentsPerMonth(): Observable<MonthCount[]> {
-    return this.http.get<MonthCount[]>(`${this.apiUrl}/documents-per-month`);
+    return this.http.get<any[]>(`${this.apiUrl}/documents-per-month`).pipe(
+      map((response) => response.map(item => ({
+        mes: this.formatMonth(item.month),
+        cantidad: item.count
+      })))
+    );
+  }
+
+  private formatMonth(month: string): string {
+    const [year, monthNum] = month.split('-');
+    const monthNames = [
+      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+    ];
+    return monthNames[parseInt(monthNum) - 1];
   }
 
   getSystemStatus(): Observable<SystemStatus> {
@@ -62,8 +80,8 @@ export class DashboardService {
         gpt_activo: response.gpt_enabled,
         mongo_conectado: response.mongo_connected,
         ml_cargado: response.ml_loaded,
-        plantillas_disponibles: response.template_count,
-      })),
+        plantillas_disponibles: response.template_count
+      }))
     );
   }
 }
