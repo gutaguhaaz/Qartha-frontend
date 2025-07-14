@@ -1,4 +1,3 @@
-
 <div class="right-sidebar" [class.open]="rightSidebarService.sidebarState | async">
   <div class="sidebar-overlay" (click)="rightSidebarService.changeMsg()"></div>
   <div class="sidebar-container">
@@ -20,7 +19,7 @@
           <mat-icon>close</mat-icon>
         </button>
       </div>
-      
+
       <!-- Selector de Documento -->
       <div class="document-selector" *ngIf="isAgentActive">
         <mat-form-field appearance="outline" class="full-width">
@@ -34,7 +33,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        
+
         <!-- Preview del documento seleccionado -->
         <div class="document-preview" *ngIf="documentoSeleccionado">
           <div class="preview-content">
@@ -76,13 +75,13 @@
           *ngFor="let mensaje of chatMessages" 
           class="message-wrapper"
           [ngClass]="'message-' + mensaje.tipo">
-          
+
           <div class="message-content">
             <div class="message-avatar">
               <mat-icon *ngIf="mensaje.tipo === 'usuario'">person</mat-icon>
               <span *ngIf="mensaje.tipo === 'agente'">⚖️</span>
             </div>
-            
+
             <div class="message-bubble">
               <div class="message-text">{{ mensaje.texto }}</div>
               <div class="message-meta">
@@ -144,7 +143,7 @@
             </textarea>
             <mat-hint align="end">{{ chatForm.get('mensaje')?.value?.length || 0 }}/1000</mat-hint>
           </mat-form-field>
-          
+
           <div class="input-actions">
             <button 
               type="button"
@@ -155,7 +154,7 @@
               class="clear-btn">
               <mat-icon>delete</mat-icon>
             </button>
-            
+
             <button 
               type="submit"
               mat-fab 
