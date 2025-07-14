@@ -59,23 +59,58 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   }
 
   ngAfterViewInit(): void {
-    // Forzar reproducción del video cuando esté listo
-    if (this.backgroundVideo?.nativeElement) {
-      const video = this.backgroundVideo.nativeElement;
-      
-      video.addEventListener('loadeddata', () => {
-        video.play().catch(error => {
-          console.log('Error al reproducir video:', error);
-        });
-      });
+    // Ensure video autoplay after component loads
+    setTimeout(() => {
+      this.initializeVideo();
+    }, 100);
+  }
 
-      // Intentar reproducir inmediatamente si ya está cargado
-      if (video.readyState >= 2) {
-        video.play().catch(error => {
-          console.log('Error al reproducir video:', error);
-        });
-      }
+  private initializeVideo(): void {
+    const video = document.querySelector('.background-video') as HTMLVideoElement;
+    if (!video) return;
+
+    // Set video properties for better autoplay compatibility
+    video.muted = true;
+    video.playsInline = true;
+    video.defaultMuted = true;
+
+    // Try to play the video
+    const playPromise = video.play();
+    
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log('Video autoplay blocked by browser:', error);
+        
+        // Fallback strategies
+        this.setupVideoFallbacks(video);
+      });
     }
+  }
+
+  private setupVideoFallbacks(video: HTMLVideoElement): void {
+    // Strategy 1: Play on any user interaction
+    const playOnInteraction = () => {
+      video.play().catch(e => console.log('Play on interaction failed:', e));
+      // Remove listeners after successful play attempt
+      document.removeEventListener('click', playOnInteraction);
+      document.removeEventListener('touchstart', playOnInteraction);
+      document.removeEventListener('keydown', playOnInteraction);
+    };
+
+    document.addEventListener('click', playOnInteraction, { passive: true });
+    document.addEventListener('touchstart', playOnInteraction, { passive: true });
+    document.addEventListener('keydown', playOnInteraction, { passive: true });
+
+    // Strategy 2: Show fallback image after a delay if video still isn't playing
+    setTimeout(() => {
+      if (video.paused) {
+        const fallbackImage = video.nextElementSibling as HTMLElement;
+        if (fallbackImage) {
+          video.style.display = 'none';
+          fallbackImage.style.display = 'block';
+        }
+      }
+    }, 3000);
   }
 
   get f() { 
