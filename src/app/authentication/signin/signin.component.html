@@ -1,76 +1,109 @@
-<div class="authentication-wrapper">
-  <div class="authentication-inner">
-    <div class="authentication-item">
-      <div class="auth-form">
-        <div class="text-center">
-          <img src="assets/images/logo.png" alt="Logo" class="img-fluid auth-logo">
-          <h3 class="mb-4">{{ 'SIGNIN.TITLE' | translate }}</h3>
-        </div>
 
-        <!-- Mensaje de éxito -->
-        <div *ngIf="message" class="alert alert-success alert-dismissible" role="alert">
-          {{ message }}
-        </div>
-
-        <!-- Mensaje de error -->
-        <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
-          {{ error }}
-        </div>
-
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>{{ 'SIGNIN.EMAIL' | translate }}</mat-label>
-              <input matInput type="email" formControlName="email" [class.is-invalid]="submitted && f['email'].errors">
-              <mat-icon matSuffix>email</mat-icon>
-              <mat-error *ngIf="submitted && f['email'].errors?.['required']">
-                {{ 'SIGNIN.EMAIL_REQUIRED' | translate }}
-              </mat-error>
-              <mat-error *ngIf="submitted && f['email'].errors?.['email']">
-                {{ 'SIGNIN.EMAIL_INVALID' | translate }}
-              </mat-error>
-            </mat-form-field>
+<div class="auth-container">
+  <div class="row auth-main">
+    <div class="col-sm-6 px-0 d-none d-sm-block">
+      <div class="left-img" style="background-image: url(assets/images/pages/bg-02.png);">
+      </div>
+    </div>
+    <div class="col-sm-6 auth-form-section">
+      <div class="form-section">
+        <div class="auth-wrapper">
+          <h2 class="welcome-msg">Sign In</h2>
+          <p class="auth-signup-text text-muted">Enter your credentials to access your account</p>
+          
+          <!-- Mensaje de éxito -->
+          <div *ngIf="message" class="alert alert-success alert-dismissible" role="alert">
+            {{ message }}
           </div>
 
-          <div class="form-group">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>{{ 'SIGNIN.PASSWORD' | translate }}</mat-label>
-              <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" [class.is-invalid]="submitted && f['password'].errors">
-              <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" type="button">
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <!-- Mensaje de error -->
+          <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
+            {{ error }}
+          </div>
+
+          <form class="validate-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>{{ 'SIGNIN.EMAIL' | translate }}</mat-label>
+                  <input matInput type="email" formControlName="email" required>
+                  <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>mail</mat-icon>
+                  <mat-error *ngIf="submitted && f['email'].errors?.['required']">
+                    {{ 'SIGNIN.EMAIL_REQUIRED' | translate }}
+                  </mat-error>
+                  <mat-error *ngIf="submitted && f['email'].errors?.['email']">
+                    {{ 'SIGNIN.EMAIL_INVALID' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>{{ 'SIGNIN.PASSWORD' | translate }}</mat-label>
+                  <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+                  <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
+                      {{hide ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                  </a>
+                  <mat-error *ngIf="submitted && f['password'].errors?.['required']">
+                    {{ 'SIGNIN.PASSWORD_REQUIRED' | translate }}
+                  </mat-error>
+                  <mat-error *ngIf="submitted && f['password'].errors?.['minlength']">
+                    {{ 'SIGNIN.PASSWORD_MINLENGTH' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                <mat-checkbox formControlName="remember_me">
+                  {{ 'SIGNIN.REMEMBER_ME' | translate }}
+                </mat-checkbox>
+              </div>
+            </div>
+
+            <div class="flex-sb-m w-full p-b-20">
+              <div>
+                <span>{{ 'SIGNIN.NO_ACCOUNT' | translate }} 
+                  <a routerLink="/authentication/signup">{{ 'SIGNIN.SIGNUP_LINK' | translate }}</a>
+                </span>
+              </div>
+              <div>
+                <a routerLink="/authentication/forgot-password" class="txt1">
+                  {{ 'SIGNIN.FORGOT_PASSWORD' | translate }}
+                </a>
+              </div>
+            </div>
+
+            <div class="container-auth-form-btn">
+              <button mat-raised-button color="primary" class="auth-form-btn" [disabled]="loading" type="submit">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ loading ? ('SIGNIN.LOADING' | translate) : ('SIGNIN.BUTTON' | translate) }}
               </button>
-              <mat-error *ngIf="submitted && f['password'].errors?.['required']">
-                {{ 'SIGNIN.PASSWORD_REQUIRED' | translate }}
-              </mat-error>
-              <mat-error *ngIf="submitted && f['password'].errors?.['minlength']">
-                {{ 'SIGNIN.PASSWORD_MINLENGTH' | translate }}
-              </mat-error>
-            </mat-form-field>
-          </div>
-
-          <div class="form-group">
-            <mat-checkbox formControlName="remember_me">
-              {{ 'SIGNIN.REMEMBER_ME' | translate }}
-            </mat-checkbox>
-          </div>
-
-          <div class="form-group text-center">
-            <button mat-raised-button color="primary" type="submit" [disabled]="loading" class="w-100">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              {{ loading ? ('SIGNIN.LOADING' | translate) : ('SIGNIN.BUTTON' | translate) }}
-            </button>
-          </div>
-
-          <div class="text-center">
-            <p class="mb-0">
-              {{ 'SIGNIN.NO_ACCOUNT' | translate }} 
-              <a routerLink="/authentication/signup" class="text-primary">{{ 'SIGNIN.SIGNUP_LINK' | translate }}</a>
-            </p>
-            <p class="mb-0">
-              <a routerLink="/authentication/forgot-password" class="text-primary">{{ 'SIGNIN.FORGOT_PASSWORD' | translate }}</a>
-            </p>
-          </div>
-        </form>
+            </div>
+          </form>
+          
+          <h6 class="social-login-title">OR</h6>
+          <ul class="list-unstyled social-icon mb-0 mt-3">
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
+              <i class="fab fa-google"></i>
+            </a></li>
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded flex-c-m">
+              <i class="fab fa-facebook-f"></i>
+            </a></li>
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
+              <i class="fab fa-twitter"></i>
+            </a></li>
+            <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
+              <i class="fab fa-linkedin-in"></i>
+            </a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
