@@ -22,6 +22,12 @@
     "ADVANCE-TABLE": {
       "TEXT": "Tabla de avance"
     },
+    "INICIO": {
+      "TEXT": "Inicio",
+      "LIST": {
+        "DASHBOARD": "Dashboard"
+      }
+    },
     "DOCUMENTS": {
       "TEXT": "Documentos",
       "LIST": {

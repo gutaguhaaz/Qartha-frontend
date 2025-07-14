@@ -22,6 +22,12 @@
     "ADVANCE-TABLE": {
       "TEXT": "Vorab-Tabelle"
     },
+    "INICIO": {
+      "TEXT": "Zuhause",
+      "LIST": {
+        "DASHBOARD": "Dashboard"
+      }
+    },
     "DOCUMENTS": {
       "TEXT": "Dokumente",
       "LIST": {
