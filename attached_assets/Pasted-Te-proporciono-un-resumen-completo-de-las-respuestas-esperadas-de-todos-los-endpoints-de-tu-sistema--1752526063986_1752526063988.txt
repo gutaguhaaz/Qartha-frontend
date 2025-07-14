@@ -1,0 +1,216 @@
+Te proporciono un resumen completo de las respuestas esperadas de todos los endpoints de tu sistema legal:
+
+🔐 Endpoints de Autenticación (/api/v1/auth/)
+POST /auth/register
+{
+  "id": "507f1f77bcf86cd799439011",
+  "email": "usuario@ejemplo.com",
+  "username": "usuario123",
+  "full_name": "Juan Pérez",
+  "position": "Abogado",
+  "phone": "+1234567890",
+  "organization": "Mi Empresa",
+  "language": "es",
+  "is_active": true,
+  "is_verified": false,
+  "is_admin": false,
+  "created_at": "2024-01-15T10:30:00Z"
+}
+POST /auth/login
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "token_type": "bearer",
+  "expires_in": 1800,
+  "user": {
+    "id": "507f1f77bcf86cd799439011",
+    "email": "usuario@ejemplo.com",
+    "username": "usuario123",
+    "full_name": "Juan Pérez"
+  }
+}
+GET /auth/me
+{
+  "id": "507f1f77bcf86cd799439011",
+  "email": "usuario@ejemplo.com",
+  "username": "usuario123",
+  "full_name": "Juan Pérez",
+  "position": "Abogado",
+  "organization": "Mi Empresa",
+  "is_active": true,
+  "is_admin": false,
+  "last_login": "2024-01-15T10:30:00Z"
+}
+📊 Endpoints de Dashboard (/api/v1/dashboard/)
+GET /dashboard/summary
+{
+  "document_count": 45,
+  "risk_clause_count": 23,
+  "template_count": 5,
+  "gpt_enabled": true
+}
+GET /dashboard/type-distribution
+[
+  {"type": "NDA", "count": 18},
+  {"type": "Servicios", "count": 12},
+  {"type": "Laborales", "count": 8},
+  {"type": "Colaboración", "count": 5},
+  {"type": "Cesión Derechos", "count": 2}
+]
+GET /dashboard/documents-per-month
+[
+  {"month": "2024-01", "count": 8},
+  {"month": "2024-02", "count": 12},
+  {"month": "2024-03", "count": 15},
+  {"month": "2024-04", "count": 10}
+]
+GET /dashboard/status
+{
+  "gpt_enabled": true,
+  "mongo_connected": true,
+  "ml_loaded": true,
+  "templates_available": true,
+  "template_count": 5
+}
+📄 Endpoints de Documentos (/api/v1/)
+POST /upload-file
+{
+  "message": "Documento procesado exitosamente",
+  "document_id": "507f1f77bcf86cd799439011",
+  "filename": "contrato.pdf",
+  "type": "NDA",
+  "pages": 5,
+  "risk_clauses": [
+    {
+      "clause": "El empleado renuncia a cualquier reclamación futura",
+      "risk_level": "high",
+      "category": "limitación_responsabilidad"
+    }
+  ],
+  "created_at": "2024-01-15T10:30:00Z"
+}
+GET /documents
+[
+  {
+    "_id": "507f1f77bcf86cd799439011",
+    "filename": "contrato.pdf",
+    "type": "NDA",
+    "pages": 5,
+    "risk_clauses": [...],
+    "created_at": "2024-01-15T10:30:00Z"
+  }
+]
+🧩 Endpoints de Cláusulas (/api/v1/clauses/)
+POST /clauses/predict
+{
+  "clause_text": "El empleado renuncia a cualquier reclamación futura",
+  "prediction": "limitación_responsabilidad",
+  "confidence": 0.85,
+  "risk_level": "high"
+}
+GET /clauses
+[
+  {
+    "_id": "507f1f77bcf86cd799439011",
+    "clause_text": "El empleado renuncia...",
+    "category": "limitación_responsabilidad",
+    "risk_level": "high",
+    "created_at": "2024-01-15T10:30:00Z"
+  }
+]
+🤖 Endpoints de Agente Legal (/api/v1/legal-agent/)
+POST /legal-agent/query
+{
+  "query": "¿Qué riesgos tiene esta cláusula?",
+  "response": "Esta cláusula presenta los siguientes riesgos: 1) Limitación excesiva de responsabilidad...",
+  "context_used": true,
+  "processing_time": 2.5,
+  "gpt_model": "gpt-4"
+}
+📋 Endpoints de Contratos (/api/v1/)
+GET /templates
+[
+  {
+    "name": "nda",
+    "display_name": "Acuerdo de Confidencialidad",
+    "description": "Plantilla para NDAs",
+    "required_fields": ["company_name", "employee_name", "start_date"]
+  }
+]
+POST /generate-contract
+{
+  "message": "Contrato generado exitosamente",
+  "contract_id": "507f1f77bcf86cd799439011",
+  "filename": "contrato_nda_2024.docx",
+  "download_url": "/api/v1/download-contract/507f1f77bcf86cd799439011",
+  "generated_at": "2024-01-15T10:30:00Z"
+}
+POST /generate-clause-gpt
+{
+  "generated_clause": "Por el presente, las partes acuerdan que toda información confidencial...",
+  "clause_type": "confidencialidad",
+  "tokens_used": 150,
+  "processing_time": 3.2
+}
+👥 Endpoints de Administración (/api/v1/auth/)
+GET /auth/users (Admin)
+{
+  "users": [
+    {
+      "id": "507f1f77bcf86cd799439011",
+      "email": "usuario@ejemplo.com",
+      "full_name": "Juan Pérez",
+      "is_active": true,
+      "created_at": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "total": 25,
+  "page": 1,
+  "per_page": 20,
+  "total_pages": 2
+}
+PUT /auth/users/{user_id} (Admin)
+{
+  "id": "507f1f77bcf86cd799439011",
+  "email": "usuario@ejemplo.com",
+  "full_name": "Juan Pérez Actualizado",
+  "is_active": true,
+  "is_admin": false,
+  "updated_at": "2024-01-15T10:30:00Z"
+}
+⚡ Endpoints de Utilidad
+GET /verify-token
+{
+  "valid": true,
+  "user": {
+    "id": "507f1f77bcf86cd799439011",
+    "email": "usuario@ejemplo.com"
+  },
+  "message": "Token válido"
+}
+GET /env-check
+{
+  "project": "Sistema Legal IA",
+  "api_base": "/api/v1",
+  "mongo": "mongodb+srv://..."
+}
+🚨 Respuestas de Error Comunes
+401 Unauthorized
+{
+  "detail": "Token JWT inválido o expirado"
+}
+403 Forbidden
+{
+  "detail": "Permisos insuficientes. Se requieren privilegios de administrador."
+}
+422 Validation Error
+{
+  "detail": [
+    {
+      "loc": ["body", "email"],
+      "msg": "field required",
+      "type": "value_error.missing"
+    }
+  ]
+}
+Este es el resumen completo de todas las respuestas esperadas de tu sistema legal FastAPI con MongoDB.
