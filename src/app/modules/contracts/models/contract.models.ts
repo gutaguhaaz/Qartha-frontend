@@ -22,10 +22,15 @@ export interface GPTClauseResponse {
 export interface TemplateField {
   field: string;
   label: string;
-  type: 'text' | 'date' | 'email' | 'tel' | 'textarea' | 'signature';
+  type: 'text' | 'date' | 'email' | 'tel' | 'textarea' | 'signature' | 'number';
   required: boolean;
   placeholder?: string;
   signatureType?: 'canvas' | 'upload' | 'text'; // Para campos de firma
+}
+
+export interface SignatureData {
+  type: 'canvas' | 'upload' | 'text';
+  value: string;
 }
 
 export interface TemplateResponse {

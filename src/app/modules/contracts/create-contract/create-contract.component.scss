@@ -6,39 +6,47 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.dynamic-fields {
-  margin-top: 20px;
+.signature-field {
+  margin: 16px 0;
 
-  h4 {
-    color: #333;
+  .signature-label {
+    display: block;
     font-weight: 500;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
+
+  .signature-error {
+    color: #f44336;
+    font-size: 12px;
+    margin-top: 8px;
+    display: block;
   }
 }
 
-.signature-field {
-  margin-bottom: 20px;
+.dynamic-fields {
+  margin-top: 24px;
+
+  h4 {
+    color: #1976d2;
+    margin-bottom: 16px;
+  }
 }
 
-.signature-label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: rgba(0, 0, 0, 0.87);
-}
-
-.signature-error {
-  color: #f44336;
-  font-size: 12px;
-  margin-top: 8px;
+.debug-info {
+  background: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border-left: 4px solid #2196f3;
 }
 
 .d-flex {
   display: flex;
-}
 
-.gap-2 {
-  gap: 0.5rem;
+  &.gap-2 {
+    gap: 8px;
+  }
 }
 
 .w-100 {
@@ -46,19 +54,27 @@
 }
 
 .mt-2 {
-  margin-top: 0.5rem;
+  margin-top: 8px;
 }
 
 .mt-4 {
-  margin-top: 1.5rem;
+  margin-top: 16px;
 }
 
 .mb-3 {
-  margin-bottom: 1rem;
+  margin-bottom: 12px;
 }
 
 .ms-2 {
-  margin-left: 0.5rem;
+  margin-left: 8px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: rgba(0, 0, 0, 0.6);
 }
 
 mat-card-header {
@@ -79,10 +95,6 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.text-center {
-  text-align: center;
 }
 
 // Responsive

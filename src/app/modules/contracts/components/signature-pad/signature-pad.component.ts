@@ -1,101 +1,113 @@
-
-import { Component, ElementRef, ViewChild, forwardRef, OnInit, OnDestroy, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, ElementRef, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTabsModule } from '@angular/material/tabs';
-
-export type SignatureType = 'canvas' | 'upload' | 'text';
+import { MatIconModule } from '@angular/material/icon';
+import { SignatureData } from '../../models/contract.models';
 
 @Component({
   selector: 'app-signature-pad',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatButtonModule, 
-    MatIconModule, 
+    CommonModule,
+    FormsModule,
+    MatButtonModule,
+    MatButtonToggleModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
-    MatTabsModule,
-    FormsModule
+    MatIconModule
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SignaturePadComponent),
+      multi: true
+    }
   ],
   template: `
     <div class="signature-container">
-      <mat-tab-group [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
-        <!-- Canvas Signature Tab -->
-        <mat-tab label="Dibujar Firma">
-          <div class="tab-content">
-            <canvas 
-              #signatureCanvas
-              class="signature-canvas"
-              (mousedown)="startDrawing($event)"
-              (mousemove)="draw($event)"
-              (mouseup)="stopDrawing()"
-              (mouseleave)="stopDrawing()"
-              (touchstart)="startDrawing($event)"
-              (touchmove)="draw($event)"
-              (touchend)="stopDrawing()"
-            ></canvas>
-            <div class="signature-actions">
-              <button mat-raised-button color="warn" (click)="clearCanvas()" type="button">
-                <mat-icon>clear</mat-icon>
-                Limpiar Firma
-              </button>
-            </div>
-          </div>
-        </mat-tab>
+      <!-- Selector de tipo de firma -->
+      <mat-button-toggle-group 
+        [(value)]="signatureType" 
+        (change)="onSignatureTypeChange($event)"
+        class="mb-3">
+        <mat-button-toggle value="canvas">
+          <mat-icon>brush</mat-icon>
+          Dibujar
+        </mat-button-toggle>
+        <mat-button-toggle value="upload">
+          <mat-icon>upload</mat-icon>
+          Subir Imagen
+        </mat-button-toggle>
+        <mat-button-toggle value="text">
+          <mat-icon>text_fields</mat-icon>
+          Escribir Nombre
+        </mat-button-toggle>
+      </mat-button-toggle-group>
 
-        <!-- Upload Image Tab -->
-        <mat-tab label="Subir Imagen">
-          <div class="tab-content">
-            <div class="upload-area">
-              <input 
-                #fileInput 
-                type="file" 
-                accept="image/*" 
-                (change)="onFileSelected($event)"
-                style="display: none"
-              >
-              <button mat-raised-button color="primary" (click)="fileInput.click()" type="button">
-                <mat-icon>cloud_upload</mat-icon>
-                Seleccionar Imagen
-              </button>
-              <p class="upload-hint">Formatos: PNG, JPG, JPEG</p>
-              
-              <div *ngIf="uploadedImagePreview" class="image-preview">
-                <img [src]="uploadedImagePreview" alt="Vista previa" class="preview-image">
-                <button mat-icon-button color="warn" (click)="removeUploadedImage()" type="button">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </div>
-          </div>
-        </mat-tab>
+      <!-- Canvas para dibujar -->
+      <div *ngIf="signatureType === 'canvas'" class="canvas-container">
+        <canvas 
+          #signatureCanvas 
+          width="400" 
+          height="200" 
+          class="signature-canvas"
+          (mousedown)="startDrawing($event)"
+          (mousemove)="draw($event)"
+          (mouseup)="stopDrawing()"
+          (mouseleave)="stopDrawing()"
+          (touchstart)="startDrawing($event)"
+          (touchmove)="draw($event)"
+          (touchend)="stopDrawing()">
+        </canvas>
+        <div class="canvas-controls mt-2">
+          <button mat-stroked-button (click)="clearCanvas()" type="button">
+            <mat-icon>clear</mat-icon>
+            Limpiar
+          </button>
+        </div>
+      </div>
 
-        <!-- Text Signature Tab -->
-        <mat-tab label="Firma de Texto">
-          <div class="tab-content">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>Escribe tu firma</mat-label>
-              <input 
-                matInput 
-                [(ngModel)]="textSignature"
-                (ngModelChange)="onTextSignatureChange()"
-                placeholder="Ej: Juan Pérez"
-                class="text-signature-input"
-              >
-            </mat-form-field>
-            <div *ngIf="textSignature" class="text-signature-preview">
-              <p class="signature-text">{{ textSignature }}</p>
-            </div>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
+      <!-- Upload de imagen -->
+      <div *ngIf="signatureType === 'upload'" class="upload-container">
+        <input 
+          type="file" 
+          #fileInput 
+          accept="image/*" 
+          (change)="onFileSelect($event)"
+          style="display: none;">
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="fileInput.click()" 
+          type="button">
+          <mat-icon>upload</mat-icon>
+          Seleccionar Imagen de Firma
+        </button>
+        <div *ngIf="uploadedImage" class="uploaded-preview mt-2">
+          <img [src]="uploadedImage" alt="Firma subida" class="signature-preview">
+          <button mat-icon-button (click)="clearUpload()" type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Campo de texto -->
+      <div *ngIf="signatureType === 'text'" class="text-container">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Escriba su nombre completo</mat-label>
+          <input 
+            matInput 
+            [(ngModel)]="textSignature" 
+            (ngModelChange)="onTextChange()"
+            placeholder="Ej: Juan Pérez - Firma Digital">
+          <mat-icon matSuffix>edit</mat-icon>
+        </mat-form-field>
+      </div>
     </div>
   `,
   styles: [`
@@ -103,306 +115,245 @@ export type SignatureType = 'canvas' | 'upload' | 'text';
       border: 2px dashed #ccc;
       border-radius: 8px;
       padding: 16px;
-      background-color: #fafafa;
-      min-height: 300px;
+      margin: 8px 0;
     }
-    
-    .tab-content {
-      padding: 16px 0;
-      min-height: 200px;
-    }
-    
+
     .signature-canvas {
       border: 1px solid #ddd;
       border-radius: 4px;
-      background-color: white;
       cursor: crosshair;
-      display: block;
-      margin: 0 auto;
+      background: white;
       width: 100%;
-      max-width: 500px;
-      height: 150px;
+      max-width: 400px;
     }
-    
-    .signature-canvas:hover {
-      border-color: #2196f3;
-    }
-    
-    .signature-actions {
-      margin-top: 12px;
+
+    .canvas-container {
       text-align: center;
     }
-    
-    .upload-area {
+
+    .upload-container {
       text-align: center;
-      padding: 20px;
     }
-    
-    .upload-hint {
-      margin: 10px 0;
-      color: #666;
-      font-size: 14px;
-    }
-    
-    .image-preview {
-      margin-top: 16px;
-      position: relative;
-      display: inline-block;
-    }
-    
-    .preview-image {
-      max-width: 300px;
-      max-height: 150px;
+
+    .signature-preview {
+      max-width: 200px;
+      max-height: 100px;
       border: 1px solid #ddd;
       border-radius: 4px;
+      margin-right: 8px;
     }
-    
-    .text-signature-preview {
-      text-align: center;
-      margin-top: 16px;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: white;
+
+    .uploaded-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    
-    .signature-text {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 24px;
-      color: #333;
-      margin: 0;
-    }
-    
-    .text-signature-input {
-      font-size: 16px;
-    }
-    
-    .w-100 {
+
+    .mat-button-toggle-group {
       width: 100%;
     }
-  `],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SignaturePadComponent),
-      multi: true
+
+    .text-container {
+      margin-top: 16px;
     }
-  ]
+  `]
 })
-export class SignaturePadComponent implements ControlValueAccessor, OnInit, OnDestroy {
-  @ViewChild('signatureCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
-  @Input() signatureType: SignatureType = 'canvas';
-  
+export class SignaturePadComponent implements ControlValueAccessor, OnInit {
+  @ViewChild('signatureCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+
+  signatureType: 'canvas' | 'upload' | 'text' = 'canvas';
+  textSignature = '';
+  uploadedImage = '';
+
   private canvas!: HTMLCanvasElement;
   private ctx!: CanvasRenderingContext2D;
   private isDrawing = false;
   private lastX = 0;
   private lastY = 0;
-  
-  selectedTabIndex = 0;
-  textSignature = '';
-  uploadedImagePreview: string | null = null;
-  
+
   private onChange = (value: string) => {};
   private onTouched = () => {};
-  
+
   ngOnInit() {
-    this.setupCanvas();
-    this.setInitialTab();
+    // Canvas se inicializa después de que la vista esté lista
   }
-  
-  ngOnDestroy() {
-    // Cleanup if needed
-  }
-  
-  private setupCanvas() {
-    this.canvas = this.canvasRef.nativeElement;
-    this.ctx = this.canvas.getContext('2d')!;
-    
-    // Set canvas size
-    this.canvas.width = 500;
-    this.canvas.height = 150;
-    
-    // Configure drawing style
-    this.ctx.strokeStyle = '#000';
-    this.ctx.lineWidth = 2;
-    this.ctx.lineCap = 'round';
-    this.ctx.lineJoin = 'round';
-    
-    // Fill with white background
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-  }
-  
-  private setInitialTab() {
-    switch (this.signatureType) {
-      case 'canvas':
-        this.selectedTabIndex = 0;
-        break;
-      case 'upload':
-        this.selectedTabIndex = 1;
-        break;
-      case 'text':
-        this.selectedTabIndex = 2;
-        break;
+
+  ngAfterViewInit() {
+    if (this.signatureType === 'canvas') {
+      this.initCanvas();
     }
   }
-  
-  onTabChange(event: any) {
-    this.selectedTabIndex = event.index;
+
+  onSignatureTypeChange(event: any) {
+    this.signatureType = event.value;
     this.clearAll();
+
+    if (this.signatureType === 'canvas') {
+      setTimeout(() => this.initCanvas(), 0);
+    }
   }
-  
+
+  private initCanvas() {
+    if (this.canvasRef) {
+      this.canvas = this.canvasRef.nativeElement;
+      this.ctx = this.canvas.getContext('2d')!;
+      this.ctx.strokeStyle = '#000';
+      this.ctx.lineWidth = 2;
+      this.ctx.lineCap = 'round';
+      this.ctx.lineJoin = 'round';
+    }
+  }
+
   startDrawing(event: MouseEvent | TouchEvent) {
+    if (!this.canvas) return;
+
     this.isDrawing = true;
     const rect = this.canvas.getBoundingClientRect();
-    
-    if (event instanceof MouseEvent) {
+
+    if (event instanceof TouchEvent) {
+      this.lastX = event.touches[0].clientX - rect.left;
+      this.lastY = event.touches[0].clientY - rect.top;
+    } else {
       this.lastX = event.clientX - rect.left;
       this.lastY = event.clientY - rect.top;
-    } else {
-      const touch = event.touches[0];
-      this.lastX = touch.clientX - rect.left;
-      this.lastY = touch.clientY - rect.top;
-      event.preventDefault();
     }
   }
-  
+
   draw(event: MouseEvent | TouchEvent) {
-    if (!this.isDrawing) return;
-    
+    if (!this.isDrawing || !this.canvas) return;
+
     const rect = this.canvas.getBoundingClientRect();
     let currentX, currentY;
-    
-    if (event instanceof MouseEvent) {
+
+    if (event instanceof TouchEvent) {
+      currentX = event.touches[0].clientX - rect.left;
+      currentY = event.touches[0].clientY - rect.top;
+      event.preventDefault();
+    } else {
       currentX = event.clientX - rect.left;
       currentY = event.clientY - rect.top;
-    } else {
-      const touch = event.touches[0];
-      currentX = touch.clientX - rect.left;
-      currentY = touch.clientY - rect.top;
-      event.preventDefault();
     }
-    
+
     this.ctx.beginPath();
     this.ctx.moveTo(this.lastX, this.lastY);
     this.ctx.lineTo(currentX, currentY);
     this.ctx.stroke();
-    
+
     this.lastX = currentX;
     this.lastY = currentY;
-    
-    // Emit the signature as base64
-    this.emitCanvasSignature();
+
+    this.updateValue();
   }
-  
+
   stopDrawing() {
     this.isDrawing = false;
   }
-  
+
   clearCanvas() {
-    this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    this.emitCanvasSignature();
+    if (this.canvas && this.ctx) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.updateValue();
+    }
   }
-  
-  onFileSelected(event: any) {
+
+  onFileSelect(event: any) {
     const file = event.target.files[0];
-    if (file) {
+    if (file && file.type.startsWith('image/')) {
       const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.uploadedImagePreview = e.target.result;
-        this.emitUploadedImage();
+      reader.onload = (e) => {
+        this.uploadedImage = e.target?.result as string;
+        this.updateValue();
       };
       reader.readAsDataURL(file);
     }
   }
-  
-  removeUploadedImage() {
-    this.uploadedImagePreview = null;
-    this.onChange('');
-    this.onTouched();
-  }
-  
-  onTextSignatureChange() {
-    this.emitTextSignature();
-  }
-  
-  private emitCanvasSignature() {
-    const dataURL = this.canvas.toDataURL('image/png');
-    const signature = {
-      type: 'canvas',
-      value: dataURL
-    };
-    this.onChange(JSON.stringify(signature));
-    this.onTouched();
-  }
-  
-  private emitUploadedImage() {
-    if (this.uploadedImagePreview) {
-      const signature = {
-        type: 'upload',
-        value: this.uploadedImagePreview
-      };
-      this.onChange(JSON.stringify(signature));
-      this.onTouched();
+
+  clearUpload() {
+    this.uploadedImage = '';
+    if (this.fileInputRef) {
+      this.fileInputRef.nativeElement.value = '';
     }
+    this.updateValue();
   }
-  
-  private emitTextSignature() {
-    const signature = {
-      type: 'text',
-      value: this.textSignature
+
+  onTextChange() {
+    this.updateValue();
+  }
+
+  private updateValue() {
+    let value = '';
+
+    switch (this.signatureType) {
+      case 'canvas':
+        if (this.canvas) {
+          value = this.canvas.toDataURL('image/png');
+        }
+        break;
+      case 'upload':
+        value = this.uploadedImage;
+        break;
+      case 'text':
+        value = this.textSignature;
+        break;
+    }
+
+    const signatureData: SignatureData = {
+      type: this.signatureType,
+      value: value
     };
-    this.onChange(JSON.stringify(signature));
+
+    this.onChange(JSON.stringify(signatureData));
     this.onTouched();
   }
-  
-  clearAll() {
-    this.clearCanvas();
-    this.removeUploadedImage();
+
+  private clearAll() {
     this.textSignature = '';
-    this.onChange('');
-    this.onTouched();
+    this.uploadedImage = '';
+    if (this.canvas && this.ctx) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    if (this.fileInputRef) {
+      this.fileInputRef.nativeElement.value = '';
+    }
+    this.updateValue();
   }
-  
+
   // ControlValueAccessor implementation
   writeValue(value: string): void {
-    if (!value) {
-      this.clearAll();
-      return;
-    }
-    
-    try {
-      const signature = JSON.parse(value);
-      switch (signature.type) {
-        case 'canvas':
-          // For canvas, we could reload the image if needed
-          break;
-        case 'upload':
-          this.uploadedImagePreview = signature.value;
-          this.selectedTabIndex = 1;
-          break;
-        case 'text':
-          this.textSignature = signature.value;
-          this.selectedTabIndex = 2;
-          break;
+    if (value) {
+      try {
+        const signatureData: SignatureData = JSON.parse(value);
+        this.signatureType = signatureData.type;
+
+        switch (signatureData.type) {
+          case 'text':
+            this.textSignature = signatureData.value;
+            break;
+          case 'upload':
+            this.uploadedImage = signatureData.value;
+            break;
+          case 'canvas':
+            // Para canvas, podrías cargar la imagen si es necesario
+            break;
+        }
+      } catch (e) {
+        // Si no es JSON válido, tratar como texto simple
+        this.signatureType = 'text';
+        this.textSignature = value;
       }
-    } catch (e) {
-      // If it's not JSON, treat as legacy canvas signature
-      // You could load it to canvas if needed
     }
   }
-  
+
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
-  
+
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
-  
+
   setDisabledState(isDisabled: boolean): void {
-    // Handle disabled state if needed
+    // Implementar si es necesario
   }
 }

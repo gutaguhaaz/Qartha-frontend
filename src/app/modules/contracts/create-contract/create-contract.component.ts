@@ -120,30 +120,15 @@ export class CreateContractComponent implements OnInit {
       next: (response: any) => {
         console.log('Template fields response:', response);
         
-        // Check if response has template_fields array or if it's a fields object
-        if (response && Array.isArray(response)) {
+        // Handle the new backend response format with field arrays
+        if (response && response.fields && Array.isArray(response.fields)) {
+          this.templateFields = response.fields;
+        } else if (response && Array.isArray(response)) {
           this.templateFields = response;
         } else if (response && response.template_fields && Array.isArray(response.template_fields)) {
           this.templateFields = response.template_fields;
-        } else if (response && response.fields && typeof response.fields === 'object') {
-          // Convert fields object to array format
-          this.templateFields = Object.entries(response.fields).map(([key, label]) => ({
-            field: key,
-            label: label as string,
-            type: 'text',
-            required: true,
-            placeholder: `Ingrese ${label}`
-          }));
-        } else if (response && typeof response === 'object' && !Array.isArray(response)) {
-          // If response is directly the fields object
-          this.templateFields = Object.entries(response).map(([key, label]) => ({
-            field: key,
-            label: label as string,
-            type: 'text',
-            required: true,
-            placeholder: `Ingrese ${label}`
-          }));
         } else {
+          // Fallback for older format
           this.templateFields = [];
         }
         
@@ -236,10 +221,23 @@ export class CreateContractComponent implements OnInit {
         if (field.type === 'signature') {
           try {
             const signatureData = JSON.parse(value);
-            // For backend, send the actual signature value
-            value = signatureData.value;
+            // Send the signature value based on type
+            switch (signatureData.type) {
+              case 'canvas':
+              case 'upload':
+                // For canvas and upload, send the base64 data
+                value = signatureData.value;
+                break;
+              case 'text':
+                // For text, send the text directly
+                value = signatureData.value;
+                break;
+              default:
+                value = signatureData.value;
+            }
           } catch (e) {
             // If not JSON, use as is (backward compatibility)
+            value = value;
           }
         }
         
