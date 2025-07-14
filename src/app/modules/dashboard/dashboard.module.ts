@@ -25,13 +25,12 @@ import { FeatherIconsComponent } from '../../shared/components/feather-icons/fea
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
 
 @NgModule({
-  declarations: [
-    DashboardComponent
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     HttpClientModule,
     DashboardRoutingModule,
+    DashboardComponent,
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
