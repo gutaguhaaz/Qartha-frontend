@@ -127,7 +127,7 @@ export class HeaderComponent
   ];
   ngOnInit() {
     this.config = this.configService.configData;
-    this.userImg = 'assets/images/user/' + this.authService.currentUserValue.img;
+    this.userImg = 'assets/images/user/admin.jpg'; // Default image since img property doesn't exist
     this.docElement = document.documentElement;
 
     this.homePage = 'dashboard/dashboard1';

@@ -36,11 +36,11 @@ export class LockedComponent implements OnInit {
     this.authForm = this.formBuilder.group({
       password: ['', Validators.required],
     });
-    this.userImg = this.authService.currentUserValue.img;
-    this.userFullName =
-      this.authService.currentUserValue.firstName +
-      ' ' +
-      this.authService.currentUserValue.lastName;
+    const currentUser = this.authService.currentUserValue;
+    if (currentUser) {
+      this.userImg = 'assets/images/user/admin.jpg'; // Default image since img property doesn't exist
+      this.userFullName = currentUser.full_name;
+    }
   }
   get f() {
     return this.authForm.controls;
