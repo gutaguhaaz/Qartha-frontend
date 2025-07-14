@@ -54,8 +54,8 @@ export class AuthService {
       );
   }
 
-  register(registerData: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.API_URL}/register`, registerData)
+  register(registerData: RegisterRequest): Observable<User> {
+    return this.http.post<User>(`${this.API_URL}/register`, registerData)
       .pipe(catchError(this.handleError));
   }
 
@@ -107,13 +107,21 @@ export class AuthService {
     let errorMessage = 'Ha ocurrido un error';
     
     if (error.error?.detail) {
-      errorMessage = error.error.detail;
+      // Handle validation errors array
+      if (Array.isArray(error.error.detail)) {
+        const firstError = error.error.detail[0];
+        errorMessage = firstError.msg || 'Error de validación';
+      } else {
+        errorMessage = error.error.detail;
+      }
     } else if (error.status === 401) {
-      errorMessage = 'Credenciales incorrectas';
+      errorMessage = 'Token JWT inválido o expirado';
+    } else if (error.status === 403) {
+      errorMessage = 'Permisos insuficientes';
     } else if (error.status === 400) {
       errorMessage = 'Datos inválidos';
     } else if (error.status === 422) {
-      errorMessage = 'Error de validación';
+      errorMessage = 'Error de validación en los datos enviados';
     } else if (error.status === 409) {
       errorMessage = 'El usuario ya existe';
     }

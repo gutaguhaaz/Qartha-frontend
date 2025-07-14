@@ -10,8 +10,10 @@ export interface User {
   language: string;
   is_admin: boolean;
   is_active: boolean;
+  is_verified?: boolean;
+  last_login?: string;
   created_at: string;
-  updated_at: string;
+  updated_at?: string;
 }
 
 export interface AuthResponse {

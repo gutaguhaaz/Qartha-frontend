@@ -250,6 +250,26 @@
     "CONFIRM_PASSWORD_REQUIRED": "Confirmar contraseña es requerido",
     "PASSWORD_INVALID": "La contraseña debe tener mayúsculas, minúsculas y números y al menos 8 caracteres",
     "PASSWORD_MISMATCH": "Las contraseñas no coinciden",
-    "PASSWORD_REQUIREMENTS": "La contraseña debe contener al menos 8 caracteres, incluyendo mayúsculas, minúsculas y números"
+    "PASSWORD_REQUIREMENTS": "La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas y números",
+    "IS_VERIFIED": "Verificado",
+    "IS_ADMIN": "Administrador",
+    "LAST_LOGIN": "Último acceso",
+    "USER_MANAGEMENT": "Gestión de Usuarios",
+    "TOTAL_USERS": "Total de Usuarios",
+    "ACTIVE_USERS": "Usuarios Activos",
+    "ADMIN_USERS": "Administradores",
+    "STATUS": "Estado",
+    "ROLE": "Rol",
+    "ACTIONS": "Acciones",
+    "TOGGLE_STATUS": "Cambiar Estado",
+    "TOGGLE_ADMIN": "Cambiar Rol Admin",
+    "DELETE_USER": "Eliminar Usuario",
+    "EDIT_USER": "Editar Usuario",
+    "USER_DETAILS": "Detalles del Usuario",
+    "VERIFICATION_STATUS": "Estado de Verificación",
+    "ADMIN_ROLE": "Rol de Administrador",
+    "ACCOUNT_STATUS": "Estado de Cuenta",
+    "CREATED_DATE": "Fecha de Creación",
+    "LAST_ACCESS": "Último Acceso"ontraseña debe contener al menos 8 caracteres, incluyendo mayúsculas, minúsculas y números"
   }
 }
