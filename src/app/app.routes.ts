@@ -115,6 +115,13 @@ export const APP_ROUTE: Route[] = [
                         (m) => m.ContractsModule
                     ),
             },
+            {
+                path: 'modules/dashboard',
+                loadChildren: () =>
+                    import('./modules/dashboard/dashboard.module').then(
+                        (m) => m.DashboardModule
+                    ),
+            },
         ],
     },
     {
