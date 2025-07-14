@@ -83,8 +83,8 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
 
   private initializeForm(): void {
     this.chatForm = this.fb.group({
-      mensaje: ['', [Validators.required, Validators.minLength(3)]],
-      documentoId: ['']
+      mensaje: [{ value: '', disabled: false }, [Validators.required, Validators.minLength(3)]],
+      documentoId: [{ value: '', disabled: false }]
     });
   }
 

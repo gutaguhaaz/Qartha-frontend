@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTooltip, ApexYAxis, ApexPlotOptions, ApexStroke, ApexLegend, ApexFill, ApexMarkers, ApexGrid, ApexTitleSubtitle, ApexResponsive, ApexNonAxisChartSeries } from 'ng-apexcharts';
 import { DashboardService, DashboardSummary, TypeCount, MonthCount, SystemStatus } from './dashboard.service';
@@ -31,13 +30,13 @@ export type ChartOptions = {
 export class DashboardComponent implements OnInit {
   public barChartOptions!: Partial<ChartOptions>;
   public pieChartOptions!: Partial<ChartOptions>;
-  
+
   // Dashboard data
   summary: DashboardSummary | null = null;
   typeDistribution: TypeCount[] = [];
   documentsPerMonth: MonthCount[] = [];
   systemStatus: SystemStatus | null = null;
-  
+
   // Loading states
   isLoadingSummary = true;
   isLoadingCharts = true;
@@ -192,5 +191,69 @@ export class DashboardComponent implements OnInit {
 
   getStatusText(status: boolean): string {
     return status ? 'Activo' : 'Inactivo';
+  }
+
+  private initializeChartData(): void {
+    // Inicializar con datos vacíos seguros
+    this.barChartOptions = {
+      series: [{
+        name: 'Documentos',
+        data: [0, 0, 0, 0, 0, 0]
+      }],
+      chart: {
+        type: 'bar',
+        height: 350,
+        foreColor: '#9aa0ac',
+        toolbar: { show: false }
+      },
+      xaxis: {
+        categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun']
+      },
+      yaxis: {
+        title: { text: 'Cantidad' }
+      },
+      dataLabels: { enabled: false },
+      grid: {
+        show: true,
+        borderColor: '#9aa0ac',
+        strokeDashArray: 1
+      },
+      fill: {
+        colors: ['#4FC3F7']
+      },
+      tooltip: {
+        theme: 'dark'
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '50%'
+        }
+      }
+    };
+
+    this.pieChartOptions = {
+      series2: [1, 1, 1],
+      chart: {
+        type: 'donut',
+        width: 380
+      },
+      labels: ['Contratos', 'Documentos', 'Otros'],
+      colors: ['#00E396', '#775DD0', '#FEB019'],
+      legend: {
+        position: 'bottom'
+      },
+      dataLabels: {
+        enabled: true
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          }
+        }
+      }]
+    };
   }
 }

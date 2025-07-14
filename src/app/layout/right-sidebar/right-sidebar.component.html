@@ -22,17 +22,19 @@
 
       <!-- Selector de Documento -->
       <div class="document-selector" *ngIf="isAgentActive">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Seleccionar documento (opcional)</mat-label>
-          <mat-select 
-            formControlName="documentoId"
-            (selectionChange)="onDocumentoSeleccionado($event.value)">
-            <mat-option value="">Sin contexto específico</mat-option>
-            <mat-option *ngFor="let doc of documentos" [value]="doc.id">
-              {{ doc.name }} ({{ doc.file_type }})
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <form [formGroup]="chatForm">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Seleccionar documento (opcional)</mat-label>
+            <mat-select 
+              formControlName="documentoId"
+              (selectionChange)="onDocumentoSeleccionado($event.value)">
+              <mat-option value="">Sin contexto específico</mat-option>
+              <mat-option *ngFor="let doc of documentos" [value]="doc.id">
+                {{ doc.name }} ({{ doc.file_type }})
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </form>
 
         <!-- Preview del documento seleccionado -->
         <div class="document-preview" *ngIf="documentoSeleccionado">
