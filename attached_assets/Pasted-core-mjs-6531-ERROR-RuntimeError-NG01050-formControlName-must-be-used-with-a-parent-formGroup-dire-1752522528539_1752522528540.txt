@@ -1,0 +1,446 @@
+core.mjs:6531 ERROR RuntimeError: NG01050: formControlName must be used with a parent formGroup directive.  You'll want to add a formGroup
+      directive and pass it an existing FormGroup instance (you can create one in your class).
+
+    Example:
+
+    
+  <div [formGroup]="myGroup">
+    <input formControlName="firstName">
+  </div>
+
+  In your class:
+
+  this.myGroup = new FormGroup({
+      firstName: new FormControl()
+  });
+    at controlParentException (forms.mjs:1416:12)
+    at FormControlName._checkParentType (forms.mjs:5362:23)
+    at FormControlName._setUpControl (forms.mjs:5367:14)
+    at FormControlName.ngOnChanges (forms.mjs:5313:18)
+    at FormControlName.rememberChangeHistoryAndInvokeOnChangesHook (core.mjs:4101:14)
+    at callHookInternal (core.mjs:5136:14)
+    at callHook (core.mjs:5167:9)
+    at callHooks (core.mjs:5118:17)
+    at executeInitAndCheckHooks (core.mjs:5068:9)
+    at selectIndexInternal (core.mjs:11029:17)
+handleError @ core.mjs:6531
+(anonymous) @ core.mjs:31954
+invoke @ zone.js:369
+run @ zone.js:111
+runOutsideAngular @ core.mjs:14778
+(anonymous) @ core.mjs:31954
+_tick @ core.mjs:31541
+tick @ core.mjs:31521
+(anonymous) @ core.mjs:31902
+invoke @ zone.js:369
+onInvoke @ core.mjs:14882
+invoke @ zone.js:368
+run @ zone.js:111
+run @ core.mjs:14733
+next @ core.mjs:31901
+next @ Subscriber.js:91
+_next @ Subscriber.js:60
+next @ Subscriber.js:31
+(anonymous) @ Subject.js:34
+errorContext @ errorContext.js:19
+next @ Subject.js:27
+emit @ core.mjs:6845
+checkStable @ core.mjs:14801
+onLeave @ core.mjs:14932
+onInvokeTask @ core.mjs:14876
+invokeTask @ zone.js:401
+runTask @ zone.js:159
+invokeTask @ zone.js:483
+invokeTask @ zone.js:1138
+globalCallback @ zone.js:1181
+globalZoneAwareCallback @ zone.js:1202
+XMLHttpRequest.send
+scheduleTask @ zone.js:2183
+scheduleTask @ zone.js:388
+onScheduleTask @ core.mjs:14551
+scheduleTask @ zone.js:382
+onScheduleTask @ zone.js:271
+scheduleTask @ zone.js:382
+scheduleTask @ zone.js:205
+scheduleMacroTask @ zone.js:228
+scheduleMacroTaskWithCurrentZone @ zone.js:691
+(anonymous) @ zone.js:2222
+proto.<computed> @ zone.js:1003
+(anonymous) @ http.mjs:2296
+_trySubscribe @ Observable.js:37
+(anonymous) @ Observable.js:31
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+source.subscribe.isComplete @ switchMap.js:14
+OperatorSubscriber._next @ OperatorSubscriber.js:13
+next @ Subscriber.js:31
+(anonymous) @ innerFrom.js:51
+_trySubscribe @ Observable.js:37
+(anonymous) @ Observable.js:31
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ switchMap.js:10
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ finalize.js:5
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+doInnerSub @ mergeInternals.js:19
+outerNext @ mergeInternals.js:14
+OperatorSubscriber._next @ OperatorSubscriber.js:13
+next @ Subscriber.js:31
+(anonymous) @ innerFrom.js:51
+_trySubscribe @ Observable.js:37
+(anonymous) @ Observable.js:31
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+mergeInternals @ mergeInternals.js:50
+(anonymous) @ mergeMap.js:13
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ filter.js:6
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ map.js:6
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ takeUntil.js:8
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+cargarEstadoAgente @ right-sidebar.component.ts:104
+ngOnInit @ right-sidebar.component.ts:67
+callHookInternal @ core.mjs:5136
+callHook @ core.mjs:5163
+callHooks @ core.mjs:5118
+executeInitAndCheckHooks @ core.mjs:5068
+selectIndexInternal @ core.mjs:11029
+ɵɵadvance @ core.mjs:11012
+MainLayoutComponent_Template @ main-layout.component.html:4
+executeTemplate @ core.mjs:11268
+refreshView @ core.mjs:12791
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInComponent @ core.mjs:12967
+detectChangesInChildComponents @ core.mjs:13028
+refreshView @ core.mjs:12841
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInEmbeddedViews @ core.mjs:12935
+refreshView @ core.mjs:12815
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInComponent @ core.mjs:12967
+detectChangesInChildComponents @ core.mjs:13028
+refreshView @ core.mjs:12841
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewWhileDirty @ core.mjs:12732
+detectChangesInternal @ core.mjs:12714
+detectChangesInView @ core.mjs:31734
+detectChangesInViewIfRequired @ core.mjs:31707
+detectChangesInAttachedViews @ core.mjs:31562
+_tick @ core.mjs:31532
+tick @ core.mjs:31521
+(anonymous) @ core.mjs:31902
+invoke @ zone.js:369
+onInvoke @ core.mjs:14882
+invoke @ zone.js:368
+run @ zone.js:111
+run @ core.mjs:14733
+next @ core.mjs:31901
+next @ Subscriber.js:91
+_next @ Subscriber.js:60
+next @ Subscriber.js:31
+(anonymous) @ Subject.js:34
+errorContext @ errorContext.js:19
+next @ Subject.js:27
+emit @ core.mjs:6845
+checkStable @ core.mjs:14801
+onHasTask @ core.mjs:14899
+hasTask @ zone.js:422
+_updateTaskCount @ zone.js:443
+_updateTaskCount @ zone.js:264
+runTask @ zone.js:177
+drainMicroTaskQueue @ zone.js:581
+Promise.then
+nativeScheduleMicroTask @ zone.js:557
+scheduleMicroTask @ zone.js:568
+scheduleTask @ zone.js:391
+onScheduleTask @ core.mjs:14551
+scheduleTask @ zone.js:382
+onScheduleTask @ zone.js:271
+scheduleTask @ zone.js:382
+scheduleTask @ zone.js:205
+scheduleMicroTask @ zone.js:225
+scheduleResolveOrReject @ zone.js:2528
+resolvePromise @ zone.js:2462
+(anonymous) @ zone.js:2370
+(anonymous) @ zone.js:2386
+webpackJsonpCallback @ jsonp chunk loading:77
+(anonymous) @ default-node_modules_angular_material_fesm2022_paginator_mjs.js:2Understand this error
+forms.mjs:5270 
+  It looks like you're using the disabled attribute with a reactive form directive. If you set disabled to true
+  when you set up this control in your component class, the disabled attribute will actually be set in the DOM for
+  you. We recommend using this approach to avoid 'changed after checked' errors.
+
+  Example:
+  // Specify the `disabled` property at control creation time:
+  form = new FormGroup({
+    first: new FormControl({value: 'Nancy', disabled: true}, Validators.required),
+    last: new FormControl('Drew', Validators.required)
+  });
+
+  // Controls can also be enabled/disabled after creation:
+  form.get('first')?.enable();
+  form.get('last')?.disable();
+
+set isDisabled @ forms.mjs:5270
+applyValueToInputField @ core.mjs:4035
+ngOnChangesSetInput @ core.mjs:4113
+writeToDirectiveInput @ core.mjs:11093
+setInputsForProperty @ core.mjs:12391
+elementPropertyInternal @ core.mjs:11692
+ɵɵproperty @ core.mjs:21289
+RightSidebarComponent_div_25_Template @ right-sidebar.component.html:141
+executeTemplate @ core.mjs:11268
+refreshView @ core.mjs:12791
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInEmbeddedViews @ core.mjs:12935
+refreshView @ core.mjs:12815
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInComponent @ core.mjs:12967
+detectChangesInChildComponents @ core.mjs:13028
+refreshView @ core.mjs:12841
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInComponent @ core.mjs:12967
+detectChangesInChildComponents @ core.mjs:13028
+refreshView @ core.mjs:12841
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInEmbeddedViews @ core.mjs:12935
+refreshView @ core.mjs:12815
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInComponent @ core.mjs:12967
+detectChangesInChildComponents @ core.mjs:13028
+refreshView @ core.mjs:12841
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewWhileDirty @ core.mjs:12732
+detectChangesInternal @ core.mjs:12714
+detectChangesInView @ core.mjs:31734
+detectChangesInViewIfRequired @ core.mjs:31707
+detectChangesInAttachedViews @ core.mjs:31562
+_tick @ core.mjs:31532
+tick @ core.mjs:31521
+(anonymous) @ core.mjs:31902
+invoke @ zone.js:369
+onInvoke @ core.mjs:14882
+invoke @ zone.js:368
+run @ zone.js:111
+run @ core.mjs:14733
+next @ core.mjs:31901
+next @ Subscriber.js:91
+_next @ Subscriber.js:60
+next @ Subscriber.js:31
+(anonymous) @ Subject.js:34
+errorContext @ errorContext.js:19
+next @ Subject.js:27
+emit @ core.mjs:6845
+checkStable @ core.mjs:14801
+onLeave @ core.mjs:14932
+onInvokeTask @ core.mjs:14876
+invokeTask @ zone.js:401
+runTask @ zone.js:159
+invokeTask @ zone.js:483
+ZoneTask.invoke @ zone.js:472
+task.invoke @ zone.js:2163
+invokeTask @ zone.js:1138
+globalCallback @ zone.js:1181
+globalZoneAwareCallback @ zone.js:1202
+XMLHttpRequest.send
+scheduleTask @ zone.js:2183
+scheduleTask @ zone.js:388
+onScheduleTask @ core.mjs:14551
+scheduleTask @ zone.js:382
+onScheduleTask @ zone.js:271
+scheduleTask @ zone.js:382
+scheduleTask @ zone.js:205
+scheduleMacroTask @ zone.js:228
+scheduleMacroTaskWithCurrentZone @ zone.js:691
+(anonymous) @ zone.js:2222
+proto.<computed> @ zone.js:1003
+(anonymous) @ http.mjs:2296
+_trySubscribe @ Observable.js:37
+(anonymous) @ Observable.js:31
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+source.subscribe.isComplete @ switchMap.js:14
+OperatorSubscriber._next @ OperatorSubscriber.js:13
+next @ Subscriber.js:31
+(anonymous) @ innerFrom.js:51
+_trySubscribe @ Observable.js:37
+(anonymous) @ Observable.js:31
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ switchMap.js:10
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ finalize.js:5
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+doInnerSub @ mergeInternals.js:19
+outerNext @ mergeInternals.js:14
+OperatorSubscriber._next @ OperatorSubscriber.js:13
+next @ Subscriber.js:31
+(anonymous) @ innerFrom.js:51
+_trySubscribe @ Observable.js:37
+(anonymous) @ Observable.js:31
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+mergeInternals @ mergeInternals.js:50
+(anonymous) @ mergeMap.js:13
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ filter.js:6
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ map.js:6
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+(anonymous) @ takeUntil.js:8
+(anonymous) @ lift.js:10
+(anonymous) @ Observable.js:26
+errorContext @ errorContext.js:19
+subscribe @ Observable.js:22
+cargarEstadoAgente @ right-sidebar.component.ts:104
+ngOnInit @ right-sidebar.component.ts:67
+callHookInternal @ core.mjs:5136
+callHook @ core.mjs:5163
+callHooks @ core.mjs:5118
+executeInitAndCheckHooks @ core.mjs:5068
+selectIndexInternal @ core.mjs:11029
+ɵɵadvance @ core.mjs:11012
+MainLayoutComponent_Template @ main-layout.component.html:4
+executeTemplate @ core.mjs:11268
+refreshView @ core.mjs:12791
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInComponent @ core.mjs:12967
+detectChangesInChildComponents @ core.mjs:13028
+refreshView @ core.mjs:12841
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInEmbeddedViews @ core.mjs:12935
+refreshView @ core.mjs:12815
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewIfAttached @ core.mjs:12978
+detectChangesInComponent @ core.mjs:12967
+detectChangesInChildComponents @ core.mjs:13028
+refreshView @ core.mjs:12841
+detectChangesInView$1 @ core.mjs:13015
+detectChangesInViewWhileDirty @ core.mjs:12732
+detectChangesInternal @ core.mjs:12714
+detectChangesInView @ core.mjs:31734
+detectChangesInViewIfRequired @ core.mjs:31707
+detectChangesInAttachedViews @ core.mjs:31562
+_tick @ core.mjs:31532
+tick @ core.mjs:31521
+(anonymous) @ core.mjs:31902
+invoke @ zone.js:369
+onInvoke @ core.mjs:14882
+invoke @ zone.js:368
+run @ zone.js:111
+run @ core.mjs:14733
+next @ core.mjs:31901
+next @ Subscriber.js:91
+_next @ Subscriber.js:60
+next @ Subscriber.js:31
+(anonymous) @ Subject.js:34
+errorContext @ errorContext.js:19
+next @ Subject.js:27
+emit @ core.mjs:6845
+checkStable @ core.mjs:14801
+onHasTask @ core.mjs:14899
+hasTask @ zone.js:422
+_updateTaskCount @ zone.js:443
+_updateTaskCount @ zone.js:264
+runTask @ zone.js:177
+drainMicroTaskQueue @ zone.js:581
+Promise.then
+nativeScheduleMicroTask @ zone.js:557
+scheduleMicroTask @ zone.js:568
+scheduleTask @ zone.js:391
+onScheduleTask @ core.mjs:14551
+scheduleTask @ zone.js:382
+onScheduleTask @ zone.js:271
+scheduleTask @ zone.js:382
+scheduleTask @ zone.js:205
+scheduleMicroTask @ zone.js:225
+scheduleResolveOrReject @ zone.js:2528
+resolvePromise @ zone.js:2462
+(anonymous) @ zone.js:2370
+(anonymous) @ zone.js:2386
+webpackJsonpCallback @ jsonp chunk loading:77
+(anonymous) @ default-node_modules_angular_material_fesm2022_paginator_mjs.js:2Understand this warning
+zone.js:2317 TypeError: Cannot read properties of undefined (reading 'x')
+    at t.value (apexcharts.common.js:6:126530)
+    at t.value (apexcharts.common.js:6:126179)
+    at t.value (apexcharts.common.js:6:133579)
+    at t.value (apexcharts.common.js:6:136381)
+    at t.value (apexcharts.common.js:14:38241)
+    at t.create (apexcharts.common.js:6:5550)
+    at apexcharts.common.js:14:37073
+    at new ZoneAwarePromise (zone.js:2702:25)
+    at t.value (apexcharts.common.js:14:21768)
+    at ng-apexcharts.mjs:101:74
+api.onUnhandledError @ zone.js:2317
+handleUnhandledRejection @ zone.js:2339
+api.microtaskDrainDone @ zone.js:2333
+drainMicroTaskQueue @ zone.js:588
+Promise.then
+nativeScheduleMicroTask @ zone.js:557
+scheduleMicroTask @ zone.js:568
+scheduleTask @ zone.js:391
+scheduleTask @ zone.js:205
+scheduleMicroTask @ zone.js:225
+scheduleResolveOrReject @ zone.js:2528
+resolvePromise @ zone.js:2462
+(anonymous) @ zone.js:2370
+(anonymous) @ zone.js:2386
+webpackJsonpCallback @ jsonp chunk loading:77
+(anonymous) @ node_modules_apexcharts_dist_apexcharts_common_js.js:2Understand this error
+zone.js:2317 TypeError: Cannot read properties of undefined (reading 'hidden')
+    at apexcharts.common.js:14:37875
+    at Array.forEach (<anonymous>)
+    at t.value (apexcharts.common.js:14:37850)
+    at t.create (apexcharts.common.js:6:5550)
+    at apexcharts.common.js:14:37073
+    at new ZoneAwarePromise (zone.js:2702:25)
+    at t.value (apexcharts.common.js:14:21768)
+    at ng-apexcharts.mjs:101:74
+    at _ZoneDelegate.invoke (zone.js:369:28)
+    at ZoneImpl.run (zone.js:111:43)

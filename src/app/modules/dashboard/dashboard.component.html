@@ -1,9 +1,13 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <!-- breadcrumb -->
+      <app-breadcrumb
+        [title]="'Dashboard Legal'"
+        [items]="['Inicio', 'Dashboard Legal']"
+      ></app-breadcrumb>
+    </div>
 
-<app-breadcrumb [title]="'Dashboard Legal'" [items]="['Inicio', 'Dashboard Legal']"></app-breadcrumb>
-
-<div class="content">
-  <div class="container-fluid">
-    
     <!-- Summary Cards Row -->
     <div class="row clearfix">
       <!-- Documentos Analizados Card -->
@@ -13,7 +17,9 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <span class="text-muted">Documentos Analizados</span>
-                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">{{ summary?.documentos_analizados || 0 }}</h2>
+                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">
+                  {{ summary?.documentos_analizados || 0 }}
+                </h2>
                 <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
               </div>
               <div class="icon-large">
@@ -32,14 +38,18 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <span class="text-muted">Cláusulas Riesgosas</span>
-                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">{{ summary?.clausulas_riesgosas || 0 }}</h2>
+                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">
+                  {{ summary?.clausulas_riesgosas || 0 }}
+                </h2>
                 <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
               </div>
               <div class="icon-large">
                 <mat-icon class="text-warning">warning</mat-icon>
               </div>
             </div>
-            <small class="text-muted">Cláusulas identificadas como riesgosas</small>
+            <small class="text-muted"
+              >Cláusulas identificadas como riesgosas</small
+            >
           </div>
         </div>
       </div>
@@ -52,8 +62,12 @@
               <div>
                 <span class="text-muted">GPT Activado</span>
                 <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">
-                  <mat-icon [style.color]="getStatusColor(summary?.gpt_activado || false)">
-                    {{ summary?.gpt_activado ? 'check_circle' : 'cancel' }}
+                  <mat-icon
+                    [style.color]="
+                      getStatusColor(summary?.gpt_activado || false)
+                    "
+                  >
+                    {{ summary?.gpt_activado ? "check_circle" : "cancel" }}
                   </mat-icon>
                 </h2>
                 <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
@@ -74,14 +88,18 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <span class="text-muted">Plantillas Disponibles</span>
-                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">{{ summary?.plantillas_disponibles || 0 }}</h2>
+                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">
+                  {{ summary?.plantillas_disponibles || 0 }}
+                </h2>
                 <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
               </div>
               <div class="icon-large">
                 <mat-icon class="text-info">article</mat-icon>
               </div>
             </div>
-            <small class="text-muted">Plantillas de contratos disponibles</small>
+            <small class="text-muted"
+              >Plantillas de contratos disponibles</small
+            >
           </div>
         </div>
       </div>
@@ -123,7 +141,8 @@
                 [dataLabels]="barChartOptions.dataLabels!"
                 [grid]="barChartOptions.grid!"
                 [fill]="barChartOptions.fill!"
-                [tooltip]="barChartOptions.tooltip!">
+                [tooltip]="barChartOptions.tooltip!"
+              >
               </apx-chart>
             </div>
             <div *ngIf="isLoadingCharts" class="text-center p-4">
@@ -149,7 +168,8 @@
                 [colors]="pieChartOptions.colors!"
                 [legend]="pieChartOptions.legend!"
                 [dataLabels]="pieChartOptions.dataLabels!"
-                [responsive]="pieChartOptions.responsive!">
+                [responsive]="pieChartOptions.responsive!"
+              >
               </apx-chart>
             </div>
             <div *ngIf="isLoadingCharts" class="text-center p-4">
@@ -169,7 +189,11 @@
             <h2>Estado del Sistema</h2>
             <ul class="header-dropdown">
               <li>
-                <button mat-icon-button (click)="loadDashboardData()" matTooltip="Actualizar estado">
+                <button
+                  mat-icon-button
+                  (click)="loadDashboardData()"
+                  matTooltip="Actualizar estado"
+                >
                   <mat-icon>refresh</mat-icon>
                 </button>
               </li>
@@ -179,24 +203,38 @@
             <div *ngIf="!isLoadingStatus && systemStatus" class="row">
               <div class="col-md-3">
                 <div class="d-flex align-items-center mb-3">
-                  <mat-icon [style.color]="getStatusColor(systemStatus.gpt_activo)" class="me-2">
-                    {{ systemStatus.gpt_activo ? 'check_circle' : 'cancel' }}
+                  <mat-icon
+                    [style.color]="getStatusColor(systemStatus.gpt_activo)"
+                    class="me-2"
+                  >
+                    {{ systemStatus.gpt_activo ? "check_circle" : "cancel" }}
                   </mat-icon>
                   <span>GPT: {{ getStatusText(systemStatus.gpt_activo) }}</span>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="d-flex align-items-center mb-3">
-                  <mat-icon [style.color]="getStatusColor(systemStatus.mongo_conectado)" class="me-2">
-                    {{ systemStatus.mongo_conectado ? 'check_circle' : 'cancel' }}
+                  <mat-icon
+                    [style.color]="getStatusColor(systemStatus.mongo_conectado)"
+                    class="me-2"
+                  >
+                    {{
+                      systemStatus.mongo_conectado ? "check_circle" : "cancel"
+                    }}
                   </mat-icon>
-                  <span>MongoDB: {{ getStatusText(systemStatus.mongo_conectado) }}</span>
+                  <span
+                    >MongoDB:
+                    {{ getStatusText(systemStatus.mongo_conectado) }}</span
+                  >
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="d-flex align-items-center mb-3">
-                  <mat-icon [style.color]="getStatusColor(systemStatus.ml_cargado)" class="me-2">
-                    {{ systemStatus.ml_cargado ? 'check_circle' : 'cancel' }}
+                  <mat-icon
+                    [style.color]="getStatusColor(systemStatus.ml_cargado)"
+                    class="me-2"
+                  >
+                    {{ systemStatus.ml_cargado ? "check_circle" : "cancel" }}
                   </mat-icon>
                   <span>ML: {{ getStatusText(systemStatus.ml_cargado) }}</span>
                 </div>
@@ -204,7 +242,9 @@
               <div class="col-md-3">
                 <div class="d-flex align-items-center mb-3">
                   <mat-icon class="text-info me-2">article</mat-icon>
-                  <span>Plantillas: {{ systemStatus.plantillas_disponibles }}</span>
+                  <span
+                    >Plantillas: {{ systemStatus.plantillas_disponibles }}</span
+                  >
                 </div>
               </div>
             </div>
@@ -216,6 +256,5 @@
         </div>
       </div>
     </div>
-
   </div>
-</div>
+</section>
