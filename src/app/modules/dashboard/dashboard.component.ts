@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit {
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
+    this.initializeChartData();
     this.loadDashboardData();
   }
 
@@ -64,24 +65,26 @@ export class DashboardComponent implements OnInit {
     // Load type distribution
     this.dashboardService.getTypeDistribution().subscribe({
       next: (data) => {
-        this.typeDistribution = data;
+        this.typeDistribution = data || [];
         this.initializePieChart();
       },
       error: (error) => {
         console.error('Error loading type distribution:', error);
-        this.isLoadingCharts = false;
+        this.typeDistribution = [];
+        this.initializePieChart();
       }
     });
 
     // Load documents per month
     this.dashboardService.getDocumentsPerMonth().subscribe({
       next: (data) => {
-        this.documentsPerMonth = data;
+        this.documentsPerMonth = data || [];
         this.initializeBarChart();
       },
       error: (error) => {
         console.error('Error loading documents per month:', error);
-        this.isLoadingCharts = false;
+        this.documentsPerMonth = [];
+        this.initializeBarChart();
       }
     });
 
@@ -99,11 +102,19 @@ export class DashboardComponent implements OnInit {
   }
 
   private initializeBarChart(): void {
+    const categories = this.documentsPerMonth && this.documentsPerMonth.length > 0 
+      ? this.documentsPerMonth.map(item => item.mes) 
+      : ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
+    
+    const data = this.documentsPerMonth && this.documentsPerMonth.length > 0
+      ? this.documentsPerMonth.map(item => item.cantidad)
+      : [0, 0, 0, 0, 0, 0];
+
     this.barChartOptions = {
       series: [
         {
           name: 'Documentos',
-          data: this.documentsPerMonth.map(item => item.cantidad)
+          data: data
         }
       ],
       chart: {
@@ -124,11 +135,24 @@ export class DashboardComponent implements OnInit {
         enabled: false,
       },
       xaxis: {
-        categories: this.documentsPerMonth.map(item => item.mes),
+        categories: categories,
+        labels: {
+          style: {
+            colors: '#9aa0ac',
+          },
+        },
       },
       yaxis: {
         title: {
-          text: 'Cantidad de Documentos'
+          text: 'Cantidad de Documentos',
+          style: {
+            color: '#9aa0ac',
+          },
+        },
+        labels: {
+          style: {
+            colors: '#9aa0ac',
+          },
         },
       },
       grid: {
@@ -154,20 +178,34 @@ export class DashboardComponent implements OnInit {
   }
 
   private initializePieChart(): void {
+    const series = this.typeDistribution && this.typeDistribution.length > 0
+      ? this.typeDistribution.map(item => item.cantidad)
+      : [1, 1, 1];
+    
+    const labels = this.typeDistribution && this.typeDistribution.length > 0
+      ? this.typeDistribution.map(item => item.tipo)
+      : ['Contratos', 'Documentos', 'Otros'];
+
     this.pieChartOptions = {
-      series2: this.typeDistribution.map(item => item.cantidad),
+      series2: series,
       chart: {
         type: 'donut',
         width: 380,
       },
-      labels: this.typeDistribution.map(item => item.tipo),
+      labels: labels,
       colors: ['#4FC3F7', '#7460EE', '#F6A025', '#9BC311', '#E82742'],
       legend: {
         show: true,
         position: 'bottom',
+        labels: {
+          colors: '#9aa0ac',
+        },
       },
       dataLabels: {
         enabled: true,
+        style: {
+          colors: ['#fff']
+        }
       },
       responsive: [
         {
@@ -204,13 +242,31 @@ export class DashboardComponent implements OnInit {
         type: 'bar',
         height: 350,
         foreColor: '#9aa0ac',
-        toolbar: { show: false }
+        toolbar: { show: false },
+        animations: {
+          enabled: false
+        }
       },
       xaxis: {
-        categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun']
+        categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
+        labels: {
+          style: {
+            colors: '#9aa0ac',
+          },
+        },
       },
       yaxis: {
-        title: { text: 'Cantidad' }
+        title: { 
+          text: 'Cantidad',
+          style: {
+            color: '#9aa0ac',
+          },
+        },
+        labels: {
+          style: {
+            colors: '#9aa0ac',
+          },
+        },
       },
       dataLabels: { enabled: false },
       grid: {
@@ -233,18 +289,27 @@ export class DashboardComponent implements OnInit {
     };
 
     this.pieChartOptions = {
-      series2: [1, 1, 1],
+      series2: [33, 33, 34],
       chart: {
         type: 'donut',
-        width: 380
+        width: 380,
+        animations: {
+          enabled: false
+        }
       },
       labels: ['Contratos', 'Documentos', 'Otros'],
-      colors: ['#00E396', '#775DD0', '#FEB019'],
+      colors: ['#4FC3F7', '#7460EE', '#F6A025'],
       legend: {
-        position: 'bottom'
+        position: 'bottom',
+        labels: {
+          colors: '#9aa0ac',
+        },
       },
       dataLabels: {
-        enabled: true
+        enabled: true,
+        style: {
+          colors: ['#fff']
+        }
       },
       responsive: [{
         breakpoint: 480,
