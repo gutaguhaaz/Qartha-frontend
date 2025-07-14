@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -76,13 +77,13 @@ export class CreateContractComponent implements OnInit {
   loadTemplates(): void {
     console.log('Iniciando carga de templates...');
     this.isLoading = true;
-
+    
     this.contractsService.getTemplates().subscribe({
       next: (response) => {
         console.log('Raw response from getTemplates():', response);
         console.log('Response type:', typeof response);
         console.log('Response keys:', Object.keys(response || {}));
-
+        
         if (response && response.templates && Array.isArray(response.templates)) {
           console.log('Templates array found:', response.templates);
           this.templates = response.templates.map(name => ({
@@ -103,7 +104,7 @@ export class CreateContractComponent implements OnInit {
           console.error('Unexpected response format:', response);
           this.templates = [];
         }
-
+        
         this.isLoading = false;
         console.log('Templates loading completed. Total templates:', this.templates.length);
       },
@@ -115,7 +116,7 @@ export class CreateContractComponent implements OnInit {
           statusText: error.statusText,
           url: error.url
         });
-
+        
         this.snackBar.open('Error al cargar las plantillas: ' + (error.message || 'Error desconocido'), 'Cerrar', {
           duration: 5000,
           panelClass: ['error-snackbar']
@@ -127,99 +128,79 @@ export class CreateContractComponent implements OnInit {
   }
 
   onTemplateChange(templateName: string): void {
-    console.log('Template selected:', templateName);
-
+    console.log('=== Template Change Event ===');
+    console.log('Selected template name:', templateName);
+    console.log('Available templates:', this.templates);
+    
     if (!templateName) {
+      console.log('Template cleared - resetting form');
       this.templateFields = [];
       this.selectedTemplate = '';
-      this.removeTemplateDynamicControls();
+      // Reset form to basic structure
+      this.contractForm = this.fb.group({
+        tipo_contrato: [{ value: '', disabled: false }, Validators.required],
+        clausula_extra: [{ value: '', disabled: false }]
+      });
       return;
     }
 
     this.selectedTemplate = templateName;
     this.isLoading = true;
-
+    
+    console.log('Fetching fields for template:', templateName);
+    console.log('Service URL will be called...');
+    
     this.contractsService.getTemplateFields(templateName).subscribe({
-      next: (fields) => {
-        console.log('✅ Template fields loaded:', fields);
-        // Fix field types - ensure date fields are properly detected
-        this.templateFields = this.fixFieldTypes(fields);
-        this.addTemplateDynamicControls(this.templateFields);
+      next: (response: any) => {
+        console.log('=== Template Fields Response ===');
+        console.log('Raw response:', response);
+        console.log('Response type:', typeof response);
+        
+        if (response) {
+          console.log('Response keys:', Object.keys(response));
+        }
+        
+        // Handle the new backend response format with field arrays
+        if (response && response.fields && Array.isArray(response.fields)) {
+          console.log('Found fields array in response.fields');
+          this.templateFields = response.fields;
+        } else if (response && Array.isArray(response)) {
+          console.log('Response is direct array');
+          this.templateFields = response;
+        } else if (response && response.template_fields && Array.isArray(response.template_fields)) {
+          console.log('Found fields in response.template_fields');
+          this.templateFields = response.template_fields;
+        } else {
+          console.warn('No valid fields found in response, setting empty array');
+          this.templateFields = [];
+        }
+        
+        console.log('Final processed template fields:', this.templateFields);
+        console.log('Number of fields:', this.templateFields.length);
+        
+        this.buildDynamicForm();
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('❌ Error loading template fields:', error);
-        this.snackBar.open('Error al cargar los campos de la plantilla', 'Cerrar', {
-          duration: 3000
+        console.error('=== Template Fields Error ===');
+        console.error('Error object:', error);
+        console.error('Error message:', error.message);
+        console.error('Error status:', error.status);
+        console.error('Error URL:', error.url);
+        
+        this.snackBar.open('Error al cargar los campos de la plantilla: ' + (error.message || 'Error desconocido'), 'Cerrar', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
         });
+        this.templateFields = [];
         this.isLoading = false;
       }
-    });
-  }
-
-  private fixFieldTypes(fields: TemplateField[]): TemplateField[] {
-    return fields.map(field => {
-      // Fix for date fields that might be incorrectly classified
-      if (field.field.toLowerCase().includes('fecha') || 
-          field.label.toLowerCase().includes('fecha') ||
-          field.field.toLowerCase().includes('date')) {
-        return {
-          ...field,
-          type: 'date'
-        };
-      }
-
-      // Only classify as signature if it specifically contains "firma" without "fecha"
-      if ((field.field.toLowerCase().includes('firma') || 
-           field.label.toLowerCase().includes('firma')) &&
-          !field.field.toLowerCase().includes('fecha') &&
-          !field.label.toLowerCase().includes('fecha')) {
-        return {
-          ...field,
-          type: 'signature'
-        };
-      }
-
-      return field;
-    });
-  }
-
-  removeTemplateDynamicControls(): void {
-    // Remove all dynamically added controls
-    Object.keys(this.contractForm.controls).forEach(controlName => {
-      if (controlName !== 'tipo_contrato' && controlName !== 'clausula_extra') {
-        this.contractForm.removeControl(controlName);
-      }
-    });
-  }
-
-  addTemplateDynamicControls(fields: TemplateField[]): void {
-    console.log('Building dynamic form with fields:', fields);
-
-    // Remove existing dynamic controls first
-    this.removeTemplateDynamicControls();
-
-    fields.forEach(field => {
-      const validators = [];
-
-      if (field.required) {
-        validators.push(Validators.required);
-      }
-
-      switch (field.type) {
-        case 'email':
-          validators.push(Validators.email);
-          break;
-          // Add other validators as needed
-      }
-
-      this.contractForm.addControl(field.field, this.fb.control('', validators));
     });
   }
 
   buildDynamicForm(): void {
     console.log('Building dynamic form with fields:', this.templateFields);
-
+    
     const group: any = {
       tipo_contrato: [{ value: this.selectedTemplate, disabled: false }, Validators.required],
       clausula_extra: [{ value: '', disabled: false }]
@@ -228,11 +209,11 @@ export class CreateContractComponent implements OnInit {
     if (this.templateFields && this.templateFields.length > 0) {
       this.templateFields.forEach(field => {
         const validators = [];
-
+        
         if (field.required) {
           validators.push(Validators.required);
         }
-
+        
         // Add specific validators based on field type
         switch (field.type) {
           case 'email':
@@ -248,7 +229,7 @@ export class CreateContractComponent implements OnInit {
             // Signature validation will be handled by the component
             break;
         }
-
+        
         group[field.field] = [{ value: '', disabled: false }, validators];
       });
     }
@@ -275,17 +256,17 @@ export class CreateContractComponent implements OnInit {
 
     this.isGenerating = true;
     const formValue = this.contractForm.value;
-
+    
     const campos: { [key: string]: string } = {};
     this.templateFields.forEach(field => {
       if (formValue[field.field]) {
         let value = formValue[field.field];
-
+        
         // Format date fields
         if (field.type === 'date' && value instanceof Date) {
           value = value.toISOString().split('T')[0]; // Format as YYYY-MM-DD
         }
-
+        
         // Handle signature fields
         if (field.type === 'signature') {
           try {
@@ -309,7 +290,7 @@ export class CreateContractComponent implements OnInit {
             value = value;
           }
         }
-
+        
         campos[field.field] = value;
       }
     });
