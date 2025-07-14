@@ -226,6 +226,33 @@
     "CONFIRM_PASSWORD_REQUIRED": "Confirmar contraseña es requerido",
     "PASSWORD_MISMATCH": "Las contraseñas no coinciden"
   },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "WELCOME": "Bienvenido al Sistema de Análisis Legal",
+    "SUMMARY": "Resumen",
+    "DOCUMENTS_ANALYZED": "Documentos Analizados",
+    "RISKY_CLAUSES": "Cláusulas Riesgosas",
+    "GPT_ENABLED": "GPT Activado",
+    "TEMPLATES_AVAILABLE": "Plantillas Disponibles",
+    "DOCUMENT_DISTRIBUTION": "Distribución por Tipo de Documento",
+    "MONTHLY_ANALYSIS": "Análisis Mensual",
+    "SYSTEM_STATUS": "Estado del Sistema",
+    "SYSTEM_HEALTH": "Salud del Sistema",
+    "MONGO_CONNECTED": "MongoDB Conectado",
+    "ML_LOADED": "ML Cargado",
+    "RECENT_ACTIVITY": "Actividad Reciente",
+    "QUICK_ACTIONS": "Acciones Rápidas",
+    "PERFORMANCE_METRICS": "Métricas de Rendimiento",
+    "ANALYTICS": "Análisis",
+    "LOADING": "Cargando...",
+    "NO_DATA": "No hay datos disponibles",
+    "REFRESH": "Actualizar",
+    "VIEW_ALL": "Ver Todo",
+    "EXPORT": "Exportar",
+    "FILTER": "Filtrar",
+    "SEARCH": "Buscar",
+    "SETTINGS": "Configuración"
+  },
   "PROFILE": {
     "TITLE": "Perfil de Usuario",
     "SUBTITLE": "Gestiona tu información personal y configuración",
@@ -270,6 +297,6 @@
     "ADMIN_ROLE": "Rol de Administrador",
     "ACCOUNT_STATUS": "Estado de Cuenta",
     "CREATED_DATE": "Fecha de Creación",
-    "LAST_ACCESS": "Último Acceso"ontraseña debe contener al menos 8 caracteres, incluyendo mayúsculas, minúsculas y números"
+    "LAST_ACCESS": "Último Acceso"
   }
 }
