@@ -1,0 +1,66 @@
+Build at: 2025-07-14T20:50:47.813Z - Hash: 37fb86662c8b5e38 - Time: 2853ms
+
+Error: src/app/authentication/locked/locked.component.ts:39:20 - error TS2531: Object is possibly 'null'.
+
+39     this.userImg = this.authService.currentUserValue.img;
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: src/app/authentication/locked/locked.component.ts:39:54 - error TS2339: Property 'img' does not exist on type 'User'.
+
+39     this.userImg = this.authService.currentUserValue.img;
+                                                        ~~~
+
+
+Error: src/app/authentication/locked/locked.component.ts:41:7 - error TS2531: Object is possibly 'null'.
+
+41       this.authService.currentUserValue.firstName +
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: src/app/authentication/locked/locked.component.ts:41:41 - error TS2339: Property 'firstName' does not exist on type 'User'.
+
+41       this.authService.currentUserValue.firstName +
+                                           ~~~~~~~~~
+
+
+Error: src/app/authentication/locked/locked.component.ts:43:7 - error TS2531: Object is possibly 'null'.
+
+43       this.authService.currentUserValue.lastName;
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: src/app/authentication/locked/locked.component.ts:43:41 - error TS2339: Property 'lastName' does not exist on type 'User'.
+
+43       this.authService.currentUserValue.lastName;
+                                           ~~~~~~~~
+
+
+Error: src/app/layout/header/header.component.ts:130:44 - error TS2531: Object is possibly 'null'.
+
+130     this.userImg = 'assets/images/user/' + this.authService.currentUserValue.img;
+                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Error: src/app/layout/header/header.component.ts:130:78 - error TS2339: Property 'img' does not exist on type 'User'.
+
+130     this.userImg = 'assets/images/user/' + this.authService.currentUserValue.img;
+                                                                                 ~~~
+
+
+Error: src/app/layout/sidebar/sidebar.component.ts:92:43 - error TS2339: Property 'firstName' does not exist on type 'User'.
+
+92         this.authService.currentUserValue.firstName +
+                                             ~~~~~~~~~
+
+
+Error: src/app/layout/sidebar/sidebar.component.ts:94:43 - error TS2339: Property 'lastName' does not exist on type 'User'.
+
+94         this.authService.currentUserValue.lastName;
+                                             ~~~~~~~~
+
+
+Error: src/app/layout/sidebar/sidebar.component.ts:95:56 - error TS2339: Property 'img' does not exist on type 'User'.
+
+95       this.userImg = this.authService.currentUserValue.img;
+                                                          ~~~
