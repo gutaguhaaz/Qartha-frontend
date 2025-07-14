@@ -80,11 +80,15 @@
                   </div>
 
                   <!-- Debug info -->
-                  <div *ngIf="selectedTemplate" class="debug-info mb-3">
+                  <div class="debug-info mb-3">
                     <small class="text-muted">
-                      Debug: Template seleccionado: {{ selectedTemplate }} | 
-                      Campos cargados: {{ templateFields.length || 0 }} | 
-                      Cargando: {{ isLoading }}
+                      <strong>Debug Info:</strong><br>
+                      • Templates disponibles: {{ templates.length || 0 }}<br>
+                      • Template seleccionado: {{ selectedTemplate || 'ninguno' }}<br>
+                      • Campos cargados: {{ templateFields.length || 0 }}<br>
+                      • Cargando: {{ isLoading }}<br>
+                      • Form valid: {{ contractForm.valid }}<br>
+                      • Templates: {{ templates | json }}
                     </small>
                   </div>
 

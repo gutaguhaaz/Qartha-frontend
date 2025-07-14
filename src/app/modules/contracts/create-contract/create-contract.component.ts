@@ -75,22 +75,50 @@ export class CreateContractComponent implements OnInit {
   }
 
   loadTemplates(): void {
+    console.log('Iniciando carga de templates...');
     this.isLoading = true;
+    
     this.contractsService.getTemplates().subscribe({
       next: (response) => {
-        console.log('Templates loaded:', response);
-        // Convertir array de strings a objetos Template
-        this.templates = response.templates.map(name => ({
-          name: name,
-          displayName: this.formatDisplayName(name),
-          fields: []
-        }));
+        console.log('Raw response from getTemplates():', response);
+        console.log('Response type:', typeof response);
+        console.log('Response keys:', Object.keys(response || {}));
+        
+        if (response && response.templates && Array.isArray(response.templates)) {
+          console.log('Templates array found:', response.templates);
+          this.templates = response.templates.map(name => ({
+            name: name,
+            displayName: this.formatDisplayName(name),
+            fields: []
+          }));
+          console.log('Processed templates:', this.templates);
+        } else if (response && Array.isArray(response)) {
+          // Si la respuesta es directamente un array
+          console.log('Direct array response:', response);
+          this.templates = response.map(name => ({
+            name: name,
+            displayName: this.formatDisplayName(name),
+            fields: []
+          }));
+        } else {
+          console.error('Unexpected response format:', response);
+          this.templates = [];
+        }
+        
         this.isLoading = false;
+        console.log('Templates loading completed. Total templates:', this.templates.length);
       },
       error: (error) => {
         console.error('Error loading templates:', error);
-        this.snackBar.open('Error al cargar las plantillas', 'Cerrar', {
-          duration: 3000,
+        console.error('Error details:', {
+          message: error.message,
+          status: error.status,
+          statusText: error.statusText,
+          url: error.url
+        });
+        
+        this.snackBar.open('Error al cargar las plantillas: ' + (error.message || 'Error desconocido'), 'Cerrar', {
+          duration: 5000,
           panelClass: ['error-snackbar']
         });
         this.templates = [];
@@ -100,9 +128,12 @@ export class CreateContractComponent implements OnInit {
   }
 
   onTemplateChange(templateName: string): void {
-    console.log('Template changed to:', templateName);
+    console.log('=== Template Change Event ===');
+    console.log('Selected template name:', templateName);
+    console.log('Available templates:', this.templates);
     
     if (!templateName) {
+      console.log('Template cleared - resetting form');
       this.templateFields = [];
       this.selectedTemplate = '';
       // Reset form to basic structure
@@ -116,30 +147,49 @@ export class CreateContractComponent implements OnInit {
     this.selectedTemplate = templateName;
     this.isLoading = true;
     
+    console.log('Fetching fields for template:', templateName);
+    console.log('Service URL will be called...');
+    
     this.contractsService.getTemplateFields(templateName).subscribe({
       next: (response: any) => {
-        console.log('Template fields response:', response);
+        console.log('=== Template Fields Response ===');
+        console.log('Raw response:', response);
+        console.log('Response type:', typeof response);
+        
+        if (response) {
+          console.log('Response keys:', Object.keys(response));
+        }
         
         // Handle the new backend response format with field arrays
         if (response && response.fields && Array.isArray(response.fields)) {
+          console.log('Found fields array in response.fields');
           this.templateFields = response.fields;
         } else if (response && Array.isArray(response)) {
+          console.log('Response is direct array');
           this.templateFields = response;
         } else if (response && response.template_fields && Array.isArray(response.template_fields)) {
+          console.log('Found fields in response.template_fields');
           this.templateFields = response.template_fields;
         } else {
-          // Fallback for older format
+          console.warn('No valid fields found in response, setting empty array');
           this.templateFields = [];
         }
         
-        console.log('Processed template fields:', this.templateFields);
+        console.log('Final processed template fields:', this.templateFields);
+        console.log('Number of fields:', this.templateFields.length);
+        
         this.buildDynamicForm();
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error loading template fields:', error);
-        this.snackBar.open('Error al cargar los campos de la plantilla', 'Cerrar', {
-          duration: 3000,
+        console.error('=== Template Fields Error ===');
+        console.error('Error object:', error);
+        console.error('Error message:', error.message);
+        console.error('Error status:', error.status);
+        console.error('Error URL:', error.url);
+        
+        this.snackBar.open('Error al cargar los campos de la plantilla: ' + (error.message || 'Error desconocido'), 'Cerrar', {
+          duration: 5000,
           panelClass: ['error-snackbar']
         });
         this.templateFields = [];

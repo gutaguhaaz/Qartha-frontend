@@ -1,8 +1,7 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { 
   ContractGenerateRequest, 
@@ -21,13 +20,39 @@ export class ContractsService {
   constructor(private http: HttpClient) {}
 
   // Obtener plantillas disponibles
-  getTemplates(): Observable<{templates: string[], count: number}> {
-    return this.http.get<{templates: string[], count: number}>(`${this.apiUrl}/templates`);
+  getTemplates(): Observable<{ templates: string[], count: number }> {
+    const url = `${this.apiUrl}/templates`;
+    console.log('🌐 Making request to:', url);
+    console.log('🔧 Using API URL base:', this.apiUrl);
+
+    return this.http.get<{ templates: string[], count: number }>(url).pipe(
+      tap(response => {
+        console.log('✅ Templates response received:', response);
+      }),
+      catchError(error => {
+        console.error('❌ Templates request failed:', error);
+        console.error('❌ Failed URL:', url);
+        throw error;
+      })
+    );
   }
 
-  // Obtener campos de una plantilla específica
-  getTemplateFields(templateName: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/test-template/${templateName}`);
+  getTemplateFields(templateName: string): Observable<TemplateField[]> {
+    const url = `${this.apiUrl}/test-template/${templateName}`;
+    console.log('🌐 Making template fields request to:', url);
+    console.log('📋 Template name:', templateName);
+
+    return this.http.get<TemplateField[]>(url).pipe(
+      tap(response => {
+        console.log('✅ Template fields response received:', response);
+      }),
+      catchError(error => {
+        console.error('❌ Template fields request failed:', error);
+        console.error('❌ Failed URL:', url);
+        console.error('❌ Template name:', templateName);
+        throw error;
+      })
+    );
   }
 
   // Generar contrato
