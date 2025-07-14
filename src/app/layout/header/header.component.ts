@@ -14,6 +14,7 @@ import { InConfiguration, AuthService } from '@core';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FeatherIconsComponent } from '../../shared/components/feather-icons/feather-icons.component';
 import { MatButtonModule } from '@angular/material/button';
 
@@ -35,6 +36,7 @@ interface Notifications {
     MatIconModule,
     FeatherIconsComponent,
     MatMenuModule,
+    MatTooltipModule,
     RouterLink,
     NgClass,
     NgScrollbar,
