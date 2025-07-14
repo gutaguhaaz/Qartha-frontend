@@ -21,7 +21,7 @@ export class ContractsService {
 
   // Obtener plantillas disponibles
   getTemplates(): Observable<{ templates: string[], count: number }> {
-    const url = `${this.apiUrl}/templates`;
+    const url = `${this.apiUrl}/contracts/templates`;
     console.log('🌐 Making request to:', url);
     console.log('🔧 Using API URL base:', this.apiUrl);
 
@@ -38,7 +38,7 @@ export class ContractsService {
   }
 
   getTemplateFields(templateName: string): Observable<TemplateField[]> {
-    const url = `${this.apiUrl}/test-template/${templateName}`;
+    const url = `${this.apiUrl}/contracts/test-template/${templateName}`;
     console.log('🌐 Making template fields request to:', url);
     console.log('📋 Template name:', templateName);
 
@@ -60,7 +60,7 @@ export class ContractsService {
     const headers = new HttpHeaders({
       'Accept': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     });
-    return this.http.post(`${this.apiUrl}/generate-contract`, request, {
+    return this.http.post(`${this.apiUrl}/contracts/generate-contract`, request, {
       headers,
       responseType: 'blob'
     });
@@ -71,7 +71,7 @@ export class ContractsService {
     const headers = new HttpHeaders({
       'Accept': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     });
-    return this.http.get(`${this.apiUrl}/download-template/${templateName}`, {
+    return this.http.get(`${this.apiUrl}/contracts/download-template/${templateName}`, {
       headers,
       responseType: 'blob'
     });
@@ -80,7 +80,7 @@ export class ContractsService {
   // Generar cláusula con IA
   generateClause(prompt: string): Observable<GPTClauseResponse> {
     const request: GPTClauseRequest = { prompt };
-    return this.http.post<GPTClauseResponse>(`${this.apiUrl}/generate-clause-gpt`, request);
+    return this.http.post<GPTClauseResponse>(`${this.apiUrl}/contracts/generate-clause-gpt`, request);
   }
 
   // Método utilitario para descargar archivos
