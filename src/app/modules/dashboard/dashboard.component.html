@@ -131,7 +131,7 @@
             </ul>
           </div>
           <div class="body">
-            <div *ngIf="!isLoadingCharts && barChartOptions">
+            <div *ngIf="!isLoadingCharts && barChartOptions && barChartOptions.series && barChartOptions.series.length > 0">
               <apx-chart
                 [series]="barChartOptions.series!"
                 [chart]="barChartOptions.chart!"
@@ -144,6 +144,9 @@
                 [tooltip]="barChartOptions.tooltip!"
               >
               </apx-chart>
+            </div>
+            <div *ngIf="!isLoadingCharts && (!barChartOptions || !barChartOptions.series || barChartOptions.series.length === 0)" class="text-center p-4">
+              <p class="text-muted">No hay datos disponibles para mostrar el gráfico</p>
             </div>
             <div *ngIf="isLoadingCharts" class="text-center p-4">
               <mat-progress-bar mode="indeterminate"></mat-progress-bar>
@@ -160,7 +163,7 @@
             <h2>Distribución por Tipo</h2>
           </div>
           <div class="body">
-            <div *ngIf="!isLoadingCharts && pieChartOptions">
+            <div *ngIf="!isLoadingCharts && pieChartOptions && pieChartOptions.series2 && pieChartOptions.series2.length > 0">
               <apx-chart
                 [series]="pieChartOptions.series2!"
                 [chart]="pieChartOptions.chart!"
@@ -171,6 +174,9 @@
                 [responsive]="pieChartOptions.responsive!"
               >
               </apx-chart>
+            </div>
+            <div *ngIf="!isLoadingCharts && (!pieChartOptions || !pieChartOptions.series2 || pieChartOptions.series2.length === 0)" class="text-center p-4">
+              <p class="text-muted">No hay datos disponibles para mostrar la distribución</p>
             </div>
             <div *ngIf="isLoadingCharts" class="text-center p-4">
               <mat-progress-bar mode="indeterminate"></mat-progress-bar>

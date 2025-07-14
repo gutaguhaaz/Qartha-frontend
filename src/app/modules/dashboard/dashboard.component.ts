@@ -53,11 +53,18 @@ export class DashboardComponent implements OnInit {
     // Load summary data
     this.dashboardService.getSummary().subscribe({
       next: (data) => {
-        this.summary = data;
+        // Validar datos del summary
+        this.summary = data && typeof data === 'object' ? {
+          documentos_analizados: typeof data.documentos_analizados === 'number' ? data.documentos_analizados : 0,
+          clausulas_riesgosas: typeof data.clausulas_riesgosas === 'number' ? data.clausulas_riesgosas : 0,
+          gpt_activado: typeof data.gpt_activado === 'boolean' ? data.gpt_activado : false,
+          plantillas_disponibles: typeof data.plantillas_disponibles === 'number' ? data.plantillas_disponibles : 0
+        } : null;
         this.isLoadingSummary = false;
       },
       error: (error) => {
         console.error('Error loading summary:', error);
+        this.summary = null;
         this.isLoadingSummary = false;
       }
     });
@@ -65,7 +72,18 @@ export class DashboardComponent implements OnInit {
     // Load type distribution
     this.dashboardService.getTypeDistribution().subscribe({
       next: (data) => {
-        this.typeDistribution = data || [];
+        // Validar y filtrar datos válidos
+        if (Array.isArray(data)) {
+          this.typeDistribution = data.filter(item => 
+            item && 
+            typeof item === 'object' && 
+            item.tipo && 
+            typeof item.cantidad === 'number' &&
+            !isNaN(item.cantidad)
+          );
+        } else {
+          this.typeDistribution = [];
+        }
         this.initializePieChart();
       },
       error: (error) => {
@@ -78,7 +96,18 @@ export class DashboardComponent implements OnInit {
     // Load documents per month
     this.dashboardService.getDocumentsPerMonth().subscribe({
       next: (data) => {
-        this.documentsPerMonth = data || [];
+        // Validar y filtrar datos válidos
+        if (Array.isArray(data)) {
+          this.documentsPerMonth = data.filter(item => 
+            item && 
+            typeof item === 'object' && 
+            item.mes && 
+            typeof item.cantidad === 'number' &&
+            !isNaN(item.cantidad)
+          );
+        } else {
+          this.documentsPerMonth = [];
+        }
         this.initializeBarChart();
       },
       error: (error) => {
@@ -91,30 +120,53 @@ export class DashboardComponent implements OnInit {
     // Load system status
     this.dashboardService.getSystemStatus().subscribe({
       next: (data) => {
-        this.systemStatus = data;
+        // Validar datos del system status
+        this.systemStatus = data && typeof data === 'object' ? {
+          gpt_activo: typeof data.gpt_activo === 'boolean' ? data.gpt_activo : false,
+          mongo_conectado: typeof data.mongo_conectado === 'boolean' ? data.mongo_conectado : false,
+          ml_cargado: typeof data.ml_cargado === 'boolean' ? data.ml_cargado : false,
+          plantillas_disponibles: typeof data.plantillas_disponibles === 'number' ? data.plantillas_disponibles : 0
+        } : null;
         this.isLoadingStatus = false;
       },
       error: (error) => {
         console.error('Error loading system status:', error);
+        this.systemStatus = null;
         this.isLoadingStatus = false;
       }
     });
   }
 
   private initializeBarChart(): void {
-    const categories = this.documentsPerMonth && this.documentsPerMonth.length > 0 
-      ? this.documentsPerMonth.map(item => item.mes) 
+    // Validación exhaustiva de datos
+    const isValidData = this.documentsPerMonth && 
+                       Array.isArray(this.documentsPerMonth) && 
+                       this.documentsPerMonth.length > 0 &&
+                       this.documentsPerMonth.every(item => 
+                         item && 
+                         typeof item === 'object' && 
+                         item.mes && 
+                         typeof item.cantidad === 'number'
+                       );
+
+    const categories = isValidData
+      ? this.documentsPerMonth.map(item => item.mes || 'Sin datos') 
       : ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'];
     
-    const data = this.documentsPerMonth && this.documentsPerMonth.length > 0
-      ? this.documentsPerMonth.map(item => item.cantidad)
+    const data = isValidData
+      ? this.documentsPerMonth.map(item => item.cantidad || 0)
       : [0, 0, 0, 0, 0, 0];
+
+    // Asegurar que todos los valores sean números válidos
+    const safeData = data.map(value => 
+      (typeof value === 'number' && !isNaN(value) && isFinite(value)) ? value : 0
+    );
 
     this.barChartOptions = {
       series: [
         {
           name: 'Documentos',
-          data: data
+          data: safeData
         }
       ],
       chart: {
@@ -124,6 +176,9 @@ export class DashboardComponent implements OnInit {
         toolbar: {
           show: false,
         },
+        animations: {
+          enabled: false // Deshabilitar animaciones para evitar errores
+        }
       },
       plotOptions: {
         bar: {
@@ -178,21 +233,46 @@ export class DashboardComponent implements OnInit {
   }
 
   private initializePieChart(): void {
-    const series = this.typeDistribution && this.typeDistribution.length > 0
-      ? this.typeDistribution.map(item => item.cantidad)
-      : [1, 1, 1];
+    // Validación exhaustiva de datos para pie chart
+    const isValidTypeData = this.typeDistribution && 
+                           Array.isArray(this.typeDistribution) && 
+                           this.typeDistribution.length > 0 &&
+                           this.typeDistribution.every(item => 
+                             item && 
+                             typeof item === 'object' && 
+                             item.tipo && 
+                             typeof item.cantidad === 'number'
+                           );
+
+    const series = isValidTypeData
+      ? this.typeDistribution.map(item => item.cantidad || 0)
+      : [33, 33, 34]; // Valores por defecto balanceados
     
-    const labels = this.typeDistribution && this.typeDistribution.length > 0
-      ? this.typeDistribution.map(item => item.tipo)
+    const labels = isValidTypeData
+      ? this.typeDistribution.map(item => item.tipo || 'Sin tipo')
       : ['Contratos', 'Documentos', 'Otros'];
 
+    // Asegurar que todas las series sean números válidos y positivos
+    const safeSeries = series.map(value => {
+      const numValue = (typeof value === 'number' && !isNaN(value) && isFinite(value) && value >= 0) ? value : 0;
+      return numValue;
+    });
+
+    // Si todos los valores son 0, usar valores por defecto
+    const totalSum = safeSeries.reduce((sum, val) => sum + val, 0);
+    const finalSeries = totalSum > 0 ? safeSeries : [33, 33, 34];
+    const finalLabels = totalSum > 0 ? labels : ['Contratos', 'Documentos', 'Otros'];
+
     this.pieChartOptions = {
-      series2: series,
+      series2: finalSeries,
       chart: {
         type: 'donut',
         width: 380,
+        animations: {
+          enabled: false // Deshabilitar animaciones para evitar errores
+        }
       },
-      labels: labels,
+      labels: finalLabels,
       colors: ['#4FC3F7', '#7460EE', '#F6A025', '#9BC311', '#E82742'],
       legend: {
         show: true,
@@ -229,6 +309,33 @@ export class DashboardComponent implements OnInit {
 
   getStatusText(status: boolean): string {
     return status ? 'Activo' : 'Inactivo';
+  }
+
+  // Método helper para validar datos antes de pasarlos a los gráficos
+  private validateChartData(data: any): boolean {
+    return data && 
+           typeof data === 'object' && 
+           data.series && 
+           Array.isArray(data.series) && 
+           data.series.length > 0 &&
+           data.series.every((serie: any) => 
+             serie && 
+             serie.data && 
+             Array.isArray(serie.data) &&
+             serie.data.every((value: any) => 
+               typeof value === 'number' && 
+               !isNaN(value) && 
+               isFinite(value)
+             )
+           );
+  }
+
+  // Método para limpiar y validar datos númericos
+  private sanitizeNumericValue(value: any, defaultValue: number = 0): number {
+    if (typeof value === 'number' && !isNaN(value) && isFinite(value)) {
+      return value;
+    }
+    return defaultValue;
   }
 
   private initializeChartData(): void {
