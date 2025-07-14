@@ -1,0 +1,164 @@
+✅ PROMPT para el asistente de Replit (frontend Angular)
+typescript
+Copy
+Edit
+📦 Quiero que crees un **nuevo módulo completo de Angular** en la ruta:
+
+src/app/modules/dashboard
+
+css
+Copy
+Edit
+
+Este módulo será el nuevo **Dashboard principal del sistema Legal IA**, y debe estar **basado en el diseño del template que ya existe en:**
+
+src/app/dashboard/dashboard1/
+
+yaml
+Copy
+Edit
+
+⚠️ **No borres, sobrescribas ni edites** archivos existentes. Solo crea nuevos archivos en `src/app/modules/dashboard`.
+
+---
+
+## 🧱 Estructura esperada:
+
+src/app/modules/dashboard/
+├── dashboard.component.ts
+├── dashboard.component.html
+├── dashboard.component.scss
+├── dashboard.module.ts
+├── dashboard-routing.module.ts
+├── dashboard.service.ts
+
+yaml
+Copy
+Edit
+
+---
+
+## 🎯 FUNCIONALIDAD DEL DASHBOARD
+
+El componente debe consumir y visualizar los siguientes endpoints de backend:
+
+GET /api/v1/dashboard/summary
+GET /api/v1/dashboard/type-distribution
+GET /api/v1/dashboard/documents-per-month
+GET /api/v1/dashboard/status
+
+python
+Copy
+Edit
+
+> Usa `environment.apiBaseUrl` como prefijo de todas las URLs.
+
+---
+
+## 📊 UI y Diseño
+
+🔸 **Basarse completamente** en el diseño del template en `src/app/dashboard/dashboard1/`.
+
+🔸 Usar las siguientes librerías (ya están disponibles en el proyecto):
+
+```ts
+import { ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTooltip, ApexYAxis, ApexPlotOptions, ApexStroke, ApexLegend, ApexFill, ApexMarkers, ApexGrid, ApexTitleSubtitle, ApexResponsive, NgApexchartsModule } from 'ng-apexcharts';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgScrollbar } from 'ngx-scrollbar';
+import { FeatherIconsComponent } from '../../shared/components/feather-icons/feather-icons.component';
+import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
+⚠️ No necesitas instalar nada adicional. Solo usa lo que ya tiene el template.
+
+📐 Diseño del Componente
+🔹 Tarjetas Resumen (parte superior)
+
+Documentos Analizados
+
+Cláusulas Riesgosas
+
+GPT Activado
+
+Plantillas Disponibles
+
+→ Fuente: GET /dashboard/summary
+
+📈 Gráfico de Barras: Documentos por mes
+
+→ Fuente: GET /dashboard/documents-per-month
+
+🥧 Gráfico de Pie: Distribución por tipo
+
+→ Fuente: GET /dashboard/type-distribution
+
+✅ Estado del Sistema (recuadro de healthcheck)
+
+→ GPT Activo, Mongo conectado, ML cargado, Plantillas disponibles
+→ Fuente: GET /dashboard/status
+
+🔧 DashboardService (dashboard.service.ts)
+El servicio debe:
+
+Estar dentro de la misma carpeta src/app/modules/dashboard/
+
+Usar HttpClient
+
+Leer la base URL desde:
+
+ts
+Copy
+Edit
+import { environment } from 'src/environments/environment';
+Implementar estos métodos:
+
+ts
+Copy
+Edit
+getSummary(): Observable<DashboardSummary>
+getTypeDistribution(): Observable<TypeCount[]>
+getDocumentsPerMonth(): Observable<MonthCount[]>
+getSystemStatus(): Observable<SystemStatus>
+Define interfaces tipadas (DashboardSummary, TypeCount, etc.) en el mismo archivo o en dashboard.model.ts si lo deseas.
+
+🧠 Detalles técnicos
+Usa ngOnInit() en dashboard.component.ts para llamar a los métodos del servicio.
+
+Usa ng-apexcharts para los gráficos.
+
+Usa la estructura visual y estilo del template existente (clases, grids, iconos).
+
+Debe tener breadcrumb que diga: Inicio / Dashboard Legal
+
+Código limpio, organizado y en español donde sea posible.
+
+🚫 No hagas lo siguiente
+❌ No cambies ningún archivo en src/app/dashboard/
+
+❌ No edites environment.ts
+
+❌ No dupliques módulos globales (importa lo que necesites en dashboard.module.ts)
+
+❌ No borres funciones existentes
+
+❌ No uses URLs fijas (usa environment.apiBaseUrl)
+
+✅ Resultado esperado
+Un módulo de dashboard funcional, visual, que consuma los 4 endpoints del backend /dashboard/*, muestre métricas y gráficas usando el diseño del template.
+
+less
+Copy
+Edit
+Ruta del componente: /modules/dashboard
+Diseño: Basado en dashboard1 del template
+Servicios: Integrados con API real
+Gracias.
+
+yaml
+Copy
+Edit
+
+---
