@@ -4,7 +4,8 @@
       <!-- breadcrumb -->
       <app-breadcrumb
         [title]="'Dashboard Legal'"
-        [items]="['Inicio', 'Dashboard Legal']"
+        [items]="['Home']"
+        [active_item]="'Dashboard Legal'"
       ></app-breadcrumb>
     </div>
 
@@ -131,7 +132,14 @@
             </ul>
           </div>
           <div class="body">
-            <div *ngIf="!isLoadingCharts && barChartOptions && barChartOptions.series && barChartOptions.series.length > 0">
+            <div
+              *ngIf="
+                !isLoadingCharts &&
+                barChartOptions &&
+                barChartOptions.series &&
+                barChartOptions.series.length > 0
+              "
+            >
               <apx-chart
                 [series]="barChartOptions.series!"
                 [chart]="barChartOptions.chart!"
@@ -145,8 +153,18 @@
               >
               </apx-chart>
             </div>
-            <div *ngIf="!isLoadingCharts && (!barChartOptions || !barChartOptions.series || barChartOptions.series.length === 0)" class="text-center p-4">
-              <p class="text-muted">No hay datos disponibles para mostrar el gráfico</p>
+            <div
+              *ngIf="
+                !isLoadingCharts &&
+                (!barChartOptions ||
+                  !barChartOptions.series ||
+                  barChartOptions.series.length === 0)
+              "
+              class="text-center p-4"
+            >
+              <p class="text-muted">
+                No hay datos disponibles para mostrar el gráfico
+              </p>
             </div>
             <div *ngIf="isLoadingCharts" class="text-center p-4">
               <mat-progress-bar mode="indeterminate"></mat-progress-bar>
@@ -163,7 +181,14 @@
             <h2>Distribución por Tipo</h2>
           </div>
           <div class="body">
-            <div *ngIf="!isLoadingCharts && pieChartOptions && pieChartOptions.series2 && pieChartOptions.series2.length > 0">
+            <div
+              *ngIf="
+                !isLoadingCharts &&
+                pieChartOptions &&
+                pieChartOptions.series2 &&
+                pieChartOptions.series2.length > 0
+              "
+            >
               <apx-chart
                 [series]="pieChartOptions.series2!"
                 [chart]="pieChartOptions.chart!"
@@ -175,8 +200,18 @@
               >
               </apx-chart>
             </div>
-            <div *ngIf="!isLoadingCharts && (!pieChartOptions || !pieChartOptions.series2 || pieChartOptions.series2.length === 0)" class="text-center p-4">
-              <p class="text-muted">No hay datos disponibles para mostrar la distribución</p>
+            <div
+              *ngIf="
+                !isLoadingCharts &&
+                (!pieChartOptions ||
+                  !pieChartOptions.series2 ||
+                  pieChartOptions.series2.length === 0)
+              "
+              class="text-center p-4"
+            >
+              <p class="text-muted">
+                No hay datos disponibles para mostrar la distribución
+              </p>
             </div>
             <div *ngIf="isLoadingCharts" class="text-center p-4">
               <mat-progress-bar mode="indeterminate"></mat-progress-bar>
