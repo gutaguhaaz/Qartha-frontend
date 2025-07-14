@@ -1,0 +1,221 @@
+
+<app-breadcrumb [title]="'Dashboard Legal'" [items]="['Inicio', 'Dashboard Legal']"></app-breadcrumb>
+
+<div class="content">
+  <div class="container-fluid">
+    
+    <!-- Summary Cards Row -->
+    <div class="row clearfix">
+      <!-- Documentos Analizados Card -->
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="text-muted">Documentos Analizados</span>
+                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">{{ summary?.documentos_analizados || 0 }}</h2>
+                <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
+              </div>
+              <div class="icon-large">
+                <mat-icon class="text-primary">description</mat-icon>
+              </div>
+            </div>
+            <small class="text-muted">Total de documentos procesados</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cláusulas Riesgosas Card -->
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="text-muted">Cláusulas Riesgosas</span>
+                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">{{ summary?.clausulas_riesgosas || 0 }}</h2>
+                <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
+              </div>
+              <div class="icon-large">
+                <mat-icon class="text-warning">warning</mat-icon>
+              </div>
+            </div>
+            <small class="text-muted">Cláusulas identificadas como riesgosas</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- GPT Activado Card -->
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="text-muted">GPT Activado</span>
+                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">
+                  <mat-icon [style.color]="getStatusColor(summary?.gpt_activado || false)">
+                    {{ summary?.gpt_activado ? 'check_circle' : 'cancel' }}
+                  </mat-icon>
+                </h2>
+                <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
+              </div>
+              <div class="icon-large">
+                <mat-icon class="text-success">smart_toy</mat-icon>
+              </div>
+            </div>
+            <small class="text-muted">Estado del servicio GPT</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plantillas Disponibles Card -->
+      <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+        <div class="card">
+          <div class="body">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="text-muted">Plantillas Disponibles</span>
+                <h2 class="margin-bottom-0" *ngIf="!isLoadingSummary">{{ summary?.plantillas_disponibles || 0 }}</h2>
+                <h2 class="margin-bottom-0" *ngIf="isLoadingSummary">--</h2>
+              </div>
+              <div class="icon-large">
+                <mat-icon class="text-info">article</mat-icon>
+              </div>
+            </div>
+            <small class="text-muted">Plantillas de contratos disponibles</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="row clearfix">
+      <!-- Documents per Month Chart -->
+      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="card">
+          <div class="header">
+            <h2>Documentos por Mes</h2>
+            <ul class="header-dropdown">
+              <li>
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item>
+                    <mat-icon>file_download</mat-icon>
+                    <span>Exportar</span>
+                  </button>
+                  <button mat-menu-item>
+                    <mat-icon>refresh</mat-icon>
+                    <span>Actualizar</span>
+                  </button>
+                </mat-menu>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div *ngIf="!isLoadingCharts && barChartOptions">
+              <apx-chart
+                [series]="barChartOptions.series!"
+                [chart]="barChartOptions.chart!"
+                [xaxis]="barChartOptions.xaxis!"
+                [yaxis]="barChartOptions.yaxis!"
+                [plotOptions]="barChartOptions.plotOptions!"
+                [dataLabels]="barChartOptions.dataLabels!"
+                [grid]="barChartOptions.grid!"
+                [fill]="barChartOptions.fill!"
+                [tooltip]="barChartOptions.tooltip!">
+              </apx-chart>
+            </div>
+            <div *ngIf="isLoadingCharts" class="text-center p-4">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              <p class="mt-2">Cargando gráfico...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Type Distribution Chart -->
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="card">
+          <div class="header">
+            <h2>Distribución por Tipo</h2>
+          </div>
+          <div class="body">
+            <div *ngIf="!isLoadingCharts && pieChartOptions">
+              <apx-chart
+                [series]="pieChartOptions.series2!"
+                [chart]="pieChartOptions.chart!"
+                [labels]="pieChartOptions.labels!"
+                [colors]="pieChartOptions.colors!"
+                [legend]="pieChartOptions.legend!"
+                [dataLabels]="pieChartOptions.dataLabels!"
+                [responsive]="pieChartOptions.responsive!">
+              </apx-chart>
+            </div>
+            <div *ngIf="isLoadingCharts" class="text-center p-4">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              <p class="mt-2">Cargando gráfico...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Status Row -->
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="header">
+            <h2>Estado del Sistema</h2>
+            <ul class="header-dropdown">
+              <li>
+                <button mat-icon-button (click)="loadDashboardData()" matTooltip="Actualizar estado">
+                  <mat-icon>refresh</mat-icon>
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div *ngIf="!isLoadingStatus && systemStatus" class="row">
+              <div class="col-md-3">
+                <div class="d-flex align-items-center mb-3">
+                  <mat-icon [style.color]="getStatusColor(systemStatus.gpt_activo)" class="me-2">
+                    {{ systemStatus.gpt_activo ? 'check_circle' : 'cancel' }}
+                  </mat-icon>
+                  <span>GPT: {{ getStatusText(systemStatus.gpt_activo) }}</span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex align-items-center mb-3">
+                  <mat-icon [style.color]="getStatusColor(systemStatus.mongo_conectado)" class="me-2">
+                    {{ systemStatus.mongo_conectado ? 'check_circle' : 'cancel' }}
+                  </mat-icon>
+                  <span>MongoDB: {{ getStatusText(systemStatus.mongo_conectado) }}</span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex align-items-center mb-3">
+                  <mat-icon [style.color]="getStatusColor(systemStatus.ml_cargado)" class="me-2">
+                    {{ systemStatus.ml_cargado ? 'check_circle' : 'cancel' }}
+                  </mat-icon>
+                  <span>ML: {{ getStatusText(systemStatus.ml_cargado) }}</span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex align-items-center mb-3">
+                  <mat-icon class="text-info me-2">article</mat-icon>
+                  <span>Plantillas: {{ systemStatus.plantillas_disponibles }}</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="isLoadingStatus" class="text-center p-4">
+              <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+              <p class="mt-2">Cargando estado del sistema...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
