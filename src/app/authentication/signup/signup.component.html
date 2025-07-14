@@ -1,111 +1,165 @@
-<div class="auth-container">
-  <div class="row auth-main">
-    <div class="col-sm-6 px-0 d-none d-sm-block">
-      <div class="left-img" style="background-image: url(assets/images/pages/bg-02.png);">
-      </div>
-    </div>
-    <div class="col-sm-6 auth-form-section">
-      <div class="form-section">
-        <div class="auth-wrapper">
-          <h2 class="welcome-msg"> Sign Up </h2>
-          <p class="auth-signup-text text-muted">Enter details to create your account</p>
-          <form class="validate-form" [formGroup]="authForm" (ngSubmit)="onSubmit()">
-            <div class="row">
-              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                <mat-form-field class="example-full-width" appearance="outline">
-                  <mat-label>Username</mat-label>
-                  <input matInput formControlName="username" required>
-                    <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>face</mat-icon>
-                    @if (authForm.get('username')?.hasError('required')) {
-                      <mat-error>
-                        Username is required
-                      </mat-error>
-                    }
-                  </mat-form-field>
-                </div>
+
+<div class="authentication-wrapper">
+  <div class="authentication-inner">
+    <div class="authentication-item">
+      <div class="auth-form">
+        <div class="text-center">
+          <img src="assets/images/logo.png" alt="Logo" class="img-fluid auth-logo">
+          <h3 class="mb-4">{{ 'SIGNUP.TITLE' | translate }}</h3>
+        </div>
+
+        <!-- Mensaje de error -->
+        <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
+          {{ error }}
+        </div>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.EMAIL' | translate }}</mat-label>
+                  <input matInput type="email" formControlName="email">
+                  <mat-icon matSuffix>email</mat-icon>
+                  <mat-error *ngIf="submitted && f['email'].errors?.['required']">
+                    {{ 'SIGNUP.EMAIL_REQUIRED' | translate }}
+                  </mat-error>
+                  <mat-error *ngIf="submitted && f['email'].errors?.['email']">
+                    {{ 'SIGNUP.EMAIL_INVALID' | translate }}
+                  </mat-error>
+                </mat-form-field>
               </div>
-              <div class="row">
-                <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" required>
-                      <mat-icon class="material-icons-two-tone color-icon p-3" matSuffix>mail</mat-icon>
-                      @if (authForm.get('email')?.hasError('required') || authForm.get('email')?.touched) {
-                        <mat-error>
-                          Please enter a valid email address
-                        </mat-error>
-                      }
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
-                    <mat-form-field class="example-full-width" appearance="outline">
-                      <mat-label>Password</mat-label>
-                      <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
-                        <a href="#" onClick="return false;" matSuffix (click)="hide = !hide"
-                          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                          <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
-                          {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                        </a>
-                        @if (authForm.get('password')?.hasError('required')) {
-                          <mat-error>
-                            Password is required
-                          </mat-error>
-                        }
-                      </mat-form-field>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-xl-12col-lg-12 col-md-12 col-sm-12 mb-2">
-                      <mat-form-field class="example-full-width" appearance="outline">
-                        <mat-label>Confirm Password</mat-label>
-                        <input matInput formControlName="cpassword" [type]="chide ? 'password' : 'text'" required>
-                          <a href="#" onClick="return false;" matSuffix (click)="chide = !chide"
-                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="chide">
-                            <mat-icon class="material-icons-two-tone color-icon m-3" matSuffix>
-                            {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                          </a>
-                          @if (authForm.get('cpassword')?.hasError('required')) {
-                            <mat-error>
-                              Confirm Password is required
-                            </mat-error>
-                          }
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div class="flex-sb-m w-full  p-b-20">
-                      <div>
-                        <span>Already Registered? <a routerLink="/authentication/signin">
-                          Login
-                        </a></span>
-                      </div>
-                    </div>
-                    <div class="container-auth-form-btn">
-                      <button mat-raised-button color="primary" class="auth-form-btn" [disabled]="!authForm.valid "
-                        type="submit">
-                        Register
-                      </button>
-                    </div>
-                  </form>
-                  <h6 class="social-login-title">OR</h6>
-                  <ul class="list-unstyled social-icon mb-0 mt-3">
-                    <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
-                      <i class="fab fa-google"></i>
-                    </a></li>
-                    <li class="list-inline-item"><a href="javascript:void(0)" class="rounded flex-c-m">
-                      <i class="fab fa-facebook-f"></i>
-                    </a></li>
-                    <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
-                      <i class="fab fa-twitter"></i>
-                    </a></li>
-                    <li class="list-inline-item"><a href="javascript:void(0)" class="rounded">
-                      <i class="fab fa-linkedin-in"></i>
-                    </a></li>
-                  </ul>
-                </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.USERNAME' | translate }}</mat-label>
+                  <input matInput formControlName="username">
+                  <mat-icon matSuffix>person</mat-icon>
+                  <mat-error *ngIf="submitted && f['username'].errors?.['required']">
+                    {{ 'SIGNUP.USERNAME_REQUIRED' | translate }}
+                  </mat-error>
+                  <mat-error *ngIf="submitted && f['username'].errors?.['pattern']">
+                    {{ 'SIGNUP.USERNAME_PATTERN' | translate }}
+                  </mat-error>
+                </mat-form-field>
               </div>
             </div>
           </div>
-        </div>
-        
+
+          <div class="form-group">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ 'SIGNUP.FULL_NAME' | translate }}</mat-label>
+              <input matInput formControlName="full_name">
+              <mat-icon matSuffix>badge</mat-icon>
+              <mat-error *ngIf="submitted && f['full_name'].errors?.['required']">
+                {{ 'SIGNUP.FULL_NAME_REQUIRED' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.PASSWORD' | translate }}</mat-label>
+                  <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+                  <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="submitted && f['password'].errors?.['required']">
+                    {{ 'SIGNUP.PASSWORD_REQUIRED' | translate }}
+                  </mat-error>
+                  <mat-error *ngIf="submitted && f['password'].errors?.['invalidPassword']">
+                    {{ 'SIGNUP.PASSWORD_INVALID' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.CONFIRM_PASSWORD' | translate }}</mat-label>
+                  <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirm_password">
+                  <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
+                    <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="submitted && f['confirm_password'].errors?.['required']">
+                    {{ 'SIGNUP.CONFIRM_PASSWORD_REQUIRED' | translate }}
+                  </mat-error>
+                  <mat-error *ngIf="submitted && f['confirm_password'].errors?.['passwordMismatch']">
+                    {{ 'SIGNUP.PASSWORD_MISMATCH' | translate }}
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.POSITION' | translate }}</mat-label>
+                  <input matInput formControlName="position">
+                  <mat-icon matSuffix>work</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.PHONE' | translate }}</mat-label>
+                  <input matInput formControlName="phone">
+                  <mat-icon matSuffix>phone</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.ORGANIZATION' | translate }}</mat-label>
+                  <input matInput formControlName="organization">
+                  <mat-icon matSuffix>business</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>{{ 'SIGNUP.LANGUAGE' | translate }}</mat-label>
+                  <mat-select formControlName="language">
+                    <mat-option *ngFor="let lang of languages" [value]="lang.value">
+                      {{ lang.label }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-icon matSuffix>language</mat-icon>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group text-center">
+            <button mat-raised-button color="primary" type="submit" [disabled]="loading" class="w-100">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ loading ? ('SIGNUP.LOADING' | translate) : ('SIGNUP.BUTTON' | translate) }}
+            </button>
+          </div>
+
+          <div class="text-center">
+            <p class="mb-0">
+              {{ 'SIGNUP.HAVE_ACCOUNT' | translate }} 
+              <a routerLink="/authentication/signin" class="text-primary">{{ 'SIGNUP.SIGNIN_LINK' | translate }}</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

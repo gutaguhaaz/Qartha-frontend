@@ -1,59 +1,140 @@
+
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../shared';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
-    selector: 'app-signup',
-    templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.scss'],
-    standalone: true,
-    imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        RouterLink,
-        MatButtonModule,
-    ],
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss'],
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    NgIf,
+    RouterLink,
+    TranslateModule
+  ]
 })
-export class SignupComponent implements OnInit {
-  authForm!: UntypedFormGroup;
+export class SignupComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+  registerForm!: FormGroup;
+  loading = false;
   submitted = false;
-  returnUrl!: string;
-  hide = true;
-  chide = true;
+  error = '';
+  hidePassword = true;
+  hideConfirmPassword = true;
+
+  languages = [
+    { value: 'es', label: 'Español' },
+    { value: 'en', label: 'English' },
+    { value: 'de', label: 'Deutsch' }
+  ];
+
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
     private router: Router
-  ) {}
-  ngOnInit() {
-    this.authForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      email: [
-        '',
-        [Validators.required, Validators.email, Validators.minLength(5)],
-      ],
-      password: ['', Validators.required],
-      cpassword: ['', Validators.required],
-    });
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  ) {
+    super();
   }
-  get f() {
-    return this.authForm.controls;
+
+  ngOnInit(): void {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)]],
+      password: ['', [Validators.required, this.passwordValidator]],
+      confirm_password: ['', Validators.required],
+      full_name: ['', Validators.required],
+      position: [''],
+      phone: [''],
+      organization: [''],
+      language: ['es', Validators.required]
+    }, { validators: this.passwordMatchValidator });
   }
-  onSubmit() {
-    this.submitted = true;
-    // stop here if form is invalid
-    if (this.authForm.invalid) {
-      return;
-    } else {
-      this.router.navigate(['/admin/dashboard/main']);
+
+  passwordValidator(control: AbstractControl): {[key: string]: any} | null {
+    const password = control.value;
+    if (!password) return null;
+
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumbers = /\d/.test(password);
+    const hasMinLength = password.length >= 8;
+    
+    const valid = hasUpperCase && hasLowerCase && hasNumbers && hasMinLength;
+    
+    if (!valid) {
+      return { 
+        invalidPassword: {
+          hasUpperCase,
+          hasLowerCase,
+          hasNumbers,
+          hasMinLength
+        }
+      };
     }
+    return null;
+  }
+
+  passwordMatchValidator(group: AbstractControl): {[key: string]: any} | null {
+    const password = group.get('password');
+    const confirmPassword = group.get('confirm_password');
+    
+    if (password?.value !== confirmPassword?.value) {
+      confirmPassword?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    }
+    
+    if (confirmPassword?.errors) {
+      delete confirmPassword.errors['passwordMismatch'];
+      if (Object.keys(confirmPassword.errors).length === 0) {
+        confirmPassword.setErrors(null);
+      }
+    }
+    
+    return null;
+  }
+
+  get f() { 
+    return this.registerForm.controls; 
+  }
+
+  onSubmit(): void {
+    this.submitted = true;
+    this.error = '';
+
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    
+    const formData = { ...this.registerForm.value };
+    delete formData.confirm_password;
+
+    this.subs.sink = this.authService.register(formData).subscribe({
+      next: () => {
+        this.router.navigate(['/authentication/signin'], {
+          queryParams: { message: 'Registro exitoso. Inicia sesión con tus credenciales.' }
+        });
+      },
+      error: (error) => {
+        this.error = error.message;
+        this.loading = false;
+      }
+    });
   }
 }

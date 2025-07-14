@@ -1068,4 +1068,15 @@ export const ROUTES: RouteInfo[] = [
       },
     ],
   },
+  {
+    path: '/users/profile',
+    title: 'MENUITEMS.PROFILE.TEXT',
+    iconType: 'material',
+    icon: 'account_circle',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [],
+  },
 ];

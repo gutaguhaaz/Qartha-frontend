@@ -5,11 +5,11 @@
     }
   },
   "MENUITEMS": {
-    "USER":{
-      "POST": "Gerente"
-    },
     "MAIN": {
       "TEXT": "Principal"
+    },
+    "PROFILE": {
+      "TEXT": "Perfil"
     },
     "DASHBOARD": {
       "TEXT": "Casa",
@@ -185,5 +185,71 @@
     "COPY_CLAUSE": "Copiar Cláusula",
     "PROMPT_SUGGESTIONS": "Sugerencias de Prompts",
     "CLAUSE_HISTORY": "Historial de Cláusulas"
+  },
+  "SIGNIN": {
+    "TITLE": "Iniciar Sesión",
+    "EMAIL": "Correo Electrónico",
+    "PASSWORD": "Contraseña",
+    "REMEMBER_ME": "Recordarme",
+    "BUTTON": "Iniciar Sesión",
+    "LOADING": "Iniciando sesión...",
+    "NO_ACCOUNT": "¿No tienes cuenta?",
+    "SIGNUP_LINK": "Regístrate aquí",
+    "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+    "EMAIL_REQUIRED": "El correo electrónico es requerido",
+    "EMAIL_INVALID": "Formato de correo inválido",
+    "PASSWORD_REQUIRED": "La contraseña es requerida",
+    "PASSWORD_MINLENGTH": "La contraseña debe tener al menos 8 caracteres"
+  },
+  "SIGNUP": {
+    "TITLE": "Crear Cuenta",
+    "EMAIL": "Correo Electrónico",
+    "USERNAME": "Nombre de Usuario",
+    "FULL_NAME": "Nombre Completo",
+    "PASSWORD": "Contraseña",
+    "CONFIRM_PASSWORD": "Confirmar Contraseña",
+    "POSITION": "Cargo",
+    "PHONE": "Teléfono",
+    "ORGANIZATION": "Organización",
+    "LANGUAGE": "Idioma",
+    "BUTTON": "Crear Cuenta",
+    "LOADING": "Creando cuenta...",
+    "HAVE_ACCOUNT": "¿Ya tienes cuenta?",
+    "SIGNIN_LINK": "Inicia sesión aquí",
+    "EMAIL_REQUIRED": "El correo electrónico es requerido",
+    "EMAIL_INVALID": "Formato de correo inválido",
+    "USERNAME_REQUIRED": "El nombre de usuario es requerido",
+    "USERNAME_PATTERN": "Solo letras, números y guiones bajos",
+    "FULL_NAME_REQUIRED": "El nombre completo es requerido",
+    "PASSWORD_REQUIRED": "La contraseña es requerida",
+    "PASSWORD_INVALID": "La contraseña debe tener mayúsculas, minúsculas, números y al menos 8 caracteres",
+    "CONFIRM_PASSWORD_REQUIRED": "Confirmar contraseña es requerido",
+    "PASSWORD_MISMATCH": "Las contraseñas no coinciden"
+  },
+  "PROFILE": {
+    "TITLE": "Perfil de Usuario",
+    "SUBTITLE": "Gestiona tu información personal y configuración",
+    "ACTIVE": "Activo",
+    "INACTIVE": "Inactivo",
+    "ADMIN": "Administrador",
+    "TAB_PROFILE": "Información Personal",
+    "TAB_PASSWORD": "Cambiar Contraseña",
+    "FULL_NAME": "Nombre Completo",
+    "POSITION": "Cargo",
+    "PHONE": "Teléfono",
+    "ORGANIZATION": "Organización",
+    "LANGUAGE": "Idioma",
+    "CURRENT_PASSWORD": "Contraseña Actual",
+    "NEW_PASSWORD": "Nueva Contraseña",
+    "CONFIRM_PASSWORD": "Confirmar Contraseña",
+    "UPDATE_PROFILE": "Actualizar Perfil",
+    "CHANGE_PASSWORD": "Cambiar Contraseña",
+    "FULL_NAME_REQUIRED": "El nombre completo es requerido",
+    "CURRENT_PASSWORD_REQUIRED": "La contraseña actual es requerida",
+    "NEW_PASSWORD_REQUIRED": "La nueva contraseña es requerida",
+    "CONFIRM_PASSWORD_REQUIRED": "Confirmar contraseña es requerido",
+    "PASSWORD_INVALID": "La contraseña debe tener mayúsculas, minúsculas y números y al menos 8 caracteres",
+    "PASSWORD_MISMATCH": "Las contraseñas no coinciden",
+    "PASSWORD_REQUIREMENTS": "La contraseña debe contener al menos 8 caracteres, incluyendo mayúsculas, minúsculas y números"
   }
 }

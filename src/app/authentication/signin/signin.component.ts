@@ -1,137 +1,83 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '@core';
-import { UnsubscribeOnDestroyAdapter } from '@shared';
+import { AuthService } from '../../core/service/auth.service';
+import { UnsubscribeOnDestroyAdapter } from '../../shared';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
   standalone: true,
   imports: [
-    RouterLink,
-    FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule,
+    MatCheckboxModule,
     MatButtonModule,
-  ],
+    MatIconModule,
+    NgIf,
+    RouterLink,
+    TranslateModule
+  ]
 })
-export class SigninComponent
-  extends UnsubscribeOnDestroyAdapter
-  implements OnInit {
-  authForm!: UntypedFormGroup;
-  submitted = false;
+export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+  loginForm!: FormGroup;
   loading = false;
+  submitted = false;
   error = '';
+  message = '';
   hide = true;
+
   constructor(
-    private formBuilder: UntypedFormBuilder,
-    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
     private router: Router,
-    private authService: AuthService
+    private route: ActivatedRoute
   ) {
     super();
   }
 
-  ngOnInit() {
-    this.authForm = this.formBuilder.group({
-      username: ['admin@software.com', Validators.required],
-      password: ['admin@123', Validators.required],
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      remember_me: [false]
     });
-    
-    // Ensure video autoplay after component loads
-    setTimeout(() => {
-      this.initializeVideo();
-    }, 100);
+
+    // Capturar mensaje de registro exitoso
+    this.message = this.route.snapshot.queryParams['message'] || '';
   }
 
-  private initializeVideo(): void {
-    const video = document.querySelector('.background-video') as HTMLVideoElement;
-    if (!video) return;
-
-    // Set video properties for better autoplay compatibility
-    video.muted = true;
-    video.playsInline = true;
-    video.defaultMuted = true;
-
-    // Try to play the video
-    const playPromise = video.play();
-    
-    if (playPromise !== undefined) {
-      playPromise.catch(error => {
-        console.log('Video autoplay blocked by browser:', error);
-        
-        // Fallback strategies
-        this.setupVideoFallbacks(video);
-      });
-    }
+  get f() { 
+    return this.loginForm.controls; 
   }
 
-  private setupVideoFallbacks(video: HTMLVideoElement): void {
-    // Strategy 1: Play on any user interaction
-    const playOnInteraction = () => {
-      video.play().catch(e => console.log('Play on interaction failed:', e));
-      // Remove listeners after successful play attempt
-      document.removeEventListener('click', playOnInteraction);
-      document.removeEventListener('touchstart', playOnInteraction);
-      document.removeEventListener('keydown', playOnInteraction);
-    };
-
-    document.addEventListener('click', playOnInteraction, { passive: true });
-    document.addEventListener('touchstart', playOnInteraction, { passive: true });
-    document.addEventListener('keydown', playOnInteraction, { passive: true });
-
-    // Strategy 2: Show fallback image after a delay if video still isn't playing
-    setTimeout(() => {
-      if (video.paused) {
-        const fallbackImage = video.nextElementSibling as HTMLElement;
-        if (fallbackImage) {
-          video.style.display = 'none';
-          fallbackImage.style.display = 'block';
-        }
-      }
-    }, 3000);
-  }
-  get f() {
-    return this.authForm.controls;
-  }
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
-    this.loading = true;
     this.error = '';
-    if (this.authForm.invalid) {
-      this.error = 'Username and Password not valid !';
+
+    if (this.loginForm.invalid) {
       return;
-    } else {
-      this.subs.sink = this.authService
-        .login(this.f['username'].value, this.f['password'].value)
-        .subscribe({
-          next: (res) => {
-            if (res) {
-              if (res) {
-                const token = this.authService.currentUserValue.token;
-                if (token) {
-                  this.router.navigate(['/dashboard/dashboard1']);
-                }
-              } else {
-                this.error = 'Invalid Login';
-              }
-            } else {
-              this.error = 'Invalid Login';
-            }
-          },
-          error: (error) => {
-            this.error = error;
-            this.submitted = false;
-            this.loading = false;
-          },
-        });
     }
+
+    this.loading = true;
+
+    this.subs.sink = this.authService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        this.error = error.message;
+        this.loading = false;
+      }
+    });
   }
 }

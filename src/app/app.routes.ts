@@ -122,6 +122,13 @@ export const APP_ROUTE: Route[] = [
                         (m) => m.DashboardModule
                     ),
             },
+            {
+                path: 'users',
+                loadChildren: () =>
+                    import('./modules/users/users.module').then(
+                        (m) => m.UsersModule
+                    ),
+            },
         ],
     },
     {
