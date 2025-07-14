@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/service/auth.service';
@@ -28,7 +28,9 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule
   ]
 })
-export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnInit {
+export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnInit, AfterViewInit {
+  @ViewChild('backgroundVideo', { static: false }) backgroundVideo!: ElementRef<HTMLVideoElement>;
+  
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
@@ -54,6 +56,26 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
 
     // Capturar mensaje de registro exitoso
     this.message = this.route.snapshot.queryParams['message'] || '';
+  }
+
+  ngAfterViewInit(): void {
+    // Forzar reproducción del video cuando esté listo
+    if (this.backgroundVideo?.nativeElement) {
+      const video = this.backgroundVideo.nativeElement;
+      
+      video.addEventListener('loadeddata', () => {
+        video.play().catch(error => {
+          console.log('Error al reproducir video:', error);
+        });
+      });
+
+      // Intentar reproducir inmediatamente si ya está cargado
+      if (video.readyState >= 2) {
+        video.play().catch(error => {
+          console.log('Error al reproducir video:', error);
+        });
+      }
+    }
   }
 
   get f() { 
