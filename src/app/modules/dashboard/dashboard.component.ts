@@ -53,13 +53,8 @@ export class DashboardComponent implements OnInit {
     // Load summary data
     this.dashboardService.getSummary().subscribe({
       next: (data) => {
-        // Validar datos del summary
-        this.summary = data && typeof data === 'object' ? {
-          documentos_analizados: typeof data.documentos_analizados === 'number' ? data.documentos_analizados : 0,
-          clausulas_riesgosas: typeof data.clausulas_riesgosas === 'number' ? data.clausulas_riesgosas : 0,
-          gpt_activado: typeof data.gpt_activado === 'boolean' ? data.gpt_activado : false,
-          plantillas_disponibles: typeof data.plantillas_disponibles === 'number' ? data.plantillas_disponibles : 0
-        } : null;
+        console.log('Summary data received:', data);
+        this.summary = data;
         this.isLoadingSummary = false;
       },
       error: (error) => {
@@ -120,13 +115,8 @@ export class DashboardComponent implements OnInit {
     // Load system status
     this.dashboardService.getSystemStatus().subscribe({
       next: (data) => {
-        // Validar datos del system status
-        this.systemStatus = data && typeof data === 'object' ? {
-          gpt_activo: typeof data.gpt_activo === 'boolean' ? data.gpt_activo : false,
-          mongo_conectado: typeof data.mongo_conectado === 'boolean' ? data.mongo_conectado : false,
-          ml_cargado: typeof data.ml_cargado === 'boolean' ? data.ml_cargado : false,
-          plantillas_disponibles: typeof data.plantillas_disponibles === 'number' ? data.plantillas_disponibles : 0
-        } : null;
+        console.log('System status data received:', data);
+        this.systemStatus = data;
         this.isLoadingStatus = false;
       },
       error: (error) => {

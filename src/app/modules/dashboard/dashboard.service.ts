@@ -1,7 +1,6 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 // Interfaces
@@ -38,7 +37,14 @@ export class DashboardService {
   constructor(private http: HttpClient) {}
 
   getSummary(): Observable<DashboardSummary> {
-    return this.http.get<DashboardSummary>(`${this.apiUrl}/summary`);
+    return this.http.get<any>(`${this.apiUrl}/dashboard/summary`).pipe(
+      map(response => ({
+        documentos_analizados: response.documentos_analizados || 0,
+        clausulas_riesgosas: response.clausulas_riesgosas || 0,
+        gpt_activado: response.gpt_enabled || response.gpt_activado || false,
+        plantillas_disponibles: response.template_count || response.plantillas_disponibles || 0
+      }))
+    );
   }
 
   getTypeDistribution(): Observable<TypeCount[]> {
@@ -50,6 +56,13 @@ export class DashboardService {
   }
 
   getSystemStatus(): Observable<SystemStatus> {
-    return this.http.get<SystemStatus>(`${this.apiUrl}/status`);
+    return this.http.get<any>(`${this.apiUrl}/dashboard/status`).pipe(
+      map(response => ({
+        gpt_activo: response.gpt_enabled,
+        mongo_conectado: response.mongo_connected,
+        ml_cargado: response.ml_loaded,
+        plantillas_disponibles: response.template_count
+      }))
+    );
   }
 }
