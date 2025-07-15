@@ -1,0 +1,94 @@
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:80:7 - error TS2345: Argument of type 'import("/home/runner/workspace/node_modules/rxjs/dist/types/internal/types").OperatorFunction<import("/home/runner/workspace/src/app/core/models/document").Document[], { _id: string; filename: string; type: string; pages: number; risk_clauses: import("/home/runner/workspace/src/app/core/models/document").RiskClause[...' is not assignable to parameter of type 'import("/home/runner/workspace/node_modules/rxjs/dist/types/internal/types").OperatorFunction<import("/home/runner/workspace/src/app/modules/documents/services/documents.service").Document[], { _id: string; filename: string; type: string; pages: number; risk_clauses: import("/home/runner/workspace/src/app/core/model...'.
+  Type 'import("/home/runner/workspace/src/app/modules/documents/services/documents.service").Document[]' is not assignable to type 'import("/home/runner/workspace/src/app/core/models/document").Document[]'.
+    Type 'Document' is missing the following properties from type 'Document': _id, filename, pages
+
+ 80       map((documents: CoreDocument[]) => {
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 81         console.log('📄 Documentos obtenidos del servicio:', documents);
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+... 
+ 90         }));
+    ~~~~~~~~~~~~
+ 91       }),
+    ~~~~~~~~
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.html:32:71 - error TS2339: Property 'id' does not exist on type 'LegalAgentDocument'.
+
+32               <mat-option *ngFor="let doc of documentos" [value]="doc.id">
+                                                                         ~~
+
+  src/app/layout/right-sidebar/right-sidebar.component.ts:33:16
+    33   templateUrl: './right-sidebar.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component RightSidebarComponent.
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.html:33:24 - error TS2339: Property 'name' does not exist on type 'LegalAgentDocument'.
+
+33                 {{ doc.name }} ({{ doc.file_type }})
+                          ~~~~
+
+  src/app/layout/right-sidebar/right-sidebar.component.ts:33:16
+    33   templateUrl: './right-sidebar.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component RightSidebarComponent.
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.html:33:40 - error TS2339: Property 'file_type' does not exist on type 'LegalAgentDocument'.
+
+33                 {{ doc.name }} ({{ doc.file_type }})
+                                          ~~~~~~~~~
+
+  src/app/layout/right-sidebar/right-sidebar.component.ts:33:16
+    33   templateUrl: './right-sidebar.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component RightSidebarComponent.
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.html:44:63 - error TS2339: Property 'name' does not exist on type 'LegalAgentDocument'.
+
+44               <span class="doc-name">{{ documentoSeleccionado.name }}</span>
+                                                                 ~~~~
+
+  src/app/layout/right-sidebar/right-sidebar.component.ts:33:16
+    33   templateUrl: './right-sidebar.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component RightSidebarComponent.
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.html:45:63 - error TS2339: Property 'file_type' does not exist on type 'LegalAgentDocument'.
+
+45               <span class="doc-type">{{ documentoSeleccionado.file_type }}</span>
+                                                                 ~~~~~~~~~
+
+  src/app/layout/right-sidebar/right-sidebar.component.ts:33:16
+    33   templateUrl: './right-sidebar.component.html',
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Error occurs in the template of component RightSidebarComponent.
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.ts:199:66 - error TS2339: Property 'id' does not exist on type 'LegalAgentDocument'.
+
+199     this.documentoSeleccionado = this.documentos.find(doc => doc.id === documentoId) || null;
+                                                                     ~~
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.ts:322:7 - error TS2322: Type '"system"' is not assignable to type '"usuario" | "agente"'.
+
+322       tipo: 'system'
+          ~~~~
+
+  src/app/layout/right-sidebar/legal-agent.service.ts:39:3
+    39   tipo: 'usuario' | 'agente';
+         ~~~~
+    The expected type comes from property 'tipo' which is declared here on type 'ChatMessage'
+
+
+
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
+
+
+✖ Failed to compile.
