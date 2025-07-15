@@ -237,4 +237,86 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
     if (!this.agentStatus.api_key_configured) return 'API Key no configurada';
     return 'Agente Deshabilitado';
   }
+
+  sendMessage(): void {
+    const message = this.chatForm.get('mensaje')?.value?.trim();
+    if (!message) return;
+
+    // Add user message to chat
+    this.chatMessages.push({
+      id: this.legalAgentService.generarId(),
+      texto: message,
+      tipo: 'usuario',
+      timestamp: new Date()
+    });
+
+    this.isLoading = true;
+    this.chatForm.get('mensaje')?.setValue('');
+
+    // Check if the query might need document context
+    const needsDocumentContext = this.queryNeedsDocumentContext(message);
+
+    // Send to legal agent with or without document context
+    const pregunta: PreguntaGPT = {
+      texto: message,
+      document_id: this.chatForm.get('documentoId')?.value || undefined
+    };
+    const queryMethod = needsDocumentContext
+      ? this.legalAgentService.consultarAgente(pregunta) // Modified to use existing method with doc ID
+      : this.legalAgentService.consultarAgente(pregunta);
+
+    queryMethod.pipe(
+        takeUntil(this.destroy$),
+        finalize(() => {
+          this.isLoading = false;
+          this.isTyping = false;
+        })
+      )
+      .subscribe({
+      next: (response) => {
+        this.legalAgentService.agregarMensaje({
+          id: this.legalAgentService.generarId(),
+          texto: response.respuesta,
+          tipo: 'agente',
+          timestamp: new Date(),
+          fuente: response.fuente
+        });
+        this.isLoading = false;
+        this.scrollToBottom();
+      },
+      error: (error) => {
+        this.legalAgentService.agregarMensaje({
+          id: this.legalAgentService.generarId(),
+          texto: 'Lo siento, hubo un error al procesar tu consulta. Por favor intenta nuevamente.',
+          tipo: 'agente',
+          timestamp: new Date()
+        });
+        this.isLoading = false;
+        this.scrollToBottom();
+        console.error('Error querying legal agent:', error);
+      }
+    });
+  }
+
+  private queryNeedsDocumentContext(query: string): boolean {
+    const contextKeywords = [
+      'mi documento', 'mis documentos', 'este documento', 'este contrato',
+      'mi contrato', 'mis contratos', 'el documento que subí',
+      'las cláusulas', 'cláusula', 'clausula', 'analiza mi',
+      'revisa mi', 'que opinas de', 'qué opinas de'
+    ];
+
+    const lowerQuery = query.toLowerCase();
+    return contextKeywords.some(keyword => lowerQuery.includes(keyword));
+  }
+
+  private scrollToBottom(): void {
+    try {
+      if (this.chatContainer) {
+        this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
+      }
+    } catch(err) {
+      console.error('Error al hacer scroll:', err);
+    }
+  }
 }

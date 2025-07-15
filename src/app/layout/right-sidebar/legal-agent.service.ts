@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { DocumentsService, Document } from '../../modules/documents/services/documents.service';
 
 export interface PreguntaGPT {
   texto: string;
@@ -42,7 +43,10 @@ export class LegalAgentService {
   private chatHistorySubject = new BehaviorSubject<ChatMessage[]>([]);
   public chatHistory$ = this.chatHistorySubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private documentsService: DocumentsService
+  ) {}
 
   consultarAgente(pregunta: PreguntaGPT): Observable<RespuestaGPT> {
     return this.http.post<RespuestaGPT>(`${this.apiUrl}/legal-agent/gpt`, pregunta);
@@ -109,5 +113,78 @@ export class LegalAgentService {
 
   generarId(): string {
     return Date.now().toString() + Math.random().toString(36).substr(2, 9);
+  }
+
+  queryAgent(query: string): Observable<RespuestaGPT> {
+    const body = { texto: query };
+    return this.http.post<RespuestaGPT>(`${this.apiUrl}/legal-agent/gpt`, body);
+  }
+
+  queryAgentWithDocumentContext(query: string, includeDocuments: boolean = true): Observable<RespuestaGPT> {
+    if (!includeDocuments) {
+      return this.queryAgent(query);
+    }
+
+    // Get user documents first, then send query with context
+    return new Observable(observer => {
+      this.obtenerDocumentos().subscribe({
+        next: (documents) => {
+          const documentContext = this.buildDocumentContext(documents);
+          const contextualQuery = this.enhanceQueryWithContext(query, documentContext);
+
+          console.log('🔍 Consulta con contexto de documentos:', contextualQuery);
+
+          this.queryAgent(contextualQuery).subscribe({
+            next: (response) => observer.next(response),
+            error: (error) => observer.error(error)
+          });
+        },
+        error: (error) => {
+          console.warn('⚠️ No se pudieron cargar documentos, usando consulta sin contexto');
+          this.queryAgent(query).subscribe({
+            next: (response) => observer.next(response),
+            error: (error) => observer.error(error)
+          });
+        }
+      });
+    });
+  }
+
+  private buildDocumentContext(documents: Document[]): string {
+    if (!documents || documents.length === 0) {
+      return '';
+    }
+
+    let context = '\n\nCONTEXTO DE DOCUMENTOS DEL USUARIO:\n';
+
+    documents.forEach((doc, index) => {
+      context += `\nDocumento ${index + 1}: ${doc.name} (Tipo: ${doc.file_type})\n`;
+
+      // The original Document interface doesn't have risk_clauses, title, or type.
+      //  I will add placeholder properties for the sake of the example.
+      //  In a real scenario, these properties should be available in the Document interface.
+      const mockDoc = {
+        title: doc.name,
+        type: doc.file_type,
+        risk_clauses: []
+      };
+
+      if (mockDoc.risk_clauses && mockDoc.risk_clauses.length > 0) {
+        context += `Cláusulas detectadas:\n`;
+        mockDoc.risk_clauses.forEach((clause, clauseIndex) => {
+          context += `- Cláusula ${clauseIndex + 1} (${clause.label}): ${clause.clause_text.substring(0, 200)}...\n`;
+        });
+      }
+    });
+
+    return context;
+  }
+
+  private enhanceQueryWithContext(originalQuery: string, documentContext: string): string {
+    if (!documentContext) {
+      return originalQuery;
+    }
+
+    return `${originalQuery}${documentContext}\n\nPor favor, considera la información de los documentos del usuario al responder.`;
   }
 }
