@@ -1,5 +1,16 @@
-import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/service/auth.service';
 import { UnsubscribeOnDestroyAdapter } from '../../shared';
@@ -25,12 +36,16 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     NgIf,
     RouterLink,
-    TranslateModule
-  ]
+    TranslateModule,
+  ],
 })
-export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnInit, AfterViewInit {
-  @ViewChild('backgroundVideo', { static: false }) backgroundVideo!: ElementRef<HTMLVideoElement>;
-  
+export class SigninComponent
+  extends UnsubscribeOnDestroyAdapter
+  implements OnInit, AfterViewInit
+{
+  @ViewChild('backgroundVideo', { static: false })
+  backgroundVideo!: ElementRef<HTMLVideoElement>;
+
   loginForm!: FormGroup;
   loading = false;
   submitted = false;
@@ -42,7 +57,7 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     super();
   }
@@ -51,7 +66,7 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
-      remember_me: [false]
+      remember_me: [false],
     });
 
     // Capturar mensaje de registro exitoso
@@ -66,7 +81,9 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   }
 
   private initializeVideo(): void {
-    const video = document.querySelector('.background-video') as HTMLVideoElement;
+    const video = document.querySelector(
+      '.background-video',
+    ) as HTMLVideoElement;
     if (!video) return;
 
     // Set video properties for better autoplay compatibility
@@ -76,11 +93,11 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
 
     // Try to play the video
     const playPromise = video.play();
-    
+
     if (playPromise !== undefined) {
-      playPromise.catch(error => {
+      playPromise.catch((error) => {
         console.log('Video autoplay blocked by browser:', error);
-        
+
         // Fallback strategies
         this.setupVideoFallbacks(video);
       });
@@ -90,7 +107,7 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   private setupVideoFallbacks(video: HTMLVideoElement): void {
     // Strategy 1: Play on any user interaction
     const playOnInteraction = () => {
-      video.play().catch(e => console.log('Play on interaction failed:', e));
+      video.play().catch((e) => console.log('Play on interaction failed:', e));
       // Remove listeners after successful play attempt
       document.removeEventListener('click', playOnInteraction);
       document.removeEventListener('touchstart', playOnInteraction);
@@ -98,7 +115,9 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     };
 
     document.addEventListener('click', playOnInteraction, { passive: true });
-    document.addEventListener('touchstart', playOnInteraction, { passive: true });
+    document.addEventListener('touchstart', playOnInteraction, {
+      passive: true,
+    });
     document.addEventListener('keydown', playOnInteraction, { passive: true });
 
     // Strategy 2: Show fallback image after a delay if video still isn't playing
@@ -113,8 +132,8 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     }, 3000);
   }
 
-  get f() { 
-    return this.loginForm.controls; 
+  get f() {
+    return this.loginForm.controls;
   }
 
   onSubmit(): void {
@@ -129,12 +148,12 @@ export class SigninComponent extends UnsubscribeOnDestroyAdapter implements OnIn
 
     this.subs.sink = this.authService.login(this.loginForm.value).subscribe({
       next: (response) => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/modules/dashboard']);
       },
       error: (error) => {
         this.error = error.message;
         this.loading = false;
-      }
+      },
     });
   }
 }

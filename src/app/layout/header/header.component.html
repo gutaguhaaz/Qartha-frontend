@@ -184,7 +184,7 @@
         <li class="nav-item user_profile">
           <button mat-button [matMenuTriggerFor]="profilemenu">
             <div class="chip dropdown-toggle" ngbDropdownToggle class="">
-              <span>Ella Jones</span>
+              <span>{{ user.username }}</span>
               <img
                 src="{{ userImg }}"
                 class="user_img"
@@ -198,7 +198,11 @@
             <div class="noti-list">
               <div class="menu">
                 <div class="user_dw_menu">
-                  <button mat-menu-item class="user-item-list" routerLink="/users/profile">
+                  <button
+                    mat-menu-item
+                    class="user-item-list"
+                    routerLink="/users/profile"
+                  >
                     <app-feather-icons
                       [icon]="'user'"
                       [class]="'user-menu-icons'"

@@ -45,7 +45,8 @@ interface Notifications {
 })
 export class HeaderComponent
   extends UnsubscribeOnDestroyAdapter
-  implements OnInit {
+  implements OnInit
+{
   public config!: InConfiguration;
   userImg?: string;
   homePage?: string;
@@ -67,7 +68,7 @@ export class HeaderComponent
     private router: Router,
     private directoryService: DirectionService,
     private languageService: LanguageService,
-    private rightSidebarService: RightSidebarService
+    private rightSidebarService: RightSidebarService,
   ) {
     super();
   }
@@ -164,7 +165,7 @@ export class HeaderComponent
   }
   mobileMenuSidebarOpen(event: Event, className: string) {
     const hasClass = (event.target as HTMLInputElement).classList.contains(
-      className
+      className,
     );
     if (hasClass) {
       this.renderer.removeClass(this.document.body, className);
