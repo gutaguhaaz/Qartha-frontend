@@ -1,8 +1,10 @@
+
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { DocumentsService, Document } from '../../modules/documents/services/documents.service';
+import { DocumentsService } from '../../modules/documents/services/documents.service';
+import { Document as CoreDocument } from '../../core/models/document';
 
 export interface PreguntaGPT {
   texto: string;
@@ -20,7 +22,7 @@ export interface AgentStatus {
   status: string;
 }
 
-export interface Document {
+export interface LegalAgentDocument {
   id: string;
   name: string;
   file_type: string;
@@ -68,9 +70,9 @@ export class LegalAgentService {
     });
   }
 
-  obtenerDocumentos(): Observable<Document[]> {
+  obtenerDocumentos(): Observable<LegalAgentDocument[]> {
     // Cambiar por la línea comentada cuando el backend esté configurado
-    // return this.http.get<Document[]>(`${this.apiUrl}/documents`);
+    // return this.http.get<LegalAgentDocument[]>(`${this.apiUrl}/documents`);
 
     // Método temporal para pruebas - remover cuando el backend esté configurado
     return new Observable(observer => {
@@ -150,7 +152,7 @@ export class LegalAgentService {
     });
   }
 
-  private buildDocumentContext(documents: Document[]): string {
+  private buildDocumentContext(documents: LegalAgentDocument[]): string {
     if (!documents || documents.length === 0) {
       return '';
     }
@@ -160,18 +162,17 @@ export class LegalAgentService {
     documents.forEach((doc, index) => {
       context += `\nDocumento ${index + 1}: ${doc.name} (Tipo: ${doc.file_type})\n`;
 
-      // The original Document interface doesn't have risk_clauses, title, or type.
-      //  I will add placeholder properties for the sake of the example.
-      //  In a real scenario, these properties should be available in the Document interface.
-      const mockDoc = {
-        title: doc.name,
-        type: doc.file_type,
-        risk_clauses: []
-      };
+      // Mock document data for context building
+      const mockRiskClauses = [
+        {
+          label: 'Cláusula de ejemplo',
+          clause_text: 'Esta es una cláusula de ejemplo para mostrar el contexto...'
+        }
+      ];
 
-      if (mockDoc.risk_clauses && mockDoc.risk_clauses.length > 0) {
+      if (mockRiskClauses && mockRiskClauses.length > 0) {
         context += `Cláusulas detectadas:\n`;
-        mockDoc.risk_clauses.forEach((clause, clauseIndex) => {
+        mockRiskClauses.forEach((clause, clauseIndex) => {
           context += `- Cláusula ${clauseIndex + 1} (${clause.label}): ${clause.clause_text.substring(0, 200)}...\n`;
         });
       }

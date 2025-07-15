@@ -309,14 +309,4 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
     const lowerQuery = query.toLowerCase();
     return contextKeywords.some(keyword => lowerQuery.includes(keyword));
   }
-
-  private scrollToBottom(): void {
-    try {
-      if (this.chatContainer) {
-        this.chatContainer.nativeElement.scrollTop = this.chatContainer.nativeElement.scrollHeight;
-      }
-    } catch(err) {
-      console.error('Error al hacer scroll:', err);
-    }
-  }
 }
