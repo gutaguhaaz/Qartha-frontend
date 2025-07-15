@@ -1,7 +1,8 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { DocumentsService } from '../../modules/documents/services/documents.service';
 import { Document as CoreDocument } from '../../core/models/document';
@@ -71,33 +72,29 @@ export class LegalAgentService {
   }
 
   obtenerDocumentos(): Observable<LegalAgentDocument[]> {
-    // Cambiar por la línea comentada cuando el backend esté configurado
-    // return this.http.get<LegalAgentDocument[]>(`${this.apiUrl}/documents`);
-
-    // Método temporal para pruebas - remover cuando el backend esté configurado
-    return new Observable(observer => {
-      observer.next([
-        {
-          id: '1',
-          name: 'Contrato de Trabajo.pdf',
-          file_type: 'pdf',
-          uploaded_at: '2024-01-15T10:30:00Z'
-        },
-        {
-          id: '2',
-          name: 'Acuerdo de Confidencialidad.docx',
-          file_type: 'docx',
-          uploaded_at: '2024-01-16T14:20:00Z'
-        },
-        {
-          id: '3',
-          name: 'Términos y Condiciones.pdf',
-          file_type: 'pdf',
-          uploaded_at: '2024-01-17T09:15:00Z'
-        }
-      ]);
-      observer.complete();
-    });
+    // Usar el servicio de documentos real para obtener documentos subidos
+    return this.documentsService.getDocuments().pipe(
+      map((documents: CoreDocument[]) => {
+        return documents.map(doc => ({
+          id: doc._id,
+          name: doc.filename,
+          file_type: doc.type,
+          uploaded_at: doc.created_at
+        }));
+      }),
+      catchError(error => {
+        console.error('Error al obtener documentos reales:', error);
+        // Fallback a documentos de prueba si hay error
+        return of([
+          {
+            id: '1',
+            name: 'Sin documentos disponibles',
+            file_type: 'info',
+            uploaded_at: new Date().toISOString()
+          }
+        ]);
+      })
+    );
   }
 
   agregarMensaje(mensaje: ChatMessage): void {
