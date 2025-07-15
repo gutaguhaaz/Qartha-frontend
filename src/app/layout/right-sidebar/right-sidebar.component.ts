@@ -11,7 +11,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { RightSidebarService } from '../../core/service/rightsidebar.service';
-import { LegalAgentService, ChatMessage, AgentStatus, Document, PreguntaGPT } from './legal-agent.service';
+import { LegalAgentService, ChatMessage, AgentStatus, LegalAgentDocument, PreguntaGPT } from './legal-agent.service';
 import { Subject, takeUntil, finalize } from 'rxjs';
 
 @Component({
@@ -38,8 +38,8 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
 
   chatForm!: FormGroup;
   agentStatus: AgentStatus | null = null;
-  documentos: Document[] = [];
-  documentoSeleccionado: Document | null = null;
+  documentos: LegalAgentDocument[] = [];
+  documentoSeleccionado: LegalAgentDocument | null = null;
   chatMessages: ChatMessage[] = [];
   isLoading = false;
   isTyping = false;
@@ -121,7 +121,7 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
     this.legalAgentService.obtenerDocumentos()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (docs: Document[]) => {
+        next: (docs: LegalAgentDocument[]) => {
           this.documentos = docs;
         },
         error: (error: any) => {
