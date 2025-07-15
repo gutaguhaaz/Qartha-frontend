@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
@@ -25,6 +24,7 @@ export interface AgentStatus {
 export interface LegalAgentDocument {
   _id: string;
   filename: string;
+  title?: string; // Título del documento (opcional)
   type: string;
   pages: number;
   risk_clauses: any[];
@@ -42,8 +42,7 @@ export interface ChatMessage {
 }
 
 @Injectable({
-  providedIn: 'root'
-})
+  providedIn: 'root' })
 export class LegalAgentService {
   private readonly apiUrl = environment.apiBaseUrl;
   private chatHistorySubject = new BehaviorSubject<ChatMessage[]>([]);
@@ -82,6 +81,7 @@ export class LegalAgentService {
         return documents.map(doc => ({
           _id: doc._id || doc.id || 'unknown',
           filename: doc.filename || doc.name || 'Documento sin nombre',
+          title: doc.title,
           type: doc.type || doc.file_type || 'unknown',
           pages: doc.pages || 0,
           risk_clauses: doc.risk_clauses || [],
@@ -96,6 +96,7 @@ export class LegalAgentService {
           {
             _id: '1',
             filename: 'Sin documentos disponibles',
+            title: 'Sin documentos disponibles',
             type: 'info',
             pages: 0,
             risk_clauses: [],
