@@ -10,7 +10,9 @@ import { Router, RouterLink } from '@angular/router';
 import { ConfigService } from '@config';
 import { UnsubscribeOnDestroyAdapter } from '@shared';
 import { DirectionService, LanguageService, RightSidebarService } from '@core';
-import { InConfiguration, AuthService } from '@core';
+import { InConfiguration } from '@core';
+import { AuthService } from '../../core/service/auth.service';
+import { User } from '../../core/models/user';
 import { NgScrollbar } from 'ngx-scrollbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -48,6 +50,7 @@ export class HeaderComponent
   implements OnInit
 {
   public config!: InConfiguration;
+  user: User | null = null;
   userImg?: string;
   homePage?: string;
   isNavbarCollapsed = true;
@@ -130,6 +133,7 @@ export class HeaderComponent
   ];
   ngOnInit() {
     this.config = this.configService.configData;
+    this.user = this.authService.currentUserValue;
     this.userImg = 'assets/images/user/admin.jpg'; // Default image since img property doesn't exist
     this.docElement = document.documentElement;
 
