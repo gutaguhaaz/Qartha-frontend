@@ -80,7 +80,7 @@
                   </div>
 
                   <!-- Debug info -->
-                  <div class="debug-info mb-3">
+                  <!-- <div class="debug-info mb-3">
                     <small class="text-muted">
                       <strong>Debug Info:</strong><br>
                       • Templates disponibles: {{ templates.length || 0 }}<br>
@@ -90,10 +90,13 @@
                       • Form valid: {{ contractForm.valid }}<br>
                       • Templates: {{ templates | json }}
                     </small>
-                  </div>
+                  </div> -->
 
                   <!-- Campos dinámicos -->
-                  <div *ngIf="templateFields && templateFields.length > 0" class="dynamic-fields">
+                  <div
+                    *ngIf="templateFields && templateFields.length > 0"
+                    class="dynamic-fields"
+                  >
                     <h4 class="mb-3">
                       {{ "CONTRACTS.TEMPLATE_FIELDS" | translate }}
                       ({{ templateFields.length }} campos)
@@ -103,11 +106,14 @@
                       <div
                         class="col-md-6"
                         *ngFor="let field of templateFields"
-                        [class.col-12]="field.type === 'signature' || field.type === 'textarea'"
+                        [class.col-12]="
+                          field.type === 'signature' ||
+                          field.type === 'textarea'
+                        "
                       >
                         <!-- Text Input -->
-                        <mat-form-field 
-                          appearance="outline" 
+                        <mat-form-field
+                          appearance="outline"
                           class="w-100"
                           *ngIf="field.type === 'text'"
                         >
@@ -120,15 +126,19 @@
                           />
                           <mat-icon matSuffix>text_fields</mat-icon>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                            *ngIf="
+                              contractForm
+                                .get(field.field)
+                                ?.hasError('required')
+                            "
                           >
                             Este campo es requerido
                           </mat-error>
                         </mat-form-field>
 
                         <!-- Email Input -->
-                        <mat-form-field 
-                          appearance="outline" 
+                        <mat-form-field
+                          appearance="outline"
                           class="w-100"
                           *ngIf="field.type === 'email'"
                         >
@@ -142,20 +152,26 @@
                           />
                           <mat-icon matSuffix>email</mat-icon>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                            *ngIf="
+                              contractForm
+                                .get(field.field)
+                                ?.hasError('required')
+                            "
                           >
                             Este campo es requerido
                           </mat-error>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('email')"
+                            *ngIf="
+                              contractForm.get(field.field)?.hasError('email')
+                            "
                           >
                             Ingrese un email válido
                           </mat-error>
                         </mat-form-field>
 
                         <!-- Phone Input -->
-                        <mat-form-field 
-                          appearance="outline" 
+                        <mat-form-field
+                          appearance="outline"
                           class="w-100"
                           *ngIf="field.type === 'tel'"
                         >
@@ -169,15 +185,19 @@
                           />
                           <mat-icon matSuffix>phone</mat-icon>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                            *ngIf="
+                              contractForm
+                                .get(field.field)
+                                ?.hasError('required')
+                            "
                           >
                             Este campo es requerido
                           </mat-error>
                         </mat-form-field>
 
                         <!-- Date Input -->
-                        <mat-form-field 
-                          appearance="outline" 
+                        <mat-form-field
+                          appearance="outline"
                           class="w-100"
                           *ngIf="field.type === 'date'"
                         >
@@ -189,18 +209,25 @@
                             [required]="field.required"
                             readonly
                           />
-                          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                          <mat-datepicker-toggle
+                            matSuffix
+                            [for]="datePicker"
+                          ></mat-datepicker-toggle>
                           <mat-datepicker #datePicker></mat-datepicker>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                            *ngIf="
+                              contractForm
+                                .get(field.field)
+                                ?.hasError('required')
+                            "
                           >
                             Este campo es requerido
                           </mat-error>
                         </mat-form-field>
 
                         <!-- Textarea -->
-                        <mat-form-field 
-                          appearance="outline" 
+                        <mat-form-field
+                          appearance="outline"
                           class="w-100"
                           *ngIf="field.type === 'textarea'"
                         >
@@ -214,15 +241,19 @@
                           ></textarea>
                           <mat-icon matSuffix>text_fields</mat-icon>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                            *ngIf="
+                              contractForm
+                                .get(field.field)
+                                ?.hasError('required')
+                            "
                           >
                             Este campo es requerido
                           </mat-error>
                         </mat-form-field>
 
                         <!-- Number Input -->
-                        <mat-form-field 
-                          appearance="outline" 
+                        <mat-form-field
+                          appearance="outline"
                           class="w-100"
                           *ngIf="field.type === 'number'"
                         >
@@ -236,20 +267,34 @@
                           />
                           <mat-icon matSuffix>numbers</mat-icon>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('required')"
+                            *ngIf="
+                              contractForm
+                                .get(field.field)
+                                ?.hasError('required')
+                            "
                           >
                             Este campo es requerido
                           </mat-error>
                         </mat-form-field>
 
                         <!-- Signature Pad -->
-                        <div *ngIf="field.type === 'signature'" class="signature-field">
-                          <label class="signature-label">{{ field.label }}</label>
-                          <app-signature-pad 
+                        <div
+                          *ngIf="field.type === 'signature'"
+                          class="signature-field"
+                        >
+                          <label class="signature-label">{{
+                            field.label
+                          }}</label>
+                          <app-signature-pad
                             [formControlName]="field.field"
                           ></app-signature-pad>
                           <mat-error
-                            *ngIf="contractForm.get(field.field)?.hasError('required') && contractForm.get(field.field)?.touched"
+                            *ngIf="
+                              contractForm
+                                .get(field.field)
+                                ?.hasError('required') &&
+                              contractForm.get(field.field)?.touched
+                            "
                             class="signature-error"
                           >
                             La firma es requerida

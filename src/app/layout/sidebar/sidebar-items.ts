@@ -11,7 +11,7 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: '',
     submenu: [],
   },
-  {
+  /* {
     path: '',
     title: 'MENUITEMS.DASHBOARD.TEXT',
     iconType: 'feather',
@@ -56,6 +56,8 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: '',
     submenu: [],
   },
+  */
+
   {
     path: '',
     title: 'MENUITEMS.INICIO.TEXT',
@@ -169,6 +171,7 @@ export const ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
   },
+  /*
   {
     path: 'calendar',
     title: 'MENUITEMS.CALENDAR.TEXT',
@@ -182,7 +185,7 @@ export const ROUTES: RouteInfo[] = [
   },
 
   // Common Modules
-
+ 
   {
     path: '',
     title: 'MENUITEMS.APPS.TEXT',
@@ -1078,5 +1081,5 @@ export const ROUTES: RouteInfo[] = [
     badge: '',
     badgeClass: '',
     submenu: [],
-  },
+  },*/
 ];
