@@ -309,4 +309,19 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
     const lowerQuery = query.toLowerCase();
     return contextKeywords.some(keyword => lowerQuery.includes(keyword));
   }
+
+  seleccionarDocumento(documento: LegalAgentDocument): void {
+    this.documentoSeleccionado = documento;
+
+    // Agregar mensaje del sistema sobre el documento seleccionado
+    const mensajeSeleccion: ChatMessage = {
+      id: Date.now().toString(),
+      texto: `📄 Documento seleccionado: "${documento.filename}" (${documento.type}, ${documento.pages} páginas)`,
+      esUsuario: false,
+      timestamp: new Date(),
+      tipo: 'system'
+    };
+
+    this.legalAgentService.agregarMensaje(mensajeSeleccion);
+  }
 }

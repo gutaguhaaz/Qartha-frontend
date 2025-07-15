@@ -24,10 +24,13 @@ export interface AgentStatus {
 }
 
 export interface LegalAgentDocument {
-  id: string;
-  name: string;
-  file_type: string;
-  uploaded_at: string;
+  _id: string;
+  filename: string;
+  type: string;
+  pages: number;
+  risk_clauses: any[];
+  created_at: string;
+  user_id?: string;
 }
 
 export interface ChatMessage {
@@ -75,22 +78,28 @@ export class LegalAgentService {
     // Usar el servicio de documentos real para obtener documentos subidos
     return this.documentsService.getDocuments().pipe(
       map((documents: CoreDocument[]) => {
+        console.log('📄 Documentos obtenidos del servicio:', documents);
         return documents.map(doc => ({
-          id: doc._id,
-          name: doc.filename,
-          file_type: doc.type,
-          uploaded_at: doc.created_at
+          _id: doc._id,
+          filename: doc.filename,
+          type: doc.type,
+          pages: doc.pages,
+          risk_clauses: doc.risk_clauses || [],
+          created_at: doc.created_at,
+          user_id: doc.user_id
         }));
       }),
       catchError(error => {
-        console.error('Error al obtener documentos reales:', error);
+        console.error('❌ Error al obtener documentos reales:', error);
         // Fallback a documentos de prueba si hay error
         return of([
           {
-            id: '1',
-            name: 'Sin documentos disponibles',
-            file_type: 'info',
-            uploaded_at: new Date().toISOString()
+            _id: '1',
+            filename: 'Sin documentos disponibles',
+            type: 'info',
+            pages: 0,
+            risk_clauses: [],
+            created_at: new Date().toISOString()
           }
         ]);
       })
@@ -157,24 +166,22 @@ export class LegalAgentService {
     let context = '\n\nCONTEXTO DE DOCUMENTOS DEL USUARIO:\n';
 
     documents.forEach((doc, index) => {
-      context += `\nDocumento ${index + 1}: ${doc.name} (Tipo: ${doc.file_type})\n`;
+      context += `\nDocumento ${index + 1}: ${doc.filename} (Tipo: ${doc.type}, Páginas: ${doc.pages})\n`;
+      context += `Fecha de subida: ${new Date(doc.created_at).toLocaleDateString('es-ES')}\n`;
 
-      // Mock document data for context building
-      const mockRiskClauses = [
-        {
-          label: 'Cláusula de ejemplo',
-          clause_text: 'Esta es una cláusula de ejemplo para mostrar el contexto...'
-        }
-      ];
-
-      if (mockRiskClauses && mockRiskClauses.length > 0) {
-        context += `Cláusulas detectadas:\n`;
-        mockRiskClauses.forEach((clause, clauseIndex) => {
-          context += `- Cláusula ${clauseIndex + 1} (${clause.label}): ${clause.clause_text.substring(0, 200)}...\n`;
+      if (doc.risk_clauses && doc.risk_clauses.length > 0) {
+        context += `Cláusulas de riesgo detectadas (${doc.risk_clauses.length}):\n`;
+        doc.risk_clauses.forEach((clause, clauseIndex) => {
+          const clauseText = clause.clause || clause.clause_text || 'Cláusula sin texto';
+          const riskLevel = clause.risk_level || clause.label || 'desconocido';
+          context += `- Cláusula ${clauseIndex + 1} (Riesgo: ${riskLevel}): ${clauseText.substring(0, 150)}...\n`;
         });
+      } else {
+        context += `Sin cláusulas de riesgo detectadas.\n`;
       }
     });
 
+    context += '\nPor favor usa esta información de los documentos para responder preguntas específicas sobre ellos.\n';
     return context;
   }
 
