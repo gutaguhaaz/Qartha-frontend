@@ -198,13 +198,13 @@
             <div class="noti-list">
               <div class="menu">
                 <div class="user_dw_menu">
-                  <a routerLink="/users/profile">
-                          <app-feather-icons
-                            [icon]="'user'"
-                            [class]="'user-menu-icons'"
-                          ></app-feather-icons>
-                          Mi Perfil
-                        </a>
+                  <button mat-menu-item class="user-item-list" routerLink="/users/profile">
+                    <app-feather-icons
+                      [icon]="'user'"
+                      [class]="'user-menu-icons'"
+                    ></app-feather-icons>
+                    Mi Perfil
+                  </button>
                   <button mat-menu-item class="user-item-list">
                     <app-feather-icons
                       [icon]="'mail'"
