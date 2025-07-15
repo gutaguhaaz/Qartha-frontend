@@ -1,0 +1,93 @@
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:5:28 - error TS2440: Import declaration conflicts with local declaration of 'Document'.
+
+5 import { DocumentsService, Document } from '../../modules/documents/services/documents.service';
+                             ~~~~~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:80:11 - error TS2322: Type '{ id: string; name: string; file_type: string; uploaded_at: string; }' is not assignable to type 'Document'.
+  Object literal may only specify known properties, and 'name' does not exist in type 'Document'.
+
+80           name: 'Contrato de Trabajo.pdf',
+             ~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:86:11 - error TS2322: Type '{ id: string; name: string; file_type: string; uploaded_at: string; }' is not assignable to type 'Document'.
+  Object literal may only specify known properties, and 'name' does not exist in type 'Document'.
+
+86           name: 'Acuerdo de Confidencialidad.docx',
+             ~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:92:11 - error TS2322: Type '{ id: string; name: string; file_type: string; uploaded_at: string; }' is not assignable to type 'Document'.
+  Object literal may only specify known properties, and 'name' does not exist in type 'Document'.
+
+92           name: 'Términos y Condiciones.pdf',
+             ~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:161:51 - error TS2339: Property 'name' does not exist on type 'Document'.
+
+161       context += `\nDocumento ${index + 1}: ${doc.name} (Tipo: ${doc.file_type})\n`;
+                                                      ~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:161:70 - error TS2339: Property 'file_type' does not exist on type 'Document'.
+
+161       context += `\nDocumento ${index + 1}: ${doc.name} (Tipo: ${doc.file_type})\n`;
+                                                                         ~~~~~~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:167:20 - error TS2339: Property 'name' does not exist on type 'Document'.
+
+167         title: doc.name,
+                       ~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:168:19 - error TS2339: Property 'file_type' does not exist on type 'Document'.
+
+168         type: doc.file_type,
+                      ~~~~~~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:175:63 - error TS2339: Property 'label' does not exist on type 'never'.
+
+175           context += `- Cláusula ${clauseIndex + 1} (${clause.label}): ${clause.clause_text.substring(0, 200)}...\n`;
+                                                                  ~~~~~
+
+
+Error: src/app/layout/right-sidebar/legal-agent.service.ts:175:81 - error TS2339: Property 'clause_text' does not exist on type 'never'.
+
+175           context += `- Cláusula ${clauseIndex + 1} (${clause.label}): ${clause.clause_text.substring(0, 200)}...\n`;
+                                                                                    ~~~~~~~~~~~
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.ts:124:9 - error TS2769: No overload matches this call.
+  Overload 1 of 2, '(observerOrNext?: Partial<Observer<Document[]>> | ((value: Document[]) => void) | undefined): Subscription', gave the following error.
+    Type '(docs: Document[]) => void' is not assignable to type '(value: Document[]) => void'.
+      Types of parameters 'docs' and 'value' are incompatible.
+        Type 'import("/home/runner/workspace/src/app/modules/documents/services/documents.service").Document[]' is not assignable to type 'import("/home/runner/workspace/src/app/layout/right-sidebar/legal-agent.service").Document[]'.
+          Type 'Document' is missing the following properties from type 'Document': name, file_type, uploaded_at
+  Overload 2 of 2, '(next?: ((value: Document[]) => void) | null | undefined, error?: ((error: any) => void) | null | undefined, complete?: (() => void) | null | undefined): Subscription', gave the following error.
+    Argument of type '{ next: (docs: Document[]) => void; error: (error: any) => void; }' is not assignable to parameter of type '(value: Document[]) => void'.
+      Object literal may only specify known properties, and 'next' does not exist in type '(value: Document[]) => void'.
+
+124         next: (docs: Document[]) => {
+            ~~~~
+
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.ts:208:11 - error TS2393: Duplicate function implementation.
+
+208   private scrollToBottom(): void {
+              ~~~~~~~~~~~~~~
+
+
+Error: src/app/layout/right-sidebar/right-sidebar.component.ts:313:11 - error TS2393: Duplicate function implementation.
+
+313   private scrollToBottom(): void {
+              ~~~~~~~~~~~~~~
+
+
+
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
