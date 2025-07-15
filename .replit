@@ -7,7 +7,9 @@ channel = "stable-24_05"
 packages = ["killall"]
 
 [deployment]
-run = ["sh", "-c", "npx kill-port 4200 && npm start"]
+build = ["sh", "-c", "npm run build"]
+deploymentTarget = "static"
+publicDir = "dist/lexia"
 
 [workflows]
 runButton = "Start Angular"

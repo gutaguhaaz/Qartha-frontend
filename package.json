@@ -6,7 +6,8 @@
     "start": "ng serve --host 0.0.0.0 --disable-host-check --poll=2000",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "preview": "serve -s dist/lexia -l 4200"
   },
   "private": true,
   "dependencies": {
