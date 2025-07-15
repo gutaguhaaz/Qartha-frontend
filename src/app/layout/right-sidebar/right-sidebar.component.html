@@ -29,8 +29,8 @@
               formControlName="documentoId"
               (selectionChange)="onDocumentoSeleccionado($event.value)">
               <mat-option value="">Sin contexto específico</mat-option>
-              <mat-option *ngFor="let doc of documentos" [value]="doc.id">
-                {{ doc.name }} ({{ doc.file_type }})
+              <mat-option *ngFor="let doc of documentos" [value]="doc._id">
+                {{ doc.filename }} ({{ doc.type }})
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -41,8 +41,8 @@
           <div class="preview-content">
             <mat-icon>description</mat-icon>
             <div class="doc-info">
-              <span class="doc-name">{{ documentoSeleccionado.name }}</span>
-              <span class="doc-type">{{ documentoSeleccionado.file_type }}</span>
+              <span class="doc-name">{{ documentoSeleccionado.filename }}</span>
+              <span class="doc-type">{{ documentoSeleccionado.type }}</span>
             </div>
           </div>
         </div>

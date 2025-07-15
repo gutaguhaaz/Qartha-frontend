@@ -4,8 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { DocumentsService } from '../../modules/documents/services/documents.service';
-import { Document as CoreDocument } from '../../core/models/document';
+import { DocumentsService, Document as ServiceDocument } from '../../modules/documents/services/documents.service';
 
 export interface PreguntaGPT {
   texto: string;
@@ -36,9 +35,10 @@ export interface LegalAgentDocument {
 export interface ChatMessage {
   id: string;
   texto: string;
-  tipo: 'usuario' | 'agente';
+  tipo: 'usuario' | 'agente' | 'system';
   timestamp: Date;
   fuente?: string;
+  esUsuario?: boolean;
 }
 
 @Injectable({
@@ -77,15 +77,15 @@ export class LegalAgentService {
   obtenerDocumentos(): Observable<LegalAgentDocument[]> {
     // Usar el servicio de documentos real para obtener documentos subidos
     return this.documentsService.getDocuments().pipe(
-      map((documents: CoreDocument[]) => {
+      map((documents: any[]) => {
         console.log('📄 Documentos obtenidos del servicio:', documents);
         return documents.map(doc => ({
-          _id: doc._id,
-          filename: doc.filename,
-          type: doc.type,
-          pages: doc.pages,
+          _id: doc._id || doc.id || 'unknown',
+          filename: doc.filename || doc.name || 'Documento sin nombre',
+          type: doc.type || doc.file_type || 'unknown',
+          pages: doc.pages || 0,
           risk_clauses: doc.risk_clauses || [],
-          created_at: doc.created_at,
+          created_at: doc.created_at || new Date().toISOString(),
           user_id: doc.user_id
         }));
       }),

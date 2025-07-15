@@ -196,7 +196,7 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
   }
 
   onDocumentoSeleccionado(documentoId: string): void {
-    this.documentoSeleccionado = this.documentos.find(doc => doc.id === documentoId) || null;
+    this.documentoSeleccionado = this.documentos.find(doc => doc._id === documentoId) || null;
   }
 
   limpiarChat(): void {
@@ -317,7 +317,6 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
     const mensajeSeleccion: ChatMessage = {
       id: Date.now().toString(),
       texto: `📄 Documento seleccionado: "${documento.filename}" (${documento.type}, ${documento.pages} páginas)`,
-      esUsuario: false,
       timestamp: new Date(),
       tipo: 'system'
     };
