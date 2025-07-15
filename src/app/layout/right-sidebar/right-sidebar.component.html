@@ -30,7 +30,10 @@
               (selectionChange)="onDocumentoSeleccionado($event.value)">
               <mat-option value="">Sin contexto específico</mat-option>
               <mat-option *ngFor="let doc of documentos" [value]="doc._id">
-                {{ doc.filename }} ({{ doc.type }})
+                <div class="document-option">
+                  <span class="doc-title">{{ getDocumentDisplayTitle(doc) }}</span>
+                  <span class="doc-meta">({{ doc.type }})</span>
+                </div>
               </mat-option>
             </mat-select>
           </mat-form-field>

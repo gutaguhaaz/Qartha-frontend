@@ -310,6 +310,21 @@ export class RightSidebarComponent implements OnInit, OnDestroy, AfterViewChecke
     return contextKeywords.some(keyword => lowerQuery.includes(keyword));
   }
 
+  getDocumentDisplayTitle(doc: LegalAgentDocument): string {
+    // Si tiene title y no está vacío, usarlo
+    if (doc.title && doc.title.trim() && doc.title !== 'Documento sin nombre') {
+      return doc.title;
+    }
+    
+    // Si tiene filename y no está vacío, usarlo
+    if (doc.filename && doc.filename.trim() && doc.filename !== 'Documento sin nombre') {
+      return doc.filename;
+    }
+    
+    // Fallback
+    return 'Documento sin nombre';
+  }
+
   seleccionarDocumento(documento: LegalAgentDocument): void {
     this.documentoSeleccionado = documento;
 

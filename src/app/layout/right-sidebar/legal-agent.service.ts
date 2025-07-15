@@ -81,7 +81,7 @@ export class LegalAgentService {
         return documents.map(doc => ({
           _id: doc._id || doc.id || 'unknown',
           filename: doc.filename || doc.name || 'Documento sin nombre',
-          title: doc.title,
+          title: doc.title || doc.filename || doc.name || 'Documento sin nombre',
           type: doc.type || doc.file_type || 'unknown',
           pages: doc.pages || 0,
           risk_clauses: doc.risk_clauses || [],
