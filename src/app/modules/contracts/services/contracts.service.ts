@@ -57,13 +57,29 @@ export class ContractsService {
 
   // Generar contrato
   generateContract(request: ContractGenerateRequest): Observable<Blob> {
+    const url = `${this.apiUrl}/contracts/generate-contract`;
+    console.log('🌐 Making generate contract request to:', url);
+    console.log('📋 Request payload:', request);
+    console.log('📋 Request JSON:', JSON.stringify(request, null, 2));
+    
     const headers = new HttpHeaders({
       'Accept': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     });
+    
     return this.http.post(`${this.apiUrl}/contracts/generate-contract`, request, {
       headers,
       responseType: 'blob'
-    });
+    }).pipe(
+      tap(() => {
+        console.log('✅ Contract generation request completed successfully');
+      }),
+      catchError(error => {
+        console.error('❌ Contract generation request failed:', error);
+        console.error('❌ Failed URL:', url);
+        console.error('❌ Request that failed:', request);
+        throw error;
+      })
+    );
   }
 
   // Descargar plantilla original

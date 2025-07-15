@@ -241,12 +241,24 @@ export class CreateContractComponent implements OnInit {
   }
 
   generateContract(): void {
+    console.log('=== GENERATE CONTRACT DEBUG ===');
+    console.log('Selected template:', this.selectedTemplate);
+    console.log('Template fields:', this.templateFields);
+    
     // Enable all controls temporarily to get their values
     Object.keys(this.contractForm.controls).forEach(key => {
       this.contractForm.get(key)?.enable();
     });
 
     if (this.contractForm.invalid) {
+      console.log('❌ Form is invalid');
+      console.log('Form errors:', this.contractForm.errors);
+      Object.keys(this.contractForm.controls).forEach(key => {
+        const control = this.contractForm.get(key);
+        if (control?.invalid) {
+          console.log(`❌ Field '${key}' is invalid:`, control.errors);
+        }
+      });
       this.snackBar.open('Por favor complete todos los campos requeridos', 'Cerrar', {
         duration: 3000,
         panelClass: ['error-snackbar']
@@ -256,50 +268,74 @@ export class CreateContractComponent implements OnInit {
 
     this.isGenerating = true;
     const formValue = this.contractForm.value;
+    console.log('📝 Raw form value:', formValue);
     
     const campos: { [key: string]: string } = {};
     this.templateFields.forEach(field => {
+      console.log(`🔍 Processing field: ${field.field} (type: ${field.type})`);
+      console.log(`   Raw value:`, formValue[field.field]);
+      
       if (formValue[field.field]) {
         let value = formValue[field.field];
         
         // Format date fields
         if (field.type === 'date' && value instanceof Date) {
+          console.log(`📅 Converting date field ${field.field} from:`, value);
           value = value.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+          console.log(`📅 Converted to:`, value);
         }
         
         // Handle signature fields
         if (field.type === 'signature') {
+          console.log(`✍️ Processing signature field ${field.field}:`, value);
           try {
             const signatureData = JSON.parse(value);
+            console.log(`✍️ Parsed signature data:`, signatureData);
             // Send the signature value based on type
             switch (signatureData.type) {
               case 'canvas':
               case 'upload':
                 // For canvas and upload, send the base64 data
                 value = signatureData.value;
+                console.log(`✍️ Using ${signatureData.type} signature value (length: ${value?.length || 0})`);
                 break;
               case 'text':
                 // For text, send the text directly
                 value = signatureData.value;
+                console.log(`✍️ Using text signature value:`, value);
                 break;
               default:
                 value = signatureData.value;
+                console.log(`✍️ Using default signature value:`, value);
             }
           } catch (e) {
             // If not JSON, use as is (backward compatibility)
+            console.log(`✍️ Signature not JSON, using as is:`, value);
             value = value;
           }
         }
         
         campos[field.field] = value;
+        console.log(`✅ Field ${field.field} processed:`, value);
+      } else {
+        console.log(`⚠️ Field ${field.field} is empty or undefined`);
       }
     });
+
+    console.log('📤 Final campos object:', campos);
 
     const request: ContractGenerateRequest = {
       tipo_contrato: formValue.tipo_contrato,
       campos: campos,
       clausula_extra: formValue.clausula_extra || undefined
     };
+
+    console.log('🚀 Final request to be sent:', request);
+    console.log('📋 Request details:');
+    console.log('   - tipo_contrato:', request.tipo_contrato);
+    console.log('   - campos count:', Object.keys(request.campos).length);
+    console.log('   - clausula_extra:', request.clausula_extra);
+    console.log('=== END GENERATE CONTRACT DEBUG ===');
 
     this.contractsService.generateContract(request).subscribe({
       next: (blob) => {
