@@ -9,10 +9,10 @@ packages = ["killall"]
 [deployment]
 build = ["sh", "-c", "npm run build"]
 deploymentTarget = "static"
-publicDir = "dist/qartha-frontend"
+publicDir = "dist/qartha"
 
 [workflows]
-runButton = "Project"
+runButton = "Start Angular"
 
 [[workflows.workflow]]
 name = "Start Angular"
@@ -22,34 +22,13 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm start"
-
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "Angular App"
-
-[[workflows.workflow]]
-name = "Angular App"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "npm start"
-waitForPort = 5000
+waitForPort = 3000
 
 [workflows.workflow.metadata]
 outputType = "webview"
 
 [[ports]]
 localPort = 3000
-externalPort = 80
-
-[[ports]]
-localPort = 5000
 externalPort = 80
 
 [agent]

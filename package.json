@@ -1,13 +1,13 @@
 {
-  "name": "lexia",
+  "name": "qartha",
   "version": "5.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host 0.0.0.0 --port 5000",
+    "start": "ng serve --host 0.0.0.0 --port 3000",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "preview": "serve -s dist/lexia -l 4200"
+    "preview": "serve -s dist/qartha -l 4200"
   },
   "private": true,
   "dependencies": {
