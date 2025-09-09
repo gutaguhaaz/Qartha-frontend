@@ -1,18 +1,18 @@
 {
-  "HEADER":{
+  "HEADER": {
     "SEARCH": {
       "TEXT": "Search.."
     }
   },
   "MENUITEMS": {
-    "USER":{
-      "POST": "Manager"
-    },
     "MAIN": {
       "TEXT": "Main"
     },
+    "PROFILE": {
+      "TEXT": "Profile"
+    },
     "DASHBOARD": {
-      "TEXT": "Dashboard",
+      "TEXT": "Home",
       "LIST": {
         "DASHBOARD1": "Dashboard 1",
         "DASHBOARD2": "Dashboard 2",
@@ -23,7 +23,7 @@
       "TEXT": "Advance Table"
     },
     "INICIO": {
-      "TEXT": "Home",
+      "TEXT": "Start",
       "LIST": {
         "DASHBOARD": "Dashboard"
       }
@@ -38,7 +38,7 @@
       }
     },
     "APPS": {
-      "TEXT": "Apps"
+      "TEXT": "Applications"
     },
     "CALENDAR": {
       "TEXT": "Calendar"
@@ -72,15 +72,15 @@
     "WIDGETS": {
       "TEXT": "Widgets",
       "LIST": {
-        "CHART-WIDGET": "Chart-Widget",
-        "DATA-WIDGET": "Data-Widget"
+        "CHART-WIDGET": "Chart Widget",
+        "DATA-WIDGET": "Data Widget"
       }
     },
     "FORMS": {
       "TEXT": "Forms",
       "LIST": {
         "CONTROLS": "Form Controls",
-        "ADVANCE": "Advance Control",
+        "ADVANCE": "Advanced Control",
         "EXAMPLE": "Form Examples",
         "VALIDATION": "Form Validation",
         "WIZARD": "Wizard",
@@ -99,7 +99,7 @@
   "MENU": {
     "MAIN": "Main Menu",
     "DASHBOARD": "Dashboard",
-    "ADVANCE_TABLE": "Advance Table",
+    "ADVANCE_TABLE": "Advanced Table",
     "DOCUMENTS": "Documents",
     "UPLOAD_DOCUMENT": "Upload Document",
     "ANALYZE_CLAUSE": "Analyze Clause",
@@ -108,12 +108,12 @@
     "GENERATE_CONTRACT": "Generate Contracts",
     "GENERATE_CLAUSE": "Generate Clauses",
     "CALENDAR": "Calendar",
-    "TASK": "Task",
+    "TASK": "Tasks",
     "CONTACTS": "Contacts",
-    "EMAIL": "Email",
-    "APPS": "Apps",
+    "EMAIL": "Mail",
+    "APPS": "Applications",
     "WIDGET": "Widget",
-    "UI": "UI",
+    "UI": "Interface",
     "FORMS": "Forms",
     "TABLES": "Tables",
     "CHARTS": "Charts",
@@ -149,7 +149,7 @@
     "CLAUSE_PLACEHOLDER": "Enter the clause you want to analyze...",
     "CLAUSE_REQUIRED": "Clause is required",
     "CLAUSE_MIN_LENGTH": "Clause must be at least 10 characters",
-    "CLAUSES_TITLE": "Clauses Management",
+    "CLAUSES_TITLE": "Clause Management",
     "TOTAL_CLAUSES": "Total Clauses",
     "RISKY_CLAUSES": "Risky Clauses",
     "NEUTRAL_CLAUSES": "Neutral Clauses",
@@ -169,7 +169,7 @@
     "GENERATE_CLAUSE": "Generate Clause",
     "GENERATE_CLAUSE_AI": "Generate Clause with AI",
     "CONTRACT_TYPE": "Contract Type",
-    "SELECT_TEMPLATE": "Select template",
+    "SELECT_TEMPLATE": "Select Template",
     "TEMPLATE_REQUIRED": "Template is required",
     "TEMPLATE_FIELDS": "Template Fields",
     "EXTRA_CLAUSE": "Extra Clause",
@@ -178,7 +178,7 @@
     "CLEAR_FORM": "Clear Form",
     "LOADING_FIELDS": "Loading fields...",
     "CLAUSE_PROMPT": "Clause Prompt",
-    "CLAUSE_PROMPT_PLACEHOLDER": "Describe what type of clause you need to generate...",
+    "CLAUSE_PROMPT_PLACEHOLDER": "Describe what kind of clause you need to generate...",
     "PROMPT_REQUIRED": "Prompt is required",
     "PROMPT_MIN_LENGTH": "Prompt must be at least 10 characters",
     "GENERATED_CLAUSE": "Generated Clause",
@@ -186,15 +186,55 @@
     "PROMPT_SUGGESTIONS": "Prompt Suggestions",
     "CLAUSE_HISTORY": "Clause History"
   },
+  "SIGNIN": {
+    "TITLE": "Sign In",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "REMEMBER_ME": "Remember Me",
+    "BUTTON": "Sign In",
+    "LOADING": "Signing in...",
+    "NO_ACCOUNT": "Don’t have an account?",
+    "SIGNUP_LINK": "Register here",
+    "FORGOT_PASSWORD": "Forgot your password?",
+    "EMAIL_REQUIRED": "Email is required",
+    "EMAIL_INVALID": "Invalid email format",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_MINLENGTH": "Password must be at least 8 characters"
+  },
+  "SIGNUP": {
+    "TITLE": "Sign Up",
+    "EMAIL": "Email",
+    "USERNAME": "Username",
+    "FULL_NAME": "Full Name",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "POSITION": "Position",
+    "PHONE": "Phone",
+    "ORGANIZATION": "Organization",
+    "LANGUAGE": "Language",
+    "BUTTON": "Create Account",
+    "LOADING": "Creating account...",
+    "HAVE_ACCOUNT": "Already have an account?",
+    "SIGNIN_LINK": "Sign in here",
+    "EMAIL_REQUIRED": "Email is required",
+    "EMAIL_INVALID": "Invalid email format",
+    "USERNAME_REQUIRED": "Username is required",
+    "USERNAME_PATTERN": "Only letters, numbers, and underscores",
+    "FULL_NAME_REQUIRED": "Full name is required",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_INVALID": "Password must have uppercase, lowercase, numbers, and at least 8 characters",
+    "CONFIRM_PASSWORD_REQUIRED": "Confirm password is required",
+    "PASSWORD_MISMATCH": "Passwords do not match"
+  },
   "DASHBOARD": {
     "TITLE": "Dashboard",
-    "WELCOME": "Welcome to Legal Analysis System",
+    "WELCOME": "Welcome to the Legal Analysis System",
     "SUMMARY": "Summary",
     "DOCUMENTS_ANALYZED": "Documents Analyzed",
     "RISKY_CLAUSES": "Risky Clauses",
     "GPT_ENABLED": "GPT Enabled",
     "TEMPLATES_AVAILABLE": "Templates Available",
-    "DOCUMENT_DISTRIBUTION": "Document Type Distribution",
+    "DOCUMENT_DISTRIBUTION": "Document Distribution by Type",
     "MONTHLY_ANALYSIS": "Monthly Analysis",
     "SYSTEM_STATUS": "System Status",
     "SYSTEM_HEALTH": "System Health",
@@ -218,7 +258,7 @@
     "SUBTITLE": "Manage your personal information and settings",
     "ACTIVE": "Active",
     "INACTIVE": "Inactive",
-    "ADMIN": "Administrator",
+    "ADMIN": "Admin",
     "TAB_PROFILE": "Personal Information",
     "TAB_PASSWORD": "Change Password",
     "FULL_NAME": "Full Name",
@@ -235,9 +275,9 @@
     "CURRENT_PASSWORD_REQUIRED": "Current password is required",
     "NEW_PASSWORD_REQUIRED": "New password is required",
     "CONFIRM_PASSWORD_REQUIRED": "Confirm password is required",
-    "PASSWORD_INVALID": "Password must contain uppercase, lowercase, numbers and at least 8 characters",
+    "PASSWORD_INVALID": "Password must have uppercase, lowercase, numbers and at least 8 characters",
     "PASSWORD_MISMATCH": "Passwords do not match",
-    "PASSWORD_REQUIREMENTS": "Password must be at least 8 characters long and include uppercase, lowercase and numbers",
+    "PASSWORD_REQUIREMENTS": "Password must have at least 8 characters, include uppercase, lowercase, and numbers",
     "IS_VERIFIED": "Verified",
     "IS_ADMIN": "Administrator",
     "LAST_LOGIN": "Last Login",
@@ -254,7 +294,7 @@
     "EDIT_USER": "Edit User",
     "USER_DETAILS": "User Details",
     "VERIFICATION_STATUS": "Verification Status",
-    "ADMIN_ROLE": "Admin Role",
+    "ADMIN_ROLE": "Administrator Role",
     "ACCOUNT_STATUS": "Account Status",
     "CREATED_DATE": "Created Date",
     "LAST_ACCESS": "Last Access"
