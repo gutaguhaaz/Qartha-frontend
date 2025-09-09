@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -11,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NgIf, NgFor } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { RegisterRequest } from '../../core/models/user'; // Imported RegisterRequest
 
 @Component({
   selector: 'app-signup',
@@ -57,7 +57,8 @@ export class SignupComponent extends UnsubscribeOnDestroyAdapter implements OnIn
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)]],
       password: ['', [Validators.required, this.passwordValidator]],
-      confirm_password: ['', Validators.required]
+      confirm_password: ['', Validators.required],
+      full_name: ['', Validators.required] // Added full_name to the form
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -69,11 +70,11 @@ export class SignupComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
     const hasMinLength = password.length >= 8;
-    
+
     const valid = hasUpperCase && hasLowerCase && hasNumbers && hasMinLength;
-    
+
     if (!valid) {
-      return { 
+      return {
         invalidPassword: {
           hasUpperCase,
           hasLowerCase,
@@ -88,24 +89,24 @@ export class SignupComponent extends UnsubscribeOnDestroyAdapter implements OnIn
   passwordMatchValidator(group: AbstractControl): {[key: string]: any} | null {
     const password = group.get('password');
     const confirmPassword = group.get('confirm_password');
-    
+
     if (password?.value !== confirmPassword?.value) {
       confirmPassword?.setErrors({ passwordMismatch: true });
       return { passwordMismatch: true };
     }
-    
+
     if (confirmPassword?.errors) {
       delete confirmPassword.errors['passwordMismatch'];
       if (Object.keys(confirmPassword.errors).length === 0) {
         confirmPassword.setErrors(null);
       }
     }
-    
+
     return null;
   }
 
-  get f() { 
-    return this.registerForm.controls; 
+  get f() {
+    return this.registerForm.controls;
   }
 
   onSubmit(): void {
@@ -117,12 +118,14 @@ export class SignupComponent extends UnsubscribeOnDestroyAdapter implements OnIn
     }
 
     this.loading = true;
-    
+
     // Enviar solo los campos requeridos por el backend
-    const formData = {
+    const formData: RegisterRequest = {
       username: this.registerForm.value.username,
       password: this.registerForm.value.password,
-      email: this.registerForm.value.email
+      email: this.registerForm.value.email,
+      full_name: this.registerForm.value.full_name, // Using the full_name from the form
+      language: 'en' // Default language, can be made dynamic
     };
 
     this.subs.sink = this.authService.register(formData).subscribe({

@@ -1,165 +1,116 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+import { RegisterRequest } from './auth.model'; // Assuming RegisterRequest is defined in auth.model.ts
+import { Subscription } from 'rxjs';
 
-<div class="authentication-wrapper">
-  <div class="authentication-inner">
-    <div class="authentication-item">
-      <div class="auth-form">
-        <div class="text-center">
-          <img src="assets/images/logo.png" alt="Logo" class="img-fluid auth-logo">
-          <h3 class="mb-4">{{ 'SIGNUP.TITLE' | translate }}</h3>
-        </div>
+@Component({
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.scss']
+})
+export class SignupComponent implements OnInit {
+  registerForm!: FormGroup;
+  submitted = false;
+  loading = false;
+  error: string | null = null;
+  hidePassword = true;
+  hideConfirmPassword = true;
 
-        <!-- Mensaje de error -->
-        <div *ngIf="error" class="alert alert-danger alert-dismissible" role="alert">
-          {{ error }}
-        </div>
+  languages = [
+    { value: 'en', label: 'English' },
+    { value: 'es', label: 'Spanish' },
+    { value: 'fr', label: 'French' }
+  ];
 
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.EMAIL' | translate }}</mat-label>
-                  <input matInput type="email" formControlName="email">
-                  <mat-icon matSuffix>email</mat-icon>
-                  <mat-error *ngIf="submitted && f['email'].errors?.['required']">
-                    {{ 'SIGNUP.EMAIL_REQUIRED' | translate }}
-                  </mat-error>
-                  <mat-error *ngIf="submitted && f['email'].errors?.['email']">
-                    {{ 'SIGNUP.EMAIL_INVALID' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
+  private subs: { sink: Subscription | undefined } = { sink: undefined };
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.USERNAME' | translate }}</mat-label>
-                  <input matInput formControlName="username">
-                  <mat-icon matSuffix>person</mat-icon>
-                  <mat-error *ngIf="submitted && f['username'].errors?.['required']">
-                    {{ 'SIGNUP.USERNAME_REQUIRED' | translate }}
-                  </mat-error>
-                  <mat-error *ngIf="submitted && f['username'].errors?.['pattern']">
-                    {{ 'SIGNUP.USERNAME_PATTERN' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
-          <div class="form-group">
-            <mat-form-field appearance="outline" class="w-100">
-              <mat-label>{{ 'SIGNUP.FULL_NAME' | translate }}</mat-label>
-              <input matInput formControlName="full_name">
-              <mat-icon matSuffix>badge</mat-icon>
-              <mat-error *ngIf="submitted && f['full_name'].errors?.['required']">
-                {{ 'SIGNUP.FULL_NAME_REQUIRED' | translate }}
-              </mat-error>
-            </mat-form-field>
-          </div>
+  ngOnInit(): void {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9]+$/)]],
+      full_name: ['', [Validators.required]], // Added full_name
+      password: ['', [Validators.required, this.validatePassword]],
+      confirm_password: ['', [Validators.required]],
+      position: [''],
+      phone: [''],
+      organization: [''],
+      language: ['', [Validators.required]]
+    }, { validators: this.passwordMatchValidator });
+  }
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.PASSWORD' | translate }}</mat-label>
-                  <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
-                  <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" type="button">
-                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  </button>
-                  <mat-error *ngIf="submitted && f['password'].errors?.['required']">
-                    {{ 'SIGNUP.PASSWORD_REQUIRED' | translate }}
-                  </mat-error>
-                  <mat-error *ngIf="submitted && f['password'].errors?.['invalidPassword']">
-                    {{ 'SIGNUP.PASSWORD_INVALID' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
+  // Custom validator for password strength (example)
+  validatePassword(control: any): { [key: string]: any } | null {
+    const value = control.value;
+    if (!value) {
+      return null;
+    }
+    // Example: Password must be at least 8 characters long
+    if (value.length < 8) {
+      return { invalidPassword: true };
+    }
+    return null;
+  }
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.CONFIRM_PASSWORD' | translate }}</mat-label>
-                  <input matInput [type]="hideConfirmPassword ? 'password' : 'text'" formControlName="confirm_password">
-                  <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" type="button">
-                    <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                  </button>
-                  <mat-error *ngIf="submitted && f['confirm_password'].errors?.['required']">
-                    {{ 'SIGNUP.CONFIRM_PASSWORD_REQUIRED' | translate }}
-                  </mat-error>
-                  <mat-error *ngIf="submitted && f['confirm_password'].errors?.['passwordMismatch']">
-                    {{ 'SIGNUP.PASSWORD_MISMATCH' | translate }}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
+  // Custom validator to check if passwords match
+  passwordMatchValidator(formGroup: FormGroup) {
+    const passwordControl = formGroup.get('password');
+    const confirmPasswordControl = formGroup.get('confirm_password');
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.POSITION' | translate }}</mat-label>
-                  <input matInput formControlName="position">
-                  <mat-icon matSuffix>work</mat-icon>
-                </mat-form-field>
-              </div>
-            </div>
+    if (passwordControl?.value !== confirmPasswordControl?.value) {
+      return { passwordMismatch: true };
+    }
+    return null;
+  }
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.PHONE' | translate }}</mat-label>
-                  <input matInput formControlName="phone">
-                  <mat-icon matSuffix>phone</mat-icon>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
+  get f() { return this.registerForm.controls; }
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.ORGANIZATION' | translate }}</mat-label>
-                  <input matInput formControlName="organization">
-                  <mat-icon matSuffix>business</mat-icon>
-                </mat-form-field>
-              </div>
-            </div>
+  onSubmit() {
+    this.submitted = true;
+    this.error = null;
 
-            <div class="col-md-6">
-              <div class="form-group">
-                <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>{{ 'SIGNUP.LANGUAGE' | translate }}</mat-label>
-                  <mat-select formControlName="language">
-                    <mat-option *ngFor="let lang of languages" [value]="lang.value">
-                      {{ lang.label }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-icon matSuffix>language</mat-icon>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
+    if (this.registerForm.invalid) {
+      return;
+    }
 
-          <div class="form-group text-center">
-            <button mat-raised-button color="primary" type="submit" [disabled]="loading" class="w-100">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              {{ loading ? ('SIGNUP.LOADING' | translate) : ('SIGNUP.BUTTON' | translate) }}
-            </button>
-          </div>
+    this.loading = true;
 
-          <div class="text-center">
-            <p class="mb-0">
-              {{ 'SIGNUP.HAVE_ACCOUNT' | translate }} 
-              <a routerLink="/authentication/signin" class="text-primary">{{ 'SIGNUP.SIGNIN_LINK' | translate }}</a>
-            </p>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+    const formData: RegisterRequest = {
+      username: this.f['username'].value,
+      password: this.f['password'].value,
+      email: this.f['email'].value,
+      full_name: this.f['full_name'].value, // Added full_name
+      language: this.f['language'].value, // Added language
+      // Add other properties from RegisterRequest if they exist and are needed
+      // For example:
+      // position: this.f['position'].value,
+      // phone: this.f['phone'].value,
+      // organization: this.f['organization'].value
+    };
+
+    this.subs.sink = this.authService.register(formData).subscribe({
+      next: (response) => {
+        this.loading = false;
+        // Handle successful registration, e.g., navigate to login or dashboard
+        this.router.navigate(['/authentication/signin']);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.error = err.error?.message || 'An unexpected error occurred.'; // Adjust error handling as needed
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subs.sink) {
+      this.subs.sink.unsubscribe();
+    }
+  }
+}
