@@ -4,7 +4,8 @@
     <div class="col-lg-6 col-md-12 col-sm-12">
       <div class="auth-main2 card">
         <div class="header">
-          <h2>{{ "SIGNUP.TITLE" | translate }}</h2>
+          <h2>Sign Up</h2>
+          <p>Create your account to get started</p>
         </div>
         <div class="body">
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
@@ -16,11 +17,11 @@
             <!-- Full Name -->
             <div class="form-group">
               <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>{{ "SIGNUP.FULL_NAME" | translate }}</mat-label>
+                <mat-label>Full Name</mat-label>
                 <input matInput formControlName="full_name" required>
                 <mat-icon matSuffix>person</mat-icon>
                 <mat-error *ngIf="f['full_name'].invalid && (f['full_name'].dirty || f['full_name'].touched)">
-                  {{ "SIGNUP.FULL_NAME_REQUIRED" | translate }}
+                  Full name is required
                 </mat-error>
               </mat-form-field>
             </div>
@@ -28,12 +29,12 @@
             <!-- Email -->
             <div class="form-group">
               <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>{{ "SIGNUP.EMAIL" | translate }}</mat-label>
+                <mat-label>Email Address</mat-label>
                 <input matInput formControlName="email" type="email" required>
                 <mat-icon matSuffix>email</mat-icon>
                 <mat-error *ngIf="f['email'].invalid && (f['email'].dirty || f['email'].touched)">
-                  <span *ngIf="f['email'].errors?.['required']">{{ "SIGNUP.EMAIL_REQUIRED" | translate }}</span>
-                  <span *ngIf="f['email'].errors?.['email']">{{ "SIGNUP.EMAIL_INVALID" | translate }}</span>
+                  <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+                  <span *ngIf="f['email'].errors?.['email']">Please enter a valid email address</span>
                 </mat-error>
               </mat-form-field>
             </div>
@@ -41,12 +42,12 @@
             <!-- Username -->
             <div class="form-group">
               <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>{{ "SIGNUP.USERNAME" | translate }}</mat-label>
+                <mat-label>Username</mat-label>
                 <input matInput formControlName="username" required>
                 <mat-icon matSuffix>account_circle</mat-icon>
                 <mat-error *ngIf="f['username'].invalid && (f['username'].dirty || f['username'].touched)">
-                  <span *ngIf="f['username'].errors?.['required']">{{ "SIGNUP.USERNAME_REQUIRED" | translate }}</span>
-                  <span *ngIf="f['username'].errors?.['pattern']">{{ "SIGNUP.USERNAME_PATTERN" | translate }}</span>
+                  <span *ngIf="f['username'].errors?.['required']">Username is required</span>
+                  <span *ngIf="f['username'].errors?.['pattern']">Username can only contain letters, numbers and underscores</span>
                 </mat-error>
               </mat-form-field>
             </div>
@@ -54,27 +55,27 @@
             <!-- Password -->
             <div class="form-group">
               <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>{{ "SIGNUP.PASSWORD" | translate }}</mat-label>
+                <mat-label>Password</mat-label>
                 <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" required>
-                <mat-icon matSuffix (click)="hidePassword = !hidePassword">
+                <mat-icon matSuffix (click)="hidePassword = !hidePassword" style="cursor: pointer;">
                   {{ hidePassword ? 'visibility_off' : 'visibility' }}
                 </mat-icon>
                 <mat-error *ngIf="f['password'].invalid && (f['password'].dirty || f['password'].touched)">
-                  <div *ngIf="f['password'].errors?.['required']">{{ "SIGNUP.PASSWORD_REQUIRED" | translate }}</div>
+                  <div *ngIf="f['password'].errors?.['required']">Password is required</div>
                   <div *ngIf="f['password'].errors?.['invalidPassword']">
-                    <div>{{ "SIGNUP.PASSWORD_REQUIREMENTS" | translate }}:</div>
+                    <div>Password must contain:</div>
                     <ul class="password-requirements">
                       <li [class.valid]="f['password'].errors?.['invalidPassword']?.hasMinLength">
-                        {{ "SIGNUP.PASSWORD_MIN_LENGTH" | translate }}
+                        At least 8 characters
                       </li>
                       <li [class.valid]="f['password'].errors?.['invalidPassword']?.hasUpperCase">
-                        {{ "SIGNUP.PASSWORD_UPPERCASE" | translate }}
+                        One uppercase letter
                       </li>
                       <li [class.valid]="f['password'].errors?.['invalidPassword']?.hasLowerCase">
-                        {{ "SIGNUP.PASSWORD_LOWERCASE" | translate }}
+                        One lowercase letter
                       </li>
                       <li [class.valid]="f['password'].errors?.['invalidPassword']?.hasNumbers">
-                        {{ "SIGNUP.PASSWORD_NUMBER" | translate }}
+                        One number
                       </li>
                     </ul>
                   </div>
@@ -85,14 +86,14 @@
             <!-- Confirm Password -->
             <div class="form-group">
               <mat-form-field appearance="outline" class="example-full-width">
-                <mat-label>{{ "SIGNUP.CONFIRM_PASSWORD" | translate }}</mat-label>
+                <mat-label>Confirm Password</mat-label>
                 <input matInput formControlName="confirm_password" [type]="hideConfirmPassword ? 'password' : 'text'" required>
-                <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword">
+                <mat-icon matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" style="cursor: pointer;">
                   {{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}
                 </mat-icon>
                 <mat-error *ngIf="f['confirm_password'].invalid && (f['confirm_password'].dirty || f['confirm_password'].touched)">
-                  <span *ngIf="f['confirm_password'].errors?.['required']">{{ "SIGNUP.CONFIRM_PASSWORD_REQUIRED" | translate }}</span>
-                  <span *ngIf="f['confirm_password'].errors?.['passwordMismatch']">{{ "SIGNUP.PASSWORD_MISMATCH" | translate }}</span>
+                  <span *ngIf="f['confirm_password'].errors?.['required']">Please confirm your password</span>
+                  <span *ngIf="f['confirm_password'].errors?.['passwordMismatch']">Passwords do not match</span>
                 </mat-error>
               </mat-form-field>
             </div>
@@ -112,22 +113,28 @@
                   role="status"
                   aria-hidden="true"
                 ></span>
-                {{
-                  loading
-                    ? ("SIGNUP.LOADING" | translate)
-                    : ("SIGNUP.BUTTON" | translate)
-                }}
+                {{ loading ? "Creating Account..." : "Sign Up" }}
               </button>
             </div>
 
             <!-- Sign In Link -->
             <div class="text-center mt-3">
               <p>
-                {{ "SIGNUP.HAVE_ACCOUNT" | translate }}
-                <a routerLink="/authentication/signin">{{ "SIGNUP.SIGNIN_LINK" | translate }}</a>
+                Already have an account?
+                <a routerLink="/authentication/signin" class="txt2">Sign In</a>
               </p>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 px-0 d-none d-lg-block">
+      <div class="auth-bg" style="background-image: url(assets/images/pages/bg-02.png);">
+        <div class="auth-bg-overlay">
+          <div class="auth-bg-content">
+            <h2>Welcome to Qartha</h2>
+            <p>Smart Inventory with Dynamic QR Codes and Risk Management</p>
+          </div>
         </div>
       </div>
     </div>
