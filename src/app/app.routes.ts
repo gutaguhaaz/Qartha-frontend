@@ -129,6 +129,11 @@ export const APP_ROUTE: Route[] = [
                         (m) => m.UsersModule
                     ),
             },
+            {
+                path: 'devices',
+                canActivate: [AuthGuard],
+                loadChildren: () => import('./modules/devices/devices.routes').then(r => r.DevicesRoutes),
+              },
         ],
     },
     {

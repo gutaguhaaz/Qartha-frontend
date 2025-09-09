@@ -1,7 +1,6 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { User, AuthResponse, LoginRequest, RegisterRequest, PasswordChangeRequest } from '../models/user';
 import { environment } from '../../../environments/environment';
@@ -27,7 +26,7 @@ export class AuthService {
   private getStoredUser(): User | null {
     const localUser = localStorage.getItem('currentUser');
     const sessionUser = sessionStorage.getItem('currentUser');
-    
+
     if (localUser) {
       return JSON.parse(localUser);
     } else if (sessionUser) {
@@ -43,11 +42,11 @@ export class AuthService {
           // Guardar token
           localStorage.setItem('access_token', response.access_token);
           localStorage.setItem('refresh_token', response.refresh_token);
-          
+
           // Guardar usuario según remember_me
           const storage = loginData.remember_me ? localStorage : sessionStorage;
           storage.setItem('currentUser', JSON.stringify(response.user));
-          
+
           this.currentUserSubject.next(response.user);
         }),
         catchError(this.handleError)
@@ -105,7 +104,7 @@ export class AuthService {
 
   private handleError(error: any) {
     let errorMessage = 'Ha ocurrido un error';
-    
+
     if (error.error?.detail) {
       // Handle validation errors array
       if (Array.isArray(error.error.detail)) {
@@ -125,7 +124,7 @@ export class AuthService {
     } else if (error.status === 409) {
       errorMessage = 'El usuario ya existe';
     }
-    
+
     return throwError(() => new Error(errorMessage));
   }
 }

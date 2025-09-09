@@ -185,7 +185,7 @@ export const ROUTES: RouteInfo[] = [
   },
 
   // Common Modules
- 
+
   {
     path: '',
     title: 'MENUITEMS.APPS.TEXT',
@@ -1082,4 +1082,71 @@ export const ROUTES: RouteInfo[] = [
     badgeClass: '',
     submenu: [],
   },*/
+  {
+    path: '/devices',
+    title: 'Dispositivos',
+    iconType: 'feather',
+    icon: 'smartphone',
+    class: '',
+    groupTitle: false,
+    badge: '',
+    badgeClass: '',
+    submenu: [],
+  },
+  {
+    path: '',
+    title: 'MENUITEMS.MORE-APPS.TEXT',
+    iconType: 'feather',
+    icon: 'layers',
+    class: 'menu-toggle',
+    groupTitle: false,
+    badge: '6',
+    badgeClass: 'badge bg-orange sidebar-badge float-end',
+    submenu: [
+      {
+        path: '/apps/chat',
+        title: 'MENUITEMS.MORE-APPS.LIST.CHAT',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: '/apps/dragdrop',
+        title: 'MENUITEMS.MORE-APPS.LIST.DRAG-DROP',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: '/apps/contact-grid',
+        title: 'MENUITEMS.MORE-APPS.LIST.CONTACT-GRID',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+      {
+        path: '/apps/support',
+        title: 'MENUITEMS.MORE-APPS.LIST.SUPPORT',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        badge: '',
+        badgeClass: '',
+        submenu: [],
+      },
+    ],
+  },
 ];
