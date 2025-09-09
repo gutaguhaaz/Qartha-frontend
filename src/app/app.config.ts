@@ -44,7 +44,7 @@ export const appConfig: ApplicationConfig = {
     LanguageService,
     importProvidersFrom(
       TranslateModule.forRoot({
-        defaultLanguage: 'es',
+        defaultLanguage: 'en',
         loader: {
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
@@ -52,8 +52,8 @@ export const appConfig: ApplicationConfig = {
         },
       }),
     ),
-    { provide: LOCALE_ID, useValue: 'es' },
-    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+    { provide: LOCALE_ID, useValue: 'en' },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-US' },
     { provide: DateAdapter, useClass: MomentDateAdapter },
     {
       provide: MAT_DATE_FORMATS,
