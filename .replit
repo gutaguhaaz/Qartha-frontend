@@ -1,18 +1,18 @@
-modules = ["web", "nodejs-20"]
+modules = ["web", "nodejs-20", "bash"]
 
 run = "npm start"
 
 [nix]
-channel = "stable-24_05"
+channel = "stable-25_05"
 packages = ["killall"]
 
 [deployment]
 build = ["sh", "-c", "npm run build"]
 deploymentTarget = "static"
-publicDir = "dist/lexia"
+publicDir = "dist/qartha-frontend"
 
 [workflows]
-runButton = "Start Angular"
+runButton = "Project"
 
 [[workflows.workflow]]
 name = "Start Angular"
@@ -21,12 +21,36 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npx kill-port 4200"
+args = "npm start"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Angular App"
+
+[[workflows.workflow]]
+name = "Angular App"
+author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npm start"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"
 
 [[ports]]
-localPort = 4200
+localPort = 3000
 externalPort = 80
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[agent]
+expertMode = true
