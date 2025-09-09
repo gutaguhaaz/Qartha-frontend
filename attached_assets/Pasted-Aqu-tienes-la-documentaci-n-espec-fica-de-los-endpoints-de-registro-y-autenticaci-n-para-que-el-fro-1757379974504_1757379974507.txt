@@ -1,0 +1,160 @@
+Aquí tienes la documentación específica de los endpoints de registro y autenticación para que el frontend sepa cómo interactuar:
+
+🔐 Endpoints de Autenticación
+📝 1. REGISTRO DE USUARIO
+Endpoint: POST /api/auth/register
+
+Headers:
+
+{
+  "Content-Type": "application/json"
+}
+Request Body:
+
+{
+  "username": "string",    // Requerido
+  "password": "string",    // Requerido  
+  "email": "string"        // Requerido
+}
+Response Exitoso (200):
+
+{
+  "id": "64a7b8c9d0e1f2a3b4c5d6e7",
+  "username": "usuario123",
+  "email": "usuario@email.com"
+}
+Errores Posibles:
+
+400 - Username ya existe
+422 - Datos inválidos (campos faltantes o formato incorrecto)
+🔑 2. LOGIN/AUTENTICACIÓN
+Endpoint: POST /api/auth/login
+
+Headers:
+
+{
+  "Content-Type": "application/json"
+}
+Request Body:
+
+{
+  "username": "string",    // Requerido
+  "password": "string"     // Requerido
+}
+Response Exitoso (200):
+
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+  "token_type": "bearer",
+  "user": {
+    "id": "64a7b8c9d0e1f2a3b4c5d6e7",
+    "username": "usuario123",
+    "email": "usuario@email.com"
+  }
+}
+Errores Posibles:
+
+401 - Credenciales inválidas (usuario/password incorrecto)
+422 - Datos inválidos
+💻 Código JavaScript para Frontend
+Función de Registro:
+const registerUser = async (userData) => {
+  try {
+    const response = await fetch('https://tu-repl.replit.dev/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: userData.username,
+        password: userData.password,
+        email: userData.email
+      })
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.detail || 'Error en el registro');
+    }
+    
+    console.log('Usuario registrado:', data);
+    return data;
+    
+  } catch (error) {
+    console.error('Error en registro:', error);
+    throw error;
+  }
+};
+Función de Login:
+const loginUser = async (credentials) => {
+  try {
+    const response = await fetch('https://tu-repl.replit.dev/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: credentials.username,
+        password: credentials.password
+      })
+    });
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.detail || 'Error en el login');
+    }
+    
+    // Guardar token en localStorage
+    localStorage.setItem('qartha_token', data.access_token);
+    localStorage.setItem('qartha_user', JSON.stringify(data.user));
+    
+    console.log('Login exitoso:', data);
+    return data;
+    
+  } catch (error) {
+    console.error('Error en login:', error);
+    throw error;
+  }
+};
+Función para usar el Token en requests posteriores:
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('qartha_token');
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': token ? `Bearer ${token}` : ''
+  };
+};
+// Ejemplo de uso en otros endpoints
+const getDevices = async () => {
+  const response = await fetch('https://tu-repl.replit.dev/api/devices', {
+    headers: getAuthHeaders()
+  });
+  return await response.json();
+};
+Función de Logout:
+const logout = () => {
+  localStorage.removeItem('qartha_token');
+  localStorage.removeItem('qartha_user');
+  // Redirigir al login o home
+  window.location.href = '/login';
+};
+🎯 Flujo Completo Frontend:
+Registro: Usuario se registra → recibe confirmación
+Login: Usuario hace login → recibe token y datos de usuario
+Almacenar: Token se guarda en localStorage
+Usar: Incluir token en header Authorization: Bearer {token} para endpoints protegidos
+Logout: Limpiar localStorage
+⚠️ Validaciones Frontend:
+// Validar campos antes de enviar
+const validateRegistration = (data) => {
+  if (!data.username || data.username.length < 3) {
+    throw new Error('Username debe tener al menos 3 caracteres');
+  }
+  if (!data.password || data.password.length < 6) {
+    throw new Error('Password debe tener al menos 6 caracteres');
+  }
+  if (!data.email || !data.email.includes('@')) {
+    throw new Error('Email inválido');
+  }
+};
+¡El sistema de autenticación está 100% funcional y listo para conectar desde el frontend! 
