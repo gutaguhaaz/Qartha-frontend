@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +13,7 @@ export class DevicesService {
   constructor(private http: HttpClient) {}
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('qartha_token');
+    const token = localStorage.getItem('qartha_token') || localStorage.getItem('access_token');
     return new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': token ? `Bearer ${token}` : ''
@@ -26,7 +25,7 @@ export class DevicesService {
     let params = new HttpParams()
       .set('skip', (filters.skip || 0).toString())
       .set('limit', (filters.limit || 50).toString());
-    
+
     if (filters.category) {
       params = params.set('category', filters.category);
     }

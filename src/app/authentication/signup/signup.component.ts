@@ -57,12 +57,7 @@ export class SignupComponent extends UnsubscribeOnDestroyAdapter implements OnIn
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)]],
       password: ['', [Validators.required, this.passwordValidator]],
-      confirm_password: ['', Validators.required],
-      full_name: ['', Validators.required],
-      position: [''],
-      phone: [''],
-      organization: [''],
-      language: ['es', Validators.required]
+      confirm_password: ['', Validators.required]
     }, { validators: this.passwordMatchValidator });
   }
 
@@ -123,8 +118,12 @@ export class SignupComponent extends UnsubscribeOnDestroyAdapter implements OnIn
 
     this.loading = true;
     
-    const formData = { ...this.registerForm.value };
-    delete formData.confirm_password;
+    // Enviar solo los campos requeridos por el backend
+    const formData = {
+      username: this.registerForm.value.username,
+      password: this.registerForm.value.password,
+      email: this.registerForm.value.email
+    };
 
     this.subs.sink = this.authService.register(formData).subscribe({
       next: () => {

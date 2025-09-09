@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private API_URL = `${environment.apiBaseUrl}/auth`;
+  private API_URL = `${environment.apiBaseUrl}auth`;
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser: Observable<User | null>;
 
@@ -36,16 +36,23 @@ export class AuthService {
   }
 
   login(loginData: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.API_URL}/login`, loginData)
+    // Transformar el request para que coincida con el backend
+    const backendRequest = {
+      username: loginData.email, // El backend usa username pero enviamos email
+      password: loginData.password
+    };
+
+    return this.http.post<AuthResponse>(`${this.API_URL}/login`, backendRequest)
       .pipe(
         tap(response => {
-          // Guardar token
+          // Guardar token usando la clave que espera el backend
+          localStorage.setItem('qartha_token', response.access_token);
           localStorage.setItem('access_token', response.access_token);
-          localStorage.setItem('refresh_token', response.refresh_token);
 
           // Guardar usuario según remember_me
           const storage = loginData.remember_me ? localStorage : sessionStorage;
           storage.setItem('currentUser', JSON.stringify(response.user));
+          storage.setItem('qartha_user', JSON.stringify(response.user));
 
           this.currentUserSubject.next(response.user);
         }),
@@ -54,7 +61,14 @@ export class AuthService {
   }
 
   register(registerData: RegisterRequest): Observable<User> {
-    return this.http.post<User>(`${this.API_URL}/register`, registerData)
+    // Transformar el request para que coincida con el backend
+    const backendRequest = {
+      username: registerData.username,
+      password: registerData.password,
+      email: registerData.email
+    };
+
+    return this.http.post<User>(`${this.API_URL}/register`, backendRequest)
       .pipe(catchError(this.handleError));
   }
 
@@ -62,6 +76,8 @@ export class AuthService {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    localStorage.removeItem('qartha_token');
+    localStorage.removeItem('qartha_user');
     sessionStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
     return new Observable(observer => {
@@ -98,7 +114,7 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('access_token');
+    const token = localStorage.getItem('qartha_token') || localStorage.getItem('access_token');
     return !!token && !!this.currentUserValue;
   }
 
